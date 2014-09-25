@@ -1,3 +1,6 @@
+/*
+	vim:noexpandtab:ts=8 sw=8
+*/
 
 /* Lexer options */
 %option reentrant
@@ -14,17 +17,17 @@
 #define YY_EXTRA_TYPE Aslan_Context *
 #define YY_USER_ACTION yylloc->first_line = yylineno;
 
-#define YY_INPUT(buf, result, max_size)			\
-{												\
-	char c;										\
-	(*yyextra->is) >> c;						\
-	if(yyextra->is->eof())						\
-		result = YY_NULL;						\
-	else										\
-	{											\
-		buf[0] = c;								\
-		result = 1;								\
-	}											\
+#define YY_INPUT(buf, result, max_size)	\
+{					\
+	char c;				\
+	(*yyextra->is) >> c;		\
+	if(yyextra->is->eof())		\
+		result = YY_NULL;	\
+	else				\
+	{				\
+		buf[0] = c;		\
+		result = 1;		\
+	}				\
 }
 %}
 
@@ -39,11 +42,11 @@
 
 "//".*			/* IGNORE */
 "/*"			BEGIN(IGNORE);
-\'				BEGIN(CS);
-.           	return ERR;
-\n				{ }
+\'			BEGIN(CS);
+.           		return ERR;
+\n			{ }
 
-<IGNORE>"*/"	BEGIN(INITIAL);
+<IGNORE>"*/"		BEGIN(INITIAL);
 <IGNORE>.		{ }
 <IGNORE>\n		{ }
 
@@ -53,11 +56,11 @@
 
 void Aslan_Context::init_scanner()
 {
-   yylex_init(&scanner);
-   yyset_extra(this, scanner);
+	yylex_init(&scanner);
+	yyset_extra(this, scanner);
 }
 
 void Aslan_Context::destroy_scanner()
 {
-   yylex_destroy(scanner);
+	yylex_destroy(scanner);
 }
