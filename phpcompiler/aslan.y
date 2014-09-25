@@ -1,3 +1,6 @@
+/*
+vim:noexpandtab:ts=8 sw=8
+*/
 %pure-parser
 %name-prefix="Aslan_"
 %locations
