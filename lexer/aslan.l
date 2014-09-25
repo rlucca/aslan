@@ -2,7 +2,7 @@
 	vim:noexpandtab:ts=8 sw=8
 */
 
-/* Lexer options */
+ /* Lexer options */
 %option reentrant
 %option prefix="Aslan_"
 %option bison-bridge
@@ -10,9 +10,12 @@
 %option noyywrap
 %option yylineno
 
+ /* caution */
+%option nounput
+
 %{
-#include "Aslan_Context.h"
-#include "aslan.tab.h"
+#include "Aslan_Context.hpp"
+#include "aslan_parser.hpp"
 
 #define YY_EXTRA_TYPE Aslan_Context *
 #define YY_USER_ACTION yylloc->first_line = yylineno;
@@ -29,6 +32,7 @@
 		result = 1;		\
 	}				\
 }
+
 %}
 
  /* comment state */

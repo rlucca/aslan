@@ -6,21 +6,12 @@ using namespace std;
 
 class Aslan_Context
 {
-	public:
+public:
 		void *scanner;	// the scanner state
 		istream* is;	// input stream
 
-		Aslan_Context(istream* is = &cin)
-		{
-			init_scanner();
-			is->flags((is->flags() & ~std::ios::skipws));
-			this->is = is;
-		}
-
-		virtual ~Aslan_Context()
-		{
-			destroy_scanner();
-		}
+		Aslan_Context(istream* input = &cin);
+		virtual ~Aslan_Context();
 
 protected: // defined in aslan.l
 		void init_scanner();

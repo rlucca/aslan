@@ -26,7 +26,7 @@ vim:noexpandtab:ts=8 sw=8
 %{
 	#include <iostream>
 	#include <sstream>
-	#include "Aslan_Context.h"
+	#include "Aslan_Context.hpp"
 
 	using namespace std;
 
@@ -34,6 +34,7 @@ vim:noexpandtab:ts=8 sw=8
 
 	void Aslan_error(YYLTYPE* locp, Aslan_Context* context, const char* err)
 	{
+		(void) context;
 		cout << locp->first_line << ":" << err << endl;
 	}
 
@@ -71,4 +72,5 @@ start:
 	;
 
 aslan:
+	/* empty */	{ $$ = 0; }
 	;
