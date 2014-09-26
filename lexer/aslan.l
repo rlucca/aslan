@@ -9,10 +9,13 @@
 %option bison-locations
 %option noyywrap
 %option yylineno
+%option array
 %option stack
 
  /* caution */
 %option nounput
+
+OCTALS				[01234567]
 
 %{
 #include "Aslan_Context.hpp"
@@ -76,11 +79,36 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 			return ERR;
 			}
 
-<CS>\'			POP_STATE();
+<CS>\'			{
+			cout << yytext << "\n";
+			POP_STATE();
+			}
+<CS>\\			{
+			yymore();
+			PUSH_STATE(ESCAPE_CHAR);
+			}
+<CS>.			yymore();
+<CS>\n			{
+			YY_FATAL_ERROR("Unexpected end of line");
+			return ERR;
+			}
 <CS><<EOF>>		{
 			YY_FATAL_ERROR("Unexpected end of file");
 			return ERR;
 			}
+
+<ESCAPE_CHAR>\\		POP_STATE();
+<ESCAPE_CHAR>n		POP_STATE();
+<ESCAPE_CHAR>t		POP_STATE();
+<ESCAPE_CHAR>r		POP_STATE();
+<ESCAPE_CHAR>b		POP_STATE();
+<ESCAPE_CHAR>f		POP_STATE();
+
+<ESCAPE_CHAR>{OCTALS}{1,3}	{
+				/* 0 to 377 */
+				POP_STATE();
+				}
+<ESCAPE_CHAR>.		POP_STATE();
 
 %%
 
