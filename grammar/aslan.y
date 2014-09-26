@@ -25,7 +25,6 @@ vim:noexpandtab:ts=8 sw=8
 
 %{
 	#include <iostream>
-	#include <sstream>
 	#include "Aslan_Context.hpp"
 
 	using namespace std;

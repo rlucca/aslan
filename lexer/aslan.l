@@ -47,12 +47,13 @@
 "//".*			/* IGNORE */
 "/*"			BEGIN(IGNORE);
 \'			BEGIN(CS);
+[[:blank:]]		/* IGNORE */
 .           		return ERR;
-\n			{ }
+\n			/* IGNORE */
 
 <IGNORE>"*/"		BEGIN(INITIAL);
-<IGNORE>.		{ }
-<IGNORE>\n		{ }
+<IGNORE>.		/* IGNORE */
+<IGNORE>\n		/* IGNORE */
 
 <CS>\'			BEGIN(INITIAL);
 

@@ -20,25 +20,36 @@ set (SOURCES
 	${PROJECT_SOURCE_DIR}/src/Aslan_Context.cpp
 	${BISON_aslanParser_OUTPUTS}
 	${FLEX_aslanScanner_OUTPUTS}
-	${PROJECT_SOURCE_DIR}/src/main.cpp
 	)
 
 set (INCLUDES
 	${PROJECT_SOURCE_DIR}/src
 	${PROJECT_SOURCE_DIR}/include
 	)
-include_directories(demo ${INCLUDES})
-add_executable(demo ${SOURCES})
-#target_link_libraries (demo ${PROJECT_NAME})
 
-#add_custom_command(TARGET demo
-#		COMMENT "Compile and Run Tests"
-#		POST_BUILD
-#		COMMAND g++ -g -o teste1 ${PROJECT_SOURCE_DIR}/tests/test1.cpp -DTEST=1
-#		COMMAND make test)
+include_directories(aslan ${INCLUDES})
+add_executable(aslan
+				${PROJECT_SOURCE_DIR}/src/main.cpp
+				${SOURCES})
+
+# Executable of Test
+add_executable(empty_test
+				${PROJECT_SOURCE_DIR}/tests/empty_lexer.cpp
+				${SOURCES})
+# To build empty_test always after aslan built
+add_dependencies(empty_test aslan)
+
+add_executable(comentary_test
+				${PROJECT_SOURCE_DIR}/tests/comentary_lexer.cpp
+				${SOURCES})
+add_dependencies(comentary_test empty_test)
+
 
 enable_testing()
-#add_test(EMPTY_TEST ${PROJECT_SOURCE_DIR}/tests/teste1)
+add_test(EMPTY_TEST ${PROJECT_BINARY_DIR}/empty_test)
+add_test(COMMENTARY_TEST ${PROJECT_BINARY_DIR}/comentary_test)
+
+#g++ src/Aslan_Context.cpp tests/empty.cpp bin/aslan_scanner.cpp -Isrc -Ibin -lfl
 
 SET(CMAKE_BUILD_TYPE Debug)
 #SET(CMAKE_BUILD_TYPE Release)
