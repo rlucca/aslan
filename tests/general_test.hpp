@@ -15,7 +15,7 @@ extern const char *Aslan_get_text \
 		   (void * yyscanner);
 extern int Aslan_get_lineno (void * yyscanner);
 
-#define EXPECT(code, sem, loc, ac, yylex)				\
+#define EXPECT_LEX(code, sem, loc, ac, yylex)			\
 {														\
 	int ret = yylex(sem, loc, ac.scanner);				\
 	if (ret != code)									\
@@ -31,7 +31,7 @@ extern int Aslan_get_lineno (void * yyscanner);
 	}													\
 }
 
-#define MOC_DATA(LOCATION, SEMANTIC)					\
+#define MOC_LEX_DATA(LOCATION, SEMANTIC)				\
 	char buf1[10];										\
 	char buf2[16];										\
 	YYLTYPE *LOCATION = (YYLTYPE *) buf1;				\
