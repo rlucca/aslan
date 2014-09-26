@@ -9,6 +9,7 @@
 %option bison-locations
 %option noyywrap
 %option yylineno
+%option stack
 
  /* caution */
 %option nounput
@@ -36,6 +37,9 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 }
 
 #define YY_FATAL_ERROR(msg) Aslan_lexerror( msg , yyscanner)
+#define PUSH_STATE(state) yy_push_state(state, yyscanner)
+#define POP_STATE() yy_pop_state(yyscanner)
+
 %}
 
  /* comment state */
@@ -44,12 +48,19 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 %x CS
  /* multichar string state */
 %x SS
+ /* understanding and transform a escaped char */
+%x ESCAPE_CHAR
 
 %%
 
 "//".*			/* IGNORE */
-"/*"			BEGIN(IGNORE);
-\'			BEGIN(CS);
+"/*"			{
+			PUSH_STATE(IGNORE);
+			}
+\'			{
+			yymore();
+			PUSH_STATE(CS);
+			}
 [[:blank:]]		/* IGNORE */
 .           		{
 			YY_FATAL_ERROR("Invalid Char");
@@ -57,7 +68,7 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 			}
 \n			/* IGNORE */
 
-<IGNORE>"*/"		BEGIN(INITIAL);
+<IGNORE>"*/"		POP_STATE();
 <IGNORE>.		/* IGNORE */
 <IGNORE>\n		/* IGNORE */
 <IGNORE><<EOF>>		{
@@ -65,7 +76,7 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 			return ERR;
 			}
 
-<CS>\'			BEGIN(INITIAL);
+<CS>\'			POP_STATE();
 <CS><<EOF>>		{
 			YY_FATAL_ERROR("Unexpected end of file");
 			return ERR;
@@ -87,6 +98,8 @@ void Aslan_Context::destroy_scanner()
 void Aslan_lexerror(const char* err, yyscan_t scanner)
 {
 	cerr << Aslan_get_lineno(scanner) << ": "
-		<< "Error: " << err << "\n";
+		<< "Error: " << err
+		<< "(State: " << yy_top_state(scanner)
+		<< ")\n";
 	exit( YY_EXIT_FAILURE );
 }
