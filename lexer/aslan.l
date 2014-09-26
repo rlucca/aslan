@@ -17,6 +17,8 @@
 #include "Aslan_Context.hpp"
 #include "aslan_parser.hpp"
 
+void Aslan_lexerror(const char* err, yyscan_t scanner);
+
 #define YY_EXTRA_TYPE Aslan_Context *
 #define YY_USER_ACTION yylloc->first_line = yylineno;
 
@@ -33,6 +35,7 @@
 	}				\
 }
 
+#define YY_FATAL_ERROR(msg) Aslan_lexerror( msg , yyscanner)
 %}
 
  /* comment state */
@@ -48,14 +51,25 @@
 "/*"			BEGIN(IGNORE);
 \'			BEGIN(CS);
 [[:blank:]]		/* IGNORE */
-.           		return ERR;
+.           		{
+			YY_FATAL_ERROR("Invalid Char");
+			return ERR;
+			}
 \n			/* IGNORE */
 
 <IGNORE>"*/"		BEGIN(INITIAL);
 <IGNORE>.		/* IGNORE */
 <IGNORE>\n		/* IGNORE */
+<IGNORE><<EOF>>		{
+			YY_FATAL_ERROR("Unexpected end of file");
+			return ERR;
+			}
 
 <CS>\'			BEGIN(INITIAL);
+<CS><<EOF>>		{
+			YY_FATAL_ERROR("Unexpected end of file");
+			return ERR;
+			}
 
 %%
 
@@ -68,4 +82,11 @@ void Aslan_Context::init_scanner()
 void Aslan_Context::destroy_scanner()
 {
 	yylex_destroy(scanner);
+}
+
+void Aslan_lexerror(const char* err, yyscan_t scanner)
+{
+	cerr << Aslan_get_lineno(scanner) << ": "
+		<< "Error: " << err << "\n";
+	exit( YY_EXIT_FAILURE );
 }
