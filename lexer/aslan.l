@@ -70,17 +70,23 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 			return ERR;
 			}
 \n			/* IGNORE */
+<<EOF>>			{
+			/* I need test the internal variable because of a
+			   bug in GNU flex of my version.
+			   XXX remove in future versions */
+			if (yyg->yy_start_stack && yy_top_state(yyscanner))
+			{
+				YY_FATAL_ERROR("Unexpected end of file");
+				return ERR;
+			}
+			return 0;
+			}
 
 <IGNORE>"*/"		POP_STATE();
 <IGNORE>.		/* IGNORE */
 <IGNORE>\n		/* IGNORE */
-<IGNORE><<EOF>>		{
-			YY_FATAL_ERROR("Unexpected end of file");
-			return ERR;
-			}
 
 <CS>\'			{
-			cout << yytext << "\n";
 			POP_STATE();
 			return CHAR_STRING_LITERAL;
 			}
@@ -91,10 +97,6 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 <CS>.			yymore();
 <CS>\n			{
 			YY_FATAL_ERROR("Unexpected end of line");
-			return ERR;
-			}
-<CS><<EOF>>		{
-			YY_FATAL_ERROR("Unexpected end of file");
 			return ERR;
 			}
 
@@ -110,10 +112,6 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 <ESCAPE_CHAR>.		{
 			yymore();
 			POP_STATE();
-			}
-<ESCAPE_CHAR><<EOF>>	{
-			YY_FATAL_ERROR("Unexpected end of file");
-			return ERR;
 			}
 
 %%
