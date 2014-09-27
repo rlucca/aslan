@@ -122,10 +122,12 @@ void Aslan_Context::init_scanner()
 {
 	yylex_init(&scanner);
 	yyset_extra(this, scanner);
+	yy_push_state(0, scanner);
 }
 
 void Aslan_Context::destroy_scanner()
 {
+	yy_pop_state(scanner);
 	yylex_destroy(scanner);
 }
 
