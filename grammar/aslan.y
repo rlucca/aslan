@@ -20,6 +20,7 @@ vim:noexpandtab:ts=8 sw=8
 %token <fractional> B
 %token <cptr> ESCAPE */
 %token ERR
+%token CHAR_STRING_LITERAL STRING_LITERAL
 
 %type <numerical> aslan
 

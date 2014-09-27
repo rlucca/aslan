@@ -33,6 +33,7 @@ add_executable(aslan
 				${SOURCES})
 
 # Executable of Test
+include_directories(empty_test ${INCLUDES} ${PROJECT_BINARY_DIR})
 add_executable(empty_test
 				${PROJECT_SOURCE_DIR}/tests/empty_lexer.cpp
 				${SOURCES})
@@ -44,10 +45,16 @@ add_executable(comentary_test
 				${SOURCES})
 add_dependencies(comentary_test empty_test)
 
+add_executable(cs_test
+				${PROJECT_SOURCE_DIR}/tests/char_string_lexer.cpp
+				${SOURCES})
+add_dependencies(cs_test comentary_test)
+
 
 enable_testing()
 add_test(EMPTY_TEST ${PROJECT_BINARY_DIR}/empty_test)
 add_test(COMMENTARY_TEST ${PROJECT_BINARY_DIR}/comentary_test)
+add_test(CHAR_STRING_TEST ${PROJECT_BINARY_DIR}/cs_test)
 
 #g++ src/Aslan_Context.cpp tests/empty.cpp bin/aslan_scanner.cpp -Isrc -Ibin -lfl
 

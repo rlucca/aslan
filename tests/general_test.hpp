@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <sstream>
 #include "Aslan_Context.hpp"
+#include "aslan_parser.hpp"
 
 using namespace std;
 
@@ -28,6 +29,34 @@ extern int Aslan_get_lineno (void * yyscanner);
 						Aslan_get_text(ac.scanner),		\
 						Aslan_get_lineno(ac.scanner));	\
 		exit(1);										\
+	}													\
+}
+
+#define EXPECT_TOKEN_LEX(token, ac)						\
+{														\
+	if (strcmp(token, Aslan_get_text(ac.scanner)))		\
+	{													\
+		fprintf(stderr, "Expected: %s\n"				\
+						"Returned: %s\n"				\
+						"Line: %d\n",					\
+						token,							\
+						Aslan_get_text(ac.scanner),		\
+						Aslan_get_lineno(ac.scanner));	\
+		exit(2);										\
+	}													\
+}
+
+#define NOT_EXPECT_TOKEN_LEX(token, ac)					\
+{														\
+	if (!strcmp(token, Aslan_get_text(ac.scanner)))		\
+	{													\
+		fprintf(stderr, "Expected: %s\n"				\
+						"Returned: %s\n"				\
+						"Line: %d\n",					\
+						token,							\
+						Aslan_get_text(ac.scanner),		\
+						Aslan_get_lineno(ac.scanner));	\
+		exit(2);										\
 	}													\
 }
 

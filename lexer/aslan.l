@@ -82,6 +82,7 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 <CS>\'			{
 			cout << yytext << "\n";
 			POP_STATE();
+			return CHAR_STRING_LITERAL;
 			}
 <CS>\\			{
 			yymore();
@@ -97,18 +98,23 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 			return ERR;
 			}
 
-<ESCAPE_CHAR>\\		POP_STATE();
-<ESCAPE_CHAR>n		POP_STATE();
-<ESCAPE_CHAR>t		POP_STATE();
-<ESCAPE_CHAR>r		POP_STATE();
-<ESCAPE_CHAR>b		POP_STATE();
-<ESCAPE_CHAR>f		POP_STATE();
-
 <ESCAPE_CHAR>{OCTALS}{1,3}	{
-				/* 0 to 377 */
+				/* Because I can reach here from
+				   string, I can't garantee that
+				   just  the first caracter is
+				   the alien. So I can't translate
+				   to a unique char right now */
+				yymore();
 				POP_STATE();
 				}
-<ESCAPE_CHAR>.		POP_STATE();
+<ESCAPE_CHAR>.		{
+			yymore();
+			POP_STATE();
+			}
+<ESCAPE_CHAR><<EOF>>	{
+			YY_FATAL_ERROR("Unexpected end of file");
+			return ERR;
+			}
 
 %%
 
@@ -127,7 +133,7 @@ void Aslan_lexerror(const char* err, yyscan_t scanner)
 {
 	cerr << Aslan_get_lineno(scanner) << ": "
 		<< "Error: " << err
-		<< "(State: " << yy_top_state(scanner)
+		<< " (State: " << yy_top_state(scanner)
 		<< ")\n";
 	exit( YY_EXIT_FAILURE );
 }
