@@ -50,13 +50,18 @@ add_executable(cs_test
 				${SOURCES})
 add_dependencies(cs_test comentary_test)
 
+add_executable(ss_test
+				${PROJECT_SOURCE_DIR}/tests/string_lexer.cpp
+				${SOURCES})
+add_dependencies(ss_test cs_test)
+
 
 enable_testing()
 add_test(EMPTY_TEST ${PROJECT_BINARY_DIR}/empty_test)
 add_test(COMMENTARY_TEST ${PROJECT_BINARY_DIR}/comentary_test)
 add_test(CHAR_STRING_TEST ${PROJECT_BINARY_DIR}/cs_test)
+add_test(STRING_TEST ${PROJECT_BINARY_DIR}/ss_test)
 
-#g++ src/Aslan_Context.cpp tests/empty.cpp bin/aslan_scanner.cpp -Isrc -Ibin -lfl
 
 SET(CMAKE_BUILD_TYPE Debug)
 #SET(CMAKE_BUILD_TYPE Release)

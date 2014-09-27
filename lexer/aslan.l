@@ -64,6 +64,10 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 			yymore();
 			PUSH_STATE(CS);
 			}
+\"			{
+			yymore();
+			PUSH_STATE(SS);
+			}
 [[:blank:]]		/* IGNORE */
 .           		{
 			YY_FATAL_ERROR("Invalid Char");
@@ -84,12 +88,16 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 			POP_STATE();
 			return CHAR_STRING_LITERAL;
 			}
-<CS>\\			{
+<SS>\"			{
+			POP_STATE();
+			return STRING_LITERAL;
+			}
+<CS,SS>\\		{
 			yymore();
 			PUSH_STATE(ESCAPE_CHAR);
 			}
-<CS>.			yymore();
-<CS>\n			{
+<CS,SS>.		yymore();
+<CS,SS>\n		{
 			YY_FATAL_ERROR("Unexpected end of line");
 			return ERR;
 			}
