@@ -6,7 +6,11 @@ int main()
 						" +x. \n"
 						" a(3).\n "
 						" **\n****\n**********/"
-						""
+						"\n\n"
+						"// .3\n"
+						"// a.\n"
+						"// +x <- foo;"
+						"         bar.\n"
 						" ");
 	Aslan_Context ac(&input);
 	MOC_LEX_DATA(loc, sem);
