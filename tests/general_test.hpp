@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <sstream>
+#include <cstring>
 #include "Aslan_Context.hpp"
 #include "aslan_parser.hpp"
 
@@ -21,13 +22,12 @@ extern int Aslan_get_lineno (void * yyscanner);
 	int ret = yylex(sem, loc, ac.scanner);				\
 	if (ret != code)									\
 	{													\
-		fprintf(stderr, "Expected: %d\n"				\
-						"Returned: %d\n"				\
-						"Token: '%s'\n"					\
-						"Line: %d\n",					\
-						code, ret,						\
-						Aslan_get_text(ac.scanner),		\
-						Aslan_get_lineno(ac.scanner));	\
+		cerr << "Expected: " << code << "\n"			\
+			 << "Returned: " << ret << "\n"				\
+			 << "Token: '"								\
+				<< Aslan_get_text(ac.scanner) << "'\n"	\
+			 << "Line: "								\
+				<< Aslan_get_lineno(ac.scanner) << "\n";\
 		exit(1);										\
 	}													\
 }
@@ -36,12 +36,11 @@ extern int Aslan_get_lineno (void * yyscanner);
 {														\
 	if (strcmp(token, Aslan_get_text(ac.scanner)))		\
 	{													\
-		fprintf(stderr, "Expected: %s\n"				\
-						"Returned: %s\n"				\
-						"Line: %d\n",					\
-						token,							\
-						Aslan_get_text(ac.scanner),		\
-						Aslan_get_lineno(ac.scanner));	\
+		cerr << "Expected: " << token << "\n"			\
+			 << "Returned: "							\
+				<< Aslan_get_text(ac.scanner) << "\n"	\
+			 << "Line: "								\
+				<< Aslan_get_lineno(ac.scanner) << "\n";\
 		exit(2);										\
 	}													\
 }
@@ -50,12 +49,11 @@ extern int Aslan_get_lineno (void * yyscanner);
 {														\
 	if (!strcmp(token, Aslan_get_text(ac.scanner)))		\
 	{													\
-		fprintf(stderr, "Expected: %s\n"				\
-						"Returned: %s\n"				\
-						"Line: %d\n",					\
-						token,							\
-						Aslan_get_text(ac.scanner),		\
-						Aslan_get_lineno(ac.scanner));	\
+		cerr << "Not Expected: " << token << "\n"		\
+			 << "Returned: "							\
+				<< Aslan_get_text(ac.scanner) << "\n"	\
+			 << "Line: "								\
+				<< Aslan_get_lineno(ac.scanner) << "\n";\
 		exit(2);										\
 	}													\
 }

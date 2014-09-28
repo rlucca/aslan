@@ -113,7 +113,6 @@ SET(CMAKE_BUILD_TYPE Debug)
 add_definitions(
 			-W
 			-Wall
-			-Werror
 			-Winline
 			-Wshadow
 			-fno-rtti
@@ -121,6 +120,4 @@ add_definitions(
 			-Wconversion
 			-Wpointer-arith
 			-Wnon-virtual-dtor
-			-Wno-unused-parameter
-			-Wno-sign-compare
 		)
