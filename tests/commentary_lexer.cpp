@@ -2,10 +2,10 @@
 
 int main()
 {
-	istringstream input("/************** "
-						" +x. "
-						" a(3). "
-						" ****************/"
+	istringstream input("/************** \n"
+						" +x. \n"
+						" a(3).\n "
+						" **\n****\n**********/"
 						""
 						" ");
 	Aslan_Context ac(&input);

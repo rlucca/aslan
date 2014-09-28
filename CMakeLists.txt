@@ -40,34 +40,72 @@ add_executable(empty_test
 # To build empty_test always after aslan built
 add_dependencies(empty_test aslan)
 
-add_executable(comentary_test
-				${PROJECT_SOURCE_DIR}/tests/comentary_lexer.cpp
+add_executable(commentary_test
+				${PROJECT_SOURCE_DIR}/tests/commentary_lexer.cpp
 				${SOURCES})
-add_dependencies(comentary_test empty_test)
+add_dependencies(commentary_test empty_test)
+
+add_executable(commentary_fail_eof_test
+				${PROJECT_SOURCE_DIR}/tests/commentary_fail_EOF_lexer.cpp
+				${SOURCES})
+add_dependencies(commentary_fail_eof_test commentary_test)
 
 add_executable(cs_test
 				${PROJECT_SOURCE_DIR}/tests/char_string_lexer.cpp
 				${SOURCES})
-add_dependencies(cs_test comentary_test)
+add_dependencies(cs_test XXXX)
+
+add_executable(char_string_fail_eol_test
+				${PROJECT_SOURCE_DIR}/tests/char_string_fail_EOL_lexer.cpp
+				${SOURCES})
+add_dependencies(char_string_fail_eol_test cs_test)
+
+add_executable(char_string_fail_eof_test
+				${PROJECT_SOURCE_DIR}/tests/char_string_fail_EOF_lexer.cpp
+				${SOURCES})
+add_dependencies(char_string_fail_eof_test char_string_fail_eol_test)
 
 add_executable(ss_test
 				${PROJECT_SOURCE_DIR}/tests/string_lexer.cpp
 				${SOURCES})
-add_dependencies(ss_test cs_test)
+add_dependencies(ss_test char_string_fail_eof_test)
+
+add_executable(string_fail_eol_test
+				${PROJECT_SOURCE_DIR}/tests/string_fail_EOL_lexer.cpp
+				${SOURCES})
+add_dependencies(string_fail_eol_test ss_test)
+
+add_executable(string_fail_eof_test
+				${PROJECT_SOURCE_DIR}/tests/string_fail_EOF_lexer.cpp
+				${SOURCES})
+add_dependencies(string_fail_eof_test string_fail_eol_test)
 
 add_executable(dot_prefix_test
 				${PROJECT_SOURCE_DIR}/tests/dot_prefix_lexer.cpp
 				${SOURCES})
-add_dependencies(dot_prefix_test ss_test)
+add_dependencies(dot_prefix_test string_fail_eof_test)
 
 
 enable_testing()
 add_test(EMPTY_TEST ${PROJECT_BINARY_DIR}/empty_test)
-add_test(COMMENTARY_TEST ${PROJECT_BINARY_DIR}/comentary_test)
+add_test(COMMENTARY_TEST ${PROJECT_BINARY_DIR}/commentary_test)
+add_test(COMMENTARY_FAIL_EOF_TEST ${PROJECT_BINARY_DIR}/commentary_fail_eof_test)
 add_test(CHAR_STRING_TEST ${PROJECT_BINARY_DIR}/cs_test)
+add_test(CHAR_STRING_FAIL_EOL_TEST ${PROJECT_BINARY_DIR}/char_string_fail_eol_test)
+add_test(CHAR_STRING_FAIL_EOF_TEST ${PROJECT_BINARY_DIR}/char_string_fail_eof_test)
 add_test(STRING_TEST ${PROJECT_BINARY_DIR}/ss_test)
+add_test(STRING_FAIL_EOL_TEST ${PROJECT_BINARY_DIR}/string_fail_eol_test)
+add_test(STRING_FAIL_EOF_TEST ${PROJECT_BINARY_DIR}/string_fail_eof_test)
 add_test(DOT_PREFIX_TEST ${PROJECT_BINARY_DIR}/dot_prefix_test)
 
+#PASS_REGULAR_EXPRESSION is divided by ';'
+set_tests_properties(CHAR_STRING_FAIL_EOL_TEST STRING_FAIL_EOL_TEST
+					PROPERTIES
+					PASS_REGULAR_EXPRESSION "Unexpected end of line")
+set_tests_properties(CHAR_STRING_FAIL_EOF_TEST STRING_FAIL_EOF_TEST
+					COMMENTARY_FAIL_EOF_TEST
+					PROPERTIES
+					PASS_REGULAR_EXPRESSION "Unexpected end of file")
 
 SET(CMAKE_BUILD_TYPE Debug)
 #SET(CMAKE_BUILD_TYPE Release)
