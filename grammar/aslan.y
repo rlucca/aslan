@@ -21,6 +21,7 @@ vim:noexpandtab:ts=8 sw=8
 %token <cptr> ESCAPE */
 %token ERR
 %token CHAR_STRING_LITERAL STRING_LITERAL
+%token FLOAT_LITERAL DOT_LITERAL
 
 %type <numerical> aslan
 

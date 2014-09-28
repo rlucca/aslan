@@ -55,12 +55,18 @@ add_executable(ss_test
 				${SOURCES})
 add_dependencies(ss_test cs_test)
 
+add_executable(dot_prefix_test
+				${PROJECT_SOURCE_DIR}/tests/dot_prefix_lexer.cpp
+				${SOURCES})
+add_dependencies(dot_prefix_test ss_test)
+
 
 enable_testing()
 add_test(EMPTY_TEST ${PROJECT_BINARY_DIR}/empty_test)
 add_test(COMMENTARY_TEST ${PROJECT_BINARY_DIR}/comentary_test)
 add_test(CHAR_STRING_TEST ${PROJECT_BINARY_DIR}/cs_test)
 add_test(STRING_TEST ${PROJECT_BINARY_DIR}/ss_test)
+add_test(DOT_PREFIX_TEST ${PROJECT_BINARY_DIR}/dot_prefix_test)
 
 
 SET(CMAKE_BUILD_TYPE Debug)

@@ -16,6 +16,8 @@
 %option nounput
 
 OCTALS				[01234567]
+INFIX_FLOAT			[eE][+-]?[0-9]+
+SUFFIX_FLOAT			[0-9]+{INFIX_FLOAT}?
 
 %{
 #include "Aslan_Context.hpp"
@@ -68,6 +70,8 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 			yymore();
 			PUSH_STATE(SS);
 			}
+\.{SUFFIX_FLOAT}	return FLOAT_LITERAL;
+\.			return DOT_LITERAL;
 [[:blank:]]		/* IGNORE */
 .           		{
 			YY_FATAL_ERROR("Invalid Char");
