@@ -85,6 +85,50 @@ add_executable(dot_prefix_test
 				${SOURCES})
 add_dependencies(dot_prefix_test string_fail_eof_test)
 
+add_executable(pairp_test
+				${PROJECT_SOURCE_DIR}/tests/pairp_lexer.cpp
+				${SOURCES})
+add_dependencies(pairp_test dot_prefix_test)
+
+add_executable(pairp_fail_eof_test
+				${PROJECT_SOURCE_DIR}/tests/pairp_fail_eof_lexer.cpp
+				${SOURCES})
+add_dependencies(pairp_fail_eof_test pairp_test)
+
+add_executable(pairp_fail_forget_test
+				${PROJECT_SOURCE_DIR}/tests/pairp_fail_forget_lexer.cpp
+				${SOURCES})
+add_dependencies(pairp_fail_forget_test pairp_fail_eof_lexer)
+
+add_executable(pairb_test
+				${PROJECT_SOURCE_DIR}/tests/pairb_lexer.cpp
+				${SOURCES})
+add_dependencies(pairb_test pairp_fail_forget_test)
+
+add_executable(pairb_fail_eof_test
+				${PROJECT_SOURCE_DIR}/tests/pairb_fail_eof_lexer.cpp
+				${SOURCES})
+add_dependencies(pairb_fail_eof_test pairb_test)
+
+add_executable(pairb_fail_forget_test
+				${PROJECT_SOURCE_DIR}/tests/pairb_fail_forget_lexer.cpp
+				${SOURCES})
+add_dependencies(pairb_fail_forget_test pairb_fail_eof_lexer)
+
+add_executable(pairk_test
+				${PROJECT_SOURCE_DIR}/tests/pairk_lexer.cpp
+				${SOURCES})
+add_dependencies(pairk_test pairb_fail_forget_test)
+
+add_executable(pairk_fail_eof_test
+				${PROJECT_SOURCE_DIR}/tests/pairk_fail_eof_lexer.cpp
+				${SOURCES})
+add_dependencies(pairk_fail_eof_test pairk_test)
+
+add_executable(pairk_fail_forget_test
+				${PROJECT_SOURCE_DIR}/tests/pairk_fail_forget_lexer.cpp
+				${SOURCES})
+add_dependencies(pairk_fail_forget_test pairk_fail_eof_lexer)
 
 enable_testing()
 add_test(EMPTY_TEST ${PROJECT_BINARY_DIR}/empty_test)
@@ -97,15 +141,34 @@ add_test(STRING_TEST ${PROJECT_BINARY_DIR}/ss_test)
 add_test(STRING_FAIL_EOL_TEST ${PROJECT_BINARY_DIR}/string_fail_eol_test)
 add_test(STRING_FAIL_EOF_TEST ${PROJECT_BINARY_DIR}/string_fail_eof_test)
 add_test(DOT_PREFIX_TEST ${PROJECT_BINARY_DIR}/dot_prefix_test)
+add_test(PAIRP_TEST ${PROJECT_BINARY_DIR}/pairp_test)
+add_test(PAIRP_FAIL_EOF_TEST ${PROJECT_BINARY_DIR}/pairp_fail_eof_test)
+add_test(PAIRP_FAIL_FORGET_TEST ${PROJECT_BINARY_DIR}/pairp_fail_forget_test)
+add_test(PAIRB_TEST ${PROJECT_BINARY_DIR}/pairb_test)
+add_test(PAIRB_FAIL_EOF_TEST ${PROJECT_BINARY_DIR}/pairb_fail_eof_test)
+add_test(PAIRB_FAIL_FORGET_TEST ${PROJECT_BINARY_DIR}/pairb_fail_forget_test)
+add_test(PAIRK_TEST ${PROJECT_BINARY_DIR}/pairk_test)
+add_test(PAIRK_FAIL_EOF_TEST ${PROJECT_BINARY_DIR}/pairk_fail_eof_test)
+add_test(PAIRK_FAIL_FORGET_TEST ${PROJECT_BINARY_DIR}/pairk_fail_forget_test)
 
 #PASS_REGULAR_EXPRESSION is divided by ';'
 set_tests_properties(CHAR_STRING_FAIL_EOL_TEST STRING_FAIL_EOL_TEST
 					PROPERTIES
 					PASS_REGULAR_EXPRESSION "Unexpected end of line")
 set_tests_properties(CHAR_STRING_FAIL_EOF_TEST STRING_FAIL_EOF_TEST
-					COMMENTARY_FAIL_EOF_TEST
+					COMMENTARY_FAIL_EOF_TEST PAIRP_FAIL_EOF_TEST
+					PAIRB_FAIL_EOF_TEST PAIRK_FAIL_EOF_TEST
 					PROPERTIES
 					PASS_REGULAR_EXPRESSION "Unexpected end of file")
+set_tests_properties(PAIRP_FAIL_FORGET_TEST
+					PROPERTIES
+					PASS_REGULAR_EXPRESSION "Did you forget to open '\\('?")
+set_tests_properties(PAIRB_FAIL_FORGET_TEST
+					PROPERTIES
+					PASS_REGULAR_EXPRESSION "Did you forget to open '\\['?")
+set_tests_properties(PAIRK_FAIL_FORGET_TEST
+					PROPERTIES
+					PASS_REGULAR_EXPRESSION "Did you forget to open '{'?")
 
 SET(CMAKE_BUILD_TYPE Debug)
 #SET(CMAKE_BUILD_TYPE Release)

@@ -22,6 +22,9 @@ vim:noexpandtab:ts=8 sw=8
 %token ERR
 %token CHAR_STRING_LITERAL STRING_LITERAL
 %token FLOAT_LITERAL DOT_LITERAL
+%token LEFTP RIGHTP
+%token LEFTB RIGHTB
+%token LEFTK RIGHTK
 
 %type <numerical> aslan
 

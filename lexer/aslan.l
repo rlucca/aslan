@@ -47,6 +47,13 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 
 %}
 
+
+ /* When I use %x and %s ?
+      %x is used when the state not share rules with INITIAL state.
+         (other way, this state is eXclusive)
+      %s is used when the state share rules with INITIAL state.
+         (other way, this state is incluSive)
+    It is vague? See the example in the manual! */
  /* comment state */
 %x IGNORE
  /* char string state */
@@ -55,12 +62,48 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 %x SS
  /* understanding and transform a escaped char */
 %x ESCAPE_CHAR
+ /* brackets, parentheses and keys */
+%s PAIRB PAIRP PAIRK
 
 %%
 
 "//".*			/* IGNORE */
-"/*"			{
-			PUSH_STATE(IGNORE);
+"/*"			PUSH_STATE(IGNORE);
+"("			{
+			PUSH_STATE(PAIRP);
+			return LEFTP;
+			}
+<PAIRP>")"		{
+			POP_STATE();
+			return RIGHTP;
+			}
+")"			{
+			YY_FATAL_ERROR("Did you forget to open '('?");
+			POP_STATE();
+			}
+"["			{
+			PUSH_STATE(PAIRB);
+			return LEFTB;
+			}
+<PAIRB>"]"		{
+			POP_STATE();
+			return RIGHTB;
+			}
+"]"			{
+			YY_FATAL_ERROR("Did you forget to open '['?");
+			POP_STATE();
+			}
+"{"			{
+			PUSH_STATE(PAIRK);
+			return LEFTK;
+			}
+<PAIRK>"}"		{
+			POP_STATE();
+			return RIGHTK;
+			}
+"}"			{
+			YY_FATAL_ERROR("Did you forget to open '{'?");
+			POP_STATE();
 			}
 \'			{
 			yymore();
