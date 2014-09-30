@@ -25,6 +25,33 @@ vim:noexpandtab:ts=8 sw=8
 %token LEFTP RIGHTP
 %token LEFTB RIGHTB
 %token LEFTK RIGHTK
+%token DIV
+%token MOD
+%token MUL
+%token PLUS
+%token MINUS
+%token TEST
+%token COMMA
+%token CONTEXT
+%token SEQUENCE
+%token STRONG_NEGATION
+%token XOR_BIT
+%token DIFFERENT_CMP
+%token ACHIEVE
+%token EQUAL_CMP
+%token ASSIGNMENT
+%token AND_LOGIC
+%token AND_BIT
+%token OR_LOGIC
+%token OR_BIT
+%token SEP
+%token SHIFTLEFT
+%token LESSEQUAL
+%token POINTER
+%token LESS
+%token SHIFTRIGHT
+%token GREATEQUAL
+%token GREAT
 
 %type <numerical> aslan
 

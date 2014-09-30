@@ -130,6 +130,11 @@ add_executable(pairk_fail_forget_test
 				${SOURCES})
 add_dependencies(pairk_fail_forget_test pairk_fail_eof_lexer)
 
+add_executable(token_tests
+				${PROJECT_SOURCE_DIR}/tests/token_test_lexer.cpp
+				${SOURCES})
+add_dependencies(token_tests pairk_fail_forget_test)
+
 enable_testing()
 add_test(EMPTY_TEST ${PROJECT_BINARY_DIR}/empty_test)
 add_test(COMMENTARY_TEST ${PROJECT_BINARY_DIR}/commentary_test)
@@ -150,6 +155,7 @@ add_test(PAIRB_FAIL_FORGET_TEST ${PROJECT_BINARY_DIR}/pairb_fail_forget_test)
 add_test(PAIRK_TEST ${PROJECT_BINARY_DIR}/pairk_test)
 add_test(PAIRK_FAIL_EOF_TEST ${PROJECT_BINARY_DIR}/pairk_fail_eof_test)
 add_test(PAIRK_FAIL_FORGET_TEST ${PROJECT_BINARY_DIR}/pairk_fail_forget_test)
+add_test(TOKEN_TESTS ${PROJECT_BINARY_DIR}/token_tests)
 
 #PASS_REGULAR_EXPRESSION is divided by ';'
 set_tests_properties(CHAR_STRING_FAIL_EOL_TEST STRING_FAIL_EOL_TEST
