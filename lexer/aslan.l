@@ -16,12 +16,19 @@
 %option nounput
 
 OCTALS				[01234567]
-INFIX_FLOAT			[eE][+-]?[0-9]+
-SUFFIX_FLOAT			[0-9]+{INFIX_FLOAT}?
+HEXES				[a-fA-F0-9]
+ALNUM				[[:alnum:]_]
+DIGIT				[[:digit:]]
+INFIX_FLOAT			[eE][+-]?{DIGIT}+
+SUFFIX_FLOAT			\.{DIGIT}+{INFIX_FLOAT}?
+HEX_NUMBER			0[xX]{HEXES}+
+OCT_NUMBER			0{OCTALS}+
 NOT				[nN][oO][tT]
-VARIABLE			[_A-Z][a-zA-Z0-9_]*
-IDENTIFIER			[a-z][a-zA-Z0-9_]*
+VARIABLE			[_A-Z]{ALNUM}*
+IDENTIFIER			[a-z]{ALNUM}*
 EXTERNAL_ACTION			{IDENTIFIER}(\.{IDENTIFIER}){1,}
+FLOAT_NUMBER			{DIGIT}*{SUFFIX_FLOAT}
+NUMBER				{DIGIT}+
 
 %{
 #include "Aslan_Context.hpp"
@@ -140,6 +147,10 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 {VARIABLE}		return VARIABLE;
 {IDENTIFIER}		return IDENTIFIER;
 {EXTERNAL_ACTION}	return EXTERNAL_ACTION;
+{HEX_NUMBER}		return NUMBER_LITERAL;
+{OCT_NUMBER}		return NUMBER_LITERAL;
+{FLOAT_NUMBER}		return FLOAT_LITERAL;
+{NUMBER}		return NUMBER_LITERAL;
 \'			{
 			yymore();
 			PUSH_STATE(CS);
@@ -148,7 +159,6 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 			yymore();
 			PUSH_STATE(SS);
 			}
-\.{SUFFIX_FLOAT}	return FLOAT_LITERAL;
 \.			return DOT_LITERAL;
 [[:blank:]]		/* IGNORE */
 .           		{

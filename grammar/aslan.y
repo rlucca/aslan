@@ -56,6 +56,7 @@ vim:noexpandtab:ts=8 sw=8
 %token VARIABLE
 %token IDENTIFIER
 %token EXTERNAL_ACTION
+%token NUMBER_LITERAL
 
 %type <numerical> aslan
 
