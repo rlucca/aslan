@@ -18,6 +18,10 @@
 OCTALS				[01234567]
 INFIX_FLOAT			[eE][+-]?[0-9]+
 SUFFIX_FLOAT			[0-9]+{INFIX_FLOAT}?
+NOT				[nN][oO][tT]
+VARIABLE			[_A-Z][a-zA-Z0-9_]*
+IDENTIFIER			[a-z][a-zA-Z0-9_]*
+EXTERNAL_ACTION			{IDENTIFIER}(\.{IDENTIFIER}){1,}
 
 %{
 #include "Aslan_Context.hpp"
@@ -132,6 +136,10 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 ">>"			return SHIFTRIGHT;
 ">="			return GREATEQUAL;
 ">"			return GREAT;
+{NOT}			return NOT;
+{VARIABLE}		return VARIABLE;
+{IDENTIFIER}		return IDENTIFIER;
+{EXTERNAL_ACTION}	return EXTERNAL_ACTION;
 \'			{
 			yymore();
 			PUSH_STATE(CS);

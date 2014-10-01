@@ -25,15 +25,16 @@
 	EXPECT_LEX(LESS, sem, loc, ac, Aslan_lex);				\
 	EXPECT_LEX(SHIFTRIGHT, sem, loc, ac, Aslan_lex);		\
 	EXPECT_LEX(GREATEQUAL, sem, loc, ac, Aslan_lex);		\
-	EXPECT_LEX(GREAT, sem, loc, ac, Aslan_lex)
+	EXPECT_LEX(GREAT, sem, loc, ac, Aslan_lex);				\
+	EXPECT_LEX(NOT, sem, loc, ac, Aslan_lex)
 
 int main()
 {
 	istringstream input("\n"
-						"/%*+-?,:;~^ != ! == = && & || << <= <- < >> >= > | \n"
-						"(/%*+-?,:;~^ != ! == = && & || << <= <- < >> >= > | )\n"
-						"{/%*+-?,:;~^ != ! == = && & || << <= <- < >> >= > | }\n"
-						"[/%*+-?,:;~^ != ! == = && & || << <= <- < >> >= > | ]\n"
+						"/%*+-?,:;~^ != ! == = && & || << <= <- < >> >= > not | \n"
+						"(/%*+-?,:;~^ != ! == = && & || << <= <- < >> >= > nOt | )\n"
+						"{/%*+-?,:;~^ != ! == = && & || << <= <- < >> >= > NoT | }\n"
+						"[/%*+-?,:;~^ != ! == = && & || << <= <- < >> >= > NOT | ]\n"
 						"\n");
 	Aslan_Context ac(&input);
 	MOC_LEX_DATA(loc, sem);

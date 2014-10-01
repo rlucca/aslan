@@ -52,6 +52,10 @@ vim:noexpandtab:ts=8 sw=8
 %token SHIFTRIGHT
 %token GREATEQUAL
 %token GREAT
+%token NOT
+%token VARIABLE
+%token IDENTIFIER
+%token EXTERNAL_ACTION
 
 %type <numerical> aslan
 
