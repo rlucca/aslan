@@ -11,14 +11,8 @@ vim:noexpandtab:ts=8 sw=8
 
 %union
 {
-	long long numerical;
-	double fractional;
-	char* cptr;
 }
 
-/*%token <numerical> A
-%token <fractional> B
-%token <cptr> ESCAPE */
 %token ERR
 %token CHAR_STRING_LITERAL STRING_LITERAL
 %token FLOAT_LITERAL DOT_LITERAL
@@ -79,34 +73,10 @@ vim:noexpandtab:ts=8 sw=8
 
 %%
 
-/*start:
-	  aslan
-	;
-
-aslan :
-	  A aslan
-	  	{ $$ = $1 + $2; }
-	| B aslan
-		{ $$ = $1 + $2; }
-	| ESCAPE aslan
-		{
-			{
-				//istringstream* is = new istringstream($1);
-				//LanCD_Context context(is);
-				//LanCD_parse(&context);
-				//$$ = context.result + $2;
-				$$ = $2;
-			}
-		}
-	| // * empty * /
-		{ $$ = 0; }
-	;
-*/
-
 start:
 	aslan
 	;
 
 aslan:
-	/* empty */	{ $$ = 0; }
+	/* empty */	{ ; }
 	;
