@@ -28,17 +28,20 @@ set (INCLUDES
 	${PROJECT_BINARY_DIR}
 	)
 
+add_library(aslanparser STATIC ${SOURCES})
+
 include_directories(${INCLUDES})
 
 add_executable(aslan
 				${PROJECT_SOURCE_DIR}/src/main.cpp
-				${SOURCES})
+				)
+target_link_libraries(aslan aslanparser)
 
 macro(CREATE_TEST_EXECUTABLE BIN PARENT)
 	add_executable(${BIN}
 					${PROJECT_SOURCE_DIR}/tests/${BIN}_lexer.cpp
-					${SOURCES}
 					)
+	target_link_libraries(${BIN} aslanparser)
 	add_dependencies(${BIN} ${PARENT})
 	string(TOUPPER ${BIN} BIN_NAME)
 	add_test(${BIN_NAME} ${PROJECT_BINARY_DIR}/${BIN})
