@@ -4,6 +4,7 @@
 
  /* Lexer options */
 %option reentrant
+%option extra-type="Aslan_Context *"
 %option prefix="Aslan_"
 %option bison-bridge
 %option bison-locations
@@ -36,9 +37,11 @@ NUMBER				{DIGIT}+
 
 void Aslan_lexerror(const char* err, yyscan_t scanner);
 
-#define YY_EXTRA_TYPE Aslan_Context *
+/* To update the line number */
 #define YY_USER_ACTION yylloc->first_line = yylineno;
 
+/* To use the input inside of extra data was
+   necessary override the YY_INPUT */
 #define YY_INPUT(buf, result, max_size)	\
 {					\
 	char c;				\
@@ -52,7 +55,10 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 	}				\
 }
 
+/* To do a better error explanation.
+   Well, maybe not so... */
 #define YY_FATAL_ERROR(msg) Aslan_lexerror( msg , yyscanner)
+/* Shortcuts */
 #define PUSH_STATE(state) yy_push_state(state, yyscanner)
 #define POP_STATE() yy_pop_state(yyscanner)
 
