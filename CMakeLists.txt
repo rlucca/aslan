@@ -25,137 +25,55 @@ set (SOURCES
 set (INCLUDES
 	${PROJECT_SOURCE_DIR}/src
 	${PROJECT_SOURCE_DIR}/include
+	${PROJECT_BINARY_DIR}
 	)
 
-include_directories(aslan ${INCLUDES})
+include_directories(${INCLUDES})
+
 add_executable(aslan
 				${PROJECT_SOURCE_DIR}/src/main.cpp
 				${SOURCES})
 
-# Executable of Test
-include_directories(empty_test ${INCLUDES} ${PROJECT_BINARY_DIR})
-add_executable(empty_test
-				${PROJECT_SOURCE_DIR}/tests/empty_lexer.cpp
-				${SOURCES})
-# To build empty_test always after aslan built
-add_dependencies(empty_test aslan)
+macro(CREATE_TEST_EXECUTABLE BIN PARENT)
+	add_executable(${BIN}
+					${PROJECT_SOURCE_DIR}/tests/${BIN}_lexer.cpp
+					${SOURCES}
+					)
+	add_dependencies(${BIN} ${PARENT})
+	string(TOUPPER ${BIN} BIN_NAME)
+	add_test(${BIN_NAME} ${PROJECT_BINARY_DIR}/${BIN})
+endmacro(CREATE_TEST_EXECUTABLE)
 
-add_executable(commentary_test
-				${PROJECT_SOURCE_DIR}/tests/commentary_lexer.cpp
-				${SOURCES})
-add_dependencies(commentary_test empty_test)
+set(TEST_CASES
+	empty_test
+	commentary_test
+	commentary_fail_eof_test
+	char_string_test
+	char_string_fail_eol_test
+	char_string_fail_eof_test
+	string_string_test
+	string_fail_eol_test
+	string_fail_eof_test
+	dot_prefix_test
+	pairp_fail_eof_test
+	pairp_fail_forget_test
+	pairb_fail_eof_test
+	pairb_fail_forget_test
+	pairk_fail_eof_test
+	pairk_fail_forget_test
+	token_tests
+	variable_test
+	identifier_test
+	externalaction_test
+	)
+SET(PREVIOUS aslan)
 
-add_executable(commentary_fail_eof_test
-				${PROJECT_SOURCE_DIR}/tests/commentary_fail_EOF_lexer.cpp
-				${SOURCES})
-add_dependencies(commentary_fail_eof_test commentary_test)
-
-add_executable(cs_test
-				${PROJECT_SOURCE_DIR}/tests/char_string_lexer.cpp
-				${SOURCES})
-add_dependencies(cs_test XXXX)
-
-add_executable(char_string_fail_eol_test
-				${PROJECT_SOURCE_DIR}/tests/char_string_fail_EOL_lexer.cpp
-				${SOURCES})
-add_dependencies(char_string_fail_eol_test cs_test)
-
-add_executable(char_string_fail_eof_test
-				${PROJECT_SOURCE_DIR}/tests/char_string_fail_EOF_lexer.cpp
-				${SOURCES})
-add_dependencies(char_string_fail_eof_test char_string_fail_eol_test)
-
-add_executable(ss_test
-				${PROJECT_SOURCE_DIR}/tests/string_lexer.cpp
-				${SOURCES})
-add_dependencies(ss_test char_string_fail_eof_test)
-
-add_executable(string_fail_eol_test
-				${PROJECT_SOURCE_DIR}/tests/string_fail_EOL_lexer.cpp
-				${SOURCES})
-add_dependencies(string_fail_eol_test ss_test)
-
-add_executable(string_fail_eof_test
-				${PROJECT_SOURCE_DIR}/tests/string_fail_EOF_lexer.cpp
-				${SOURCES})
-add_dependencies(string_fail_eof_test string_fail_eol_test)
-
-add_executable(dot_prefix_test
-				${PROJECT_SOURCE_DIR}/tests/dot_prefix_lexer.cpp
-				${SOURCES})
-add_dependencies(dot_prefix_test string_fail_eof_test)
-
-add_executable(pairp_fail_eof_test
-				${PROJECT_SOURCE_DIR}/tests/pairp_fail_eof_lexer.cpp
-				${SOURCES})
-add_dependencies(pairp_fail_eof_test dot_prefix_test)
-
-add_executable(pairp_fail_forget_test
-				${PROJECT_SOURCE_DIR}/tests/pairp_fail_forget_lexer.cpp
-				${SOURCES})
-add_dependencies(pairp_fail_forget_test pairp_fail_eof_lexer)
-
-add_executable(pairb_fail_eof_test
-				${PROJECT_SOURCE_DIR}/tests/pairb_fail_eof_lexer.cpp
-				${SOURCES})
-add_dependencies(pairb_fail_eof_test pairp_fail_forget_test)
-
-add_executable(pairb_fail_forget_test
-				${PROJECT_SOURCE_DIR}/tests/pairb_fail_forget_lexer.cpp
-				${SOURCES})
-add_dependencies(pairb_fail_forget_test pairb_fail_eof_lexer)
-
-add_executable(pairk_fail_eof_test
-				${PROJECT_SOURCE_DIR}/tests/pairk_fail_eof_lexer.cpp
-				${SOURCES})
-add_dependencies(pairk_fail_eof_test pairb_fail_forget_test)
-
-add_executable(pairk_fail_forget_test
-				${PROJECT_SOURCE_DIR}/tests/pairk_fail_forget_lexer.cpp
-				${SOURCES})
-add_dependencies(pairk_fail_forget_test pairk_fail_eof_lexer)
-
-add_executable(token_tests
-				${PROJECT_SOURCE_DIR}/tests/token_test_lexer.cpp
-				${SOURCES})
-add_dependencies(token_tests pairk_fail_forget_test)
-
-add_executable(variable_test
-				${PROJECT_SOURCE_DIR}/tests/variable_lexer.cpp
-				${SOURCES})
-add_dependencies(variable_test token_tests)
-
-add_executable(identifier_test
-				${PROJECT_SOURCE_DIR}/tests/identifier_lexer.cpp
-				${SOURCES})
-add_dependencies(identifier_test variable_test)
-
-add_executable(ea_test
-				${PROJECT_SOURCE_DIR}/tests/externalaction_lexer.cpp
-				${SOURCES})
-add_dependencies(ea_test identifier_lexer)
+foreach(BIN_TEST IN LISTS TEST_CASES)
+	CREATE_TEST_EXECUTABLE(${BIN_TEST} ${PREVIOUS})
+	set(PREVIOUS ${BIN_TEST})
+endforeach(BIN_TEST)
 
 enable_testing()
-add_test(EMPTY_TEST ${PROJECT_BINARY_DIR}/empty_test)
-add_test(COMMENTARY_TEST ${PROJECT_BINARY_DIR}/commentary_test)
-add_test(COMMENTARY_FAIL_EOF_TEST ${PROJECT_BINARY_DIR}/commentary_fail_eof_test)
-add_test(CHAR_STRING_TEST ${PROJECT_BINARY_DIR}/cs_test)
-add_test(CHAR_STRING_FAIL_EOL_TEST ${PROJECT_BINARY_DIR}/char_string_fail_eol_test)
-add_test(CHAR_STRING_FAIL_EOF_TEST ${PROJECT_BINARY_DIR}/char_string_fail_eof_test)
-add_test(STRING_TEST ${PROJECT_BINARY_DIR}/ss_test)
-add_test(STRING_FAIL_EOL_TEST ${PROJECT_BINARY_DIR}/string_fail_eol_test)
-add_test(STRING_FAIL_EOF_TEST ${PROJECT_BINARY_DIR}/string_fail_eof_test)
-add_test(DOT_PREFIX_TEST ${PROJECT_BINARY_DIR}/dot_prefix_test)
-add_test(PAIRP_FAIL_EOF_TEST ${PROJECT_BINARY_DIR}/pairp_fail_eof_test)
-add_test(PAIRP_FAIL_FORGET_TEST ${PROJECT_BINARY_DIR}/pairp_fail_forget_test)
-add_test(PAIRB_FAIL_EOF_TEST ${PROJECT_BINARY_DIR}/pairb_fail_eof_test)
-add_test(PAIRB_FAIL_FORGET_TEST ${PROJECT_BINARY_DIR}/pairb_fail_forget_test)
-add_test(PAIRK_FAIL_EOF_TEST ${PROJECT_BINARY_DIR}/pairk_fail_eof_test)
-add_test(PAIRK_FAIL_FORGET_TEST ${PROJECT_BINARY_DIR}/pairk_fail_forget_test)
-add_test(TOKEN_TESTS ${PROJECT_BINARY_DIR}/token_tests)
-add_test(VARIABLE_TEST ${PROJECT_BINARY_DIR}/variable_test)
-add_test(IDENTIFIER_TEST ${PROJECT_BINARY_DIR}/identifier_test)
-add_test(EXTERNALACTION_TEST ${PROJECT_BINARY_DIR}/ea_test)
 
 #PASS_REGULAR_EXPRESSION is divided by ';'
 set_tests_properties(CHAR_STRING_FAIL_EOL_TEST STRING_FAIL_EOL_TEST
