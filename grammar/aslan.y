@@ -1,6 +1,7 @@
-/*
-vim:noexpandtab:ts=8 sw=8
-*/
+ /*
+	vim:noexpandtab:ts=8 sw=8
+ */
+
 %pure-parser
 %name-prefix="Aslan_"
 %locations
@@ -51,8 +52,6 @@ vim:noexpandtab:ts=8 sw=8
 %token IDENTIFIER
 %token EXTERNAL_ACTION
 %token NUMBER_LITERAL
-
-%type <numerical> aslan
 
 %{
 	#include <iostream>
