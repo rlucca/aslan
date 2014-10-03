@@ -81,5 +81,5 @@ start:
 
 aslan:
 	/* empty */	{ ; }
-	| IDENTIFIER	{ cout << $1 << "(" << @1.first_line << ")\n"; }
+	| IDENTIFIER	{ cout << $1 << "(" << @1.first_line << ")\n"; free($1); $1=NULL; }
 	;
