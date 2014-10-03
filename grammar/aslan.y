@@ -12,6 +12,7 @@
 
 %union
 {
+	char *lexema;	/* To access the yytext */
 }
 
 %token ERR
@@ -49,9 +50,11 @@
 %token GREAT
 %token NOT
 %token VARIABLE
-%token IDENTIFIER
+%token <lexema> IDENTIFIER
 %token EXTERNAL_ACTION
 %token NUMBER_LITERAL
+
+%destructor { free($$); } IDENTIFIER
 
 %{
 	#include <iostream>
@@ -78,4 +81,5 @@ start:
 
 aslan:
 	/* empty */	{ ; }
+	| IDENTIFIER	{ cout << $1 << "(" << @1.first_line << ")\n"; }
 	;

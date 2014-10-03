@@ -40,6 +40,7 @@ NUMBER				{DIGIT}+
 %{
 #include "Aslan_Context.hpp"
 #include "aslan_parser.hpp"
+#include <cstring>
 
 void Aslan_lexerror(const char* err, yyscan_t scanner);
 
@@ -157,7 +158,10 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 ">"			return GREAT;
 {NOT}			return NOT;
 {VARIABLE}		return VARIABLE;
-{IDENTIFIER}		return IDENTIFIER;
+{IDENTIFIER}		{
+			yylval->lexema = strdup(yytext);
+			return IDENTIFIER;
+			}
 {EXTERNAL_ACTION}	return EXTERNAL_ACTION;
 {HEX_NUMBER}		return NUMBER_LITERAL;
 {OCT_NUMBER}		return NUMBER_LITERAL;
