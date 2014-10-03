@@ -45,6 +45,13 @@ macro(CREATE_TEST_EXECUTABLE BIN PARENT)
 	add_dependencies(${BIN} ${PARENT})
 	string(TOUPPER ${BIN} BIN_NAME)
 	add_test(${BIN_NAME} ${PROJECT_BINARY_DIR}/${BIN})
+	if(VALGRIND)
+		add_test(${BIN_NAME}_valgrind
+				valgrind --error-exitcode=1 --leak-check=full ${PROJECT_BINARY_DIR}/${BIN})
+		set_tests_properties(${BIN_NAME}_valgrind
+						PROPERTIES
+						PASS_REGULAR_EXPRESSION "no leaks are possible")
+	endif(VALGRIND)
 endmacro(CREATE_TEST_EXECUTABLE)
 
 set(TEST_CASES
