@@ -9,8 +9,11 @@ int main()
 	MOC_LEX_DATA(loc, sem);
 
 	EXPECT_LEX(IDENTIFIER, sem, loc, ac, Aslan_lex);
+	free(sem->lexema);
 	EXPECT_LEX(IDENTIFIER, sem, loc, ac, Aslan_lex);
+	free(sem->lexema);
 	EXPECT_LEX(IDENTIFIER, sem, loc, ac, Aslan_lex);
+	free(sem->lexema);
 	EXPECT_LEX(0, sem, loc, ac, Aslan_lex);
 	return 0;
 }

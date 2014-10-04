@@ -103,7 +103,6 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 			}
 ")"			{
 			YY_FATAL_ERROR("Did you forget to open '('?");
-			POP_STATE();
 			}
 "["			{
 			PUSH_STATE(PAIRB);
@@ -115,7 +114,6 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 			}
 "]"			{
 			YY_FATAL_ERROR("Did you forget to open '['?");
-			POP_STATE();
 			}
 "{"			{
 			PUSH_STATE(PAIRK);
@@ -127,7 +125,6 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 			}
 "}"			{
 			YY_FATAL_ERROR("Did you forget to open '{'?");
-			POP_STATE();
 			}
 "/"			return DIV;
 "%"			return MOD;
@@ -235,7 +232,7 @@ void Aslan_Context::init_scanner()
 
 void Aslan_Context::destroy_scanner()
 {
-	yy_pop_state(scanner);
+	// It will destroy the states too
 	yylex_destroy(scanner);
 }
 
@@ -245,5 +242,10 @@ void Aslan_lexerror(const char* err, yyscan_t scanner)
 		<< "Error: " << err
 		<< " (State: " << yy_top_state(scanner)
 		<< ")\n";
+
+	// Destroy everything
+	Aslan_get_extra(scanner)->is->~istream();
+	Aslan_get_extra(scanner)->~Aslan_Context();
+
 	exit( YY_EXIT_FAILURE );
 }
