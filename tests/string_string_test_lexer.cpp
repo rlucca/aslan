@@ -11,28 +11,49 @@ int main()
 						"\"\\\"\"\n"
 						"\"abacate \\141 noite\\n\"\n"
 						"\n");
-	Aslan_Context ac(&input);
-	MOC_LEX_DATA(loc, sem);
+	CREATE_LEX_DATA(&input);
 
-	EXPECT_LEX(STRING_LITERAL, sem, loc, ac, Aslan_lex);
-	EXPECT_TOKEN_LEX("\"\"", ac);
-	EXPECT_LEX(STRING_LITERAL, sem, loc, ac, Aslan_lex);
-	EXPECT_TOKEN_LEX("\"a\"", ac);
-	EXPECT_LEX(STRING_LITERAL, sem, loc, ac, Aslan_lex);
-	EXPECT_TOKEN_LEX("\"\\\\\"", ac);
-	EXPECT_LEX(STRING_LITERAL, sem, loc, ac, Aslan_lex);
-	EXPECT_TOKEN_LEX("\"\\\\n\"", ac);
-	EXPECT_LEX(STRING_LITERAL, sem, loc, ac, Aslan_lex);
-	EXPECT_TOKEN_LEX("\"\\n\"", ac);
+	NEXT;
+	EXPECTING_TOKEN(STRING_LITERAL);
+	EXPECTING_LEXEMA("\"\"");
+	DESTROY_LEXEMA;
 
-	EXPECT_LEX(STRING_LITERAL, sem, loc, ac, Aslan_lex);
-	EXPECT_TOKEN_LEX("\"\\141\"", ac);
+	NEXT;
+	EXPECTING_TOKEN(STRING_LITERAL);
+	EXPECTING_LEXEMA("\"a\"");
+	DESTROY_LEXEMA;
+
+	NEXT;
+	EXPECTING_TOKEN(STRING_LITERAL);
+	EXPECTING_LEXEMA("\"\\\\\"");
+	DESTROY_LEXEMA;
+
+	NEXT;
+	EXPECTING_TOKEN(STRING_LITERAL);
+	EXPECTING_LEXEMA("\"\\\\n\"");
+	DESTROY_LEXEMA;
+
+	NEXT;
+	EXPECTING_TOKEN(STRING_LITERAL);
+	EXPECTING_LEXEMA("\"\\n\"");
+	DESTROY_LEXEMA;
+
+	NEXT;
+	EXPECTING_TOKEN(STRING_LITERAL);
+	EXPECTING_LEXEMA("\"\\141\"");
 	/* We are not interpreting the data! So, it must fail! */
-	NOT_EXPECT_TOKEN_LEX("\"\141\"", ac);
+	NOT_EXPECTING_LEXEMA("\"\141\"");
+	DESTROY_LEXEMA;
 
-	EXPECT_LEX(STRING_LITERAL, sem, loc, ac, Aslan_lex);
-	EXPECT_TOKEN_LEX("\"\\\"\"", ac);
-	EXPECT_LEX(STRING_LITERAL, sem, loc, ac, Aslan_lex);
-	EXPECT_TOKEN_LEX("\"abacate \\141 noite\\n\"", ac);
+	NEXT;
+	EXPECTING_TOKEN(STRING_LITERAL);
+	EXPECTING_LEXEMA("\"\\\"\"");
+	DESTROY_LEXEMA;
+
+	NEXT;
+	EXPECTING_TOKEN(STRING_LITERAL);
+	EXPECTING_LEXEMA("\"abacate \\141 noite\\n\"");
+	DESTROY_LEXEMA;
+
 	return 0;
 }

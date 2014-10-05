@@ -7,14 +7,35 @@ int main()
 						" MOUNTAIN "
 						" LUCKY2GO "
 						" LUCCA_CITY ");
-	Aslan_Context ac(&input);
-	MOC_LEX_DATA(loc, sem);
+	CREATE_LEX_DATA(&input);
 
-	EXPECT_LEX(VARIABLE, sem, loc, ac, Aslan_lex);
-	EXPECT_LEX(VARIABLE, sem, loc, ac, Aslan_lex);
-	EXPECT_LEX(VARIABLE, sem, loc, ac, Aslan_lex);
-	EXPECT_LEX(VARIABLE, sem, loc, ac, Aslan_lex);
-	EXPECT_LEX(VARIABLE, sem, loc, ac, Aslan_lex);
-	EXPECT_LEX(0, sem, loc, ac, Aslan_lex);
+	NEXT;
+	EXPECTING_TOKEN(VARIABLE);
+	EXPECTING_LEXEMA("_");
+	DESTROY_LEXEMA;
+
+	NEXT;
+	EXPECTING_TOKEN(VARIABLE);
+	EXPECTING_LEXEMA("_no_name_too");
+	DESTROY_LEXEMA;
+
+	NEXT;
+	EXPECTING_TOKEN(VARIABLE);
+	EXPECTING_LEXEMA("MOUNTAIN");
+	DESTROY_LEXEMA;
+
+	NEXT;
+	EXPECTING_TOKEN(VARIABLE);
+	EXPECTING_LEXEMA("LUCKY2GO");
+	DESTROY_LEXEMA;
+
+	NEXT;
+	EXPECTING_TOKEN(VARIABLE);
+	EXPECTING_LEXEMA("LUCCA_CITY");
+	DESTROY_LEXEMA;
+
+	NEXT;
+	EXPECTING_TOKEN(0);
+
 	return 0;
 }

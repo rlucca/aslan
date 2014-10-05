@@ -17,49 +17,67 @@ extern const char *Aslan_get_text \
 		   (void * yyscanner);
 extern int Aslan_get_lineno (void * yyscanner);
 
-#define EXPECT_LEX(code, sem, loc, ac, yylex)			\
-{														\
-	int ret = yylex(sem, loc, ac.scanner);				\
-	if (ret != code)									\
-	{													\
-		cerr << "Expected: " << code << "\n"			\
-			 << "Returned: " << ret << "\n"				\
-			 << "Token: '"								\
-				<< Aslan_get_text(ac.scanner) << "'\n"	\
-			 << "Line: "								\
-				<< Aslan_get_lineno(ac.scanner) << "\n";\
-		exit(1);										\
-	}													\
-}
+#define TOKEN_ERR 3
+#define LEXEMA_ERR 4
 
-#define EXPECT_TOKEN_LEX(token, ac)						\
-{														\
-	if (strcmp(token, Aslan_get_text(ac.scanner)))		\
-	{													\
-		cerr << "Expected: " << token << "\n"			\
-			 << "Returned: "							\
-				<< Aslan_get_text(ac.scanner) << "\n"	\
-			 << "Line: "								\
-				<< Aslan_get_lineno(ac.scanner) << "\n";\
-		exit(2);										\
-	}													\
-}
+#define CREATE_LEX_DATA(PTR_INPUT)						\
+	Aslan_Context _ac(PTR_INPUT);						\
+	YYSTYPE _buf1;										\
+	YYLTYPE _buf2;										\
+	YYSTYPE *_semantic = &_buf1;						\
+	YYLTYPE *_location = &_buf2;						\
+	int _token_code = 0
 
-#define NOT_EXPECT_TOKEN_LEX(token, ac)					\
-{														\
-	if (!strcmp(token, Aslan_get_text(ac.scanner)))		\
-	{													\
-		cerr << "Not Expected: " << token << "\n"		\
-			 << "Returned: "							\
-				<< Aslan_get_text(ac.scanner) << "\n"	\
-			 << "Line: "								\
-				<< Aslan_get_lineno(ac.scanner) << "\n";\
-		exit(2);										\
-	}													\
-}
+#define NEXT											\
+	_token_code = Aslan_lex(_semantic, _location, _ac.scanner)
 
-#define MOC_LEX_DATA(LOCATION, SEMANTIC)				\
-	char buf1[10];										\
-	char buf2[16];										\
-	YYLTYPE *LOCATION = (YYLTYPE *) buf1;				\
-	YYSTYPE *SEMANTIC = (YYSTYPE *) buf2
+#define DUMP_POSITION									\
+		cerr << "Token: " << _token_code << "\n"		\
+		     << "Lexema: '"								\
+				<< Aslan_get_text(_ac.scanner) << "'\n"	\
+			<< "Line: " << Aslan_get_lineno(_ac.scanner)\
+			<< "\n"
+
+
+#define EXPECTING_TOKEN(TOKEN)							\
+		if (_token_code != TOKEN)						\
+		{												\
+			cerr << "Expected Token: " << TOKEN << "\n";\
+			DUMP_POSITION;								\
+			free(_semantic->lexema);					\
+			exit(TOKEN_ERR);							\
+		}
+
+#define NOT_EXPECTING_TOKEN(TOKEN)						\
+		if (_token_code == TOKEN)						\
+		{												\
+			cerr << "Not Expecting Token: " << TOKEN	\
+				<< "\n";								\
+			DUMP_POSITION;								\
+			free(_semantic->lexema);					\
+			exit(TOKEN_ERR);							\
+		}
+
+#define DESTROY_LEXEMA									\
+	free(_semantic->lexema);							\
+	_semantic->lexema = NULL
+
+#define EXPECTING_LEXEMA(TEXT)							\
+	if (strcmp(TEXT, _semantic->lexema))				\
+	{													\
+		cerr << "Expected Lexema: " << TEXT << "\n";	\
+		DUMP_POSITION;									\
+		DESTROY_LEXEMA;									\
+		exit(LEXEMA_ERR);								\
+	}													\
+
+#define NOT_EXPECTING_LEXEMA(TEXT)						\
+	if (!strcmp(TEXT, _semantic->lexema))				\
+	{													\
+		cerr << "Not Expecting Lexema: " << TEXT		\
+				<< "\n";								\
+		DUMP_POSITION;									\
+		DESTROY_LEXEMA;									\
+		exit(LEXEMA_ERR);								\
+	}													\
+

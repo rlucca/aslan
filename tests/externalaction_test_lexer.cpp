@@ -5,13 +5,29 @@ int main()
 	istringstream input("mar.headUp.\n"
 						"m1.move\n"
 						"car_2.do_nothing\n");
-	Aslan_Context ac(&input);
-	MOC_LEX_DATA(loc, sem);
+	CREATE_LEX_DATA(&input);
 
-	EXPECT_LEX(EXTERNAL_ACTION, sem, loc, ac, Aslan_lex);
-	EXPECT_LEX(DOT_LITERAL, sem, loc, ac, Aslan_lex);
-	EXPECT_LEX(EXTERNAL_ACTION, sem, loc, ac, Aslan_lex);
-	EXPECT_LEX(EXTERNAL_ACTION, sem, loc, ac, Aslan_lex);
-	EXPECT_LEX(0, sem, loc, ac, Aslan_lex);
+	NEXT;
+	EXPECTING_TOKEN(EXTERNAL_ACTION);
+	EXPECTING_LEXEMA("mar.headUp");
+	DESTROY_LEXEMA;
+	NEXT;
+	EXPECTING_TOKEN(DOT_LITERAL);
+	EXPECTING_LEXEMA(".");
+	DESTROY_LEXEMA;
+
+	NEXT;
+	EXPECTING_TOKEN(EXTERNAL_ACTION);
+	EXPECTING_LEXEMA("m1.move");
+	DESTROY_LEXEMA;
+
+	NEXT;
+	EXPECTING_TOKEN(EXTERNAL_ACTION);
+	EXPECTING_LEXEMA("car_2.do_nothing");
+	DESTROY_LEXEMA;
+
+	NEXT;
+	EXPECTING_TOKEN(0);
+
 	return 0;
 }

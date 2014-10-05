@@ -5,15 +5,24 @@ int main()
 	istringstream input("id\n"
 						"m4\n"
 						"set_up\n");
-	Aslan_Context ac(&input);
-	MOC_LEX_DATA(loc, sem);
+	CREATE_LEX_DATA(&input);
 
-	EXPECT_LEX(IDENTIFIER, sem, loc, ac, Aslan_lex);
-	free(sem->lexema);
-	EXPECT_LEX(IDENTIFIER, sem, loc, ac, Aslan_lex);
-	free(sem->lexema);
-	EXPECT_LEX(IDENTIFIER, sem, loc, ac, Aslan_lex);
-	free(sem->lexema);
-	EXPECT_LEX(0, sem, loc, ac, Aslan_lex);
+	NEXT;
+	EXPECTING_TOKEN(IDENTIFIER);
+	EXPECTING_LEXEMA("id");
+	DESTROY_LEXEMA;
+
+	NEXT;
+	EXPECTING_TOKEN(IDENTIFIER);
+	EXPECTING_LEXEMA("m4");
+	DESTROY_LEXEMA;
+
+	NEXT;
+	EXPECTING_TOKEN(IDENTIFIER);
+	EXPECTING_LEXEMA("set_up");
+	DESTROY_LEXEMA;
+
+	NEXT;
+	EXPECTING_TOKEN(0);
 	return 0;
 }

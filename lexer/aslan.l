@@ -68,6 +68,9 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 /* Shortcuts */
 #define PUSH_STATE(state) yy_push_state(state, yyscanner)
 #define POP_STATE() yy_pop_state(yyscanner)
+#define RETURN_COPYING_LEXEMA(TOKEN)		\
+	yylval->lexema = strdup(yytext);	\
+	return TOKEN
 
 %}
 
@@ -95,75 +98,66 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 "/*"			PUSH_STATE(IGNORE);
 "("			{
 			PUSH_STATE(PAIRP);
-			return LEFTP;
+			RETURN_COPYING_LEXEMA(LEFTP);
 			}
 <PAIRP>")"		{
 			POP_STATE();
-			return RIGHTP;
+			RETURN_COPYING_LEXEMA(RIGHTP);
 			}
-")"			{
-			YY_FATAL_ERROR("Did you forget to open '('?");
-			}
+")"			YY_FATAL_ERROR("Did you forget to open '('?");
 "["			{
 			PUSH_STATE(PAIRB);
-			return LEFTB;
+			RETURN_COPYING_LEXEMA(LEFTB);
 			}
 <PAIRB>"]"		{
 			POP_STATE();
-			return RIGHTB;
+			RETURN_COPYING_LEXEMA(RIGHTB);
 			}
-"]"			{
-			YY_FATAL_ERROR("Did you forget to open '['?");
-			}
+"]"			YY_FATAL_ERROR("Did you forget to open '['?");
 "{"			{
 			PUSH_STATE(PAIRK);
-			return LEFTK;
+			RETURN_COPYING_LEXEMA(LEFTK);
 			}
 <PAIRK>"}"		{
 			POP_STATE();
-			return RIGHTK;
+			RETURN_COPYING_LEXEMA(RIGHTK);
 			}
-"}"			{
-			YY_FATAL_ERROR("Did you forget to open '{'?");
-			}
-"/"			return DIV;
-"%"			return MOD;
-"*"			return MUL;
-"+"			return PLUS;
-"-"			return MINUS;
-"?"			return TEST;
-","			return COMMA;
-":"			return CONTEXT;
-";"			return SEQUENCE;
-"~"			return STRONG_NEGATION;
-"^"			return XOR_BIT;
-"!="			return DIFFERENT_CMP;
-"!"			return ACHIEVE;
-"=="			return EQUAL_CMP;
-"="			return ASSIGNMENT;
-"&&"			return AND_LOGIC;
-"&"			return AND_BIT;
-"||"			return OR_LOGIC;
-<PAIRB>"|"		return SEP;
-"|"			return OR_BIT;
-"<<"			return SHIFTLEFT;
-"<="			return LESSEQUAL;
-"<-"			return POINTER;
-"<"			return LESS;
-">>"			return SHIFTRIGHT;
-">="			return GREATEQUAL;
-">"			return GREAT;
-{NOT}			return NOT;
-{VARIABLE}		return VARIABLE;
-{IDENTIFIER}		{
-			yylval->lexema = strdup(yytext);
-			return IDENTIFIER;
-			}
-{EXTERNAL_ACTION}	return EXTERNAL_ACTION;
-{HEX_NUMBER}		return NUMBER_LITERAL;
-{OCT_NUMBER}		return NUMBER_LITERAL;
-{FLOAT_NUMBER}		return FLOAT_LITERAL;
-{NUMBER}		return NUMBER_LITERAL;
+"}"			YY_FATAL_ERROR("Did you forget to open '{'?");
+"/"			{ RETURN_COPYING_LEXEMA(DIV); }
+"%"			{ RETURN_COPYING_LEXEMA(MOD); }
+"*"			{ RETURN_COPYING_LEXEMA(MUL); }
+"+"			{ RETURN_COPYING_LEXEMA(PLUS); }
+"-"			{ RETURN_COPYING_LEXEMA(MINUS); }
+"?"			{ RETURN_COPYING_LEXEMA(TEST); }
+","			{ RETURN_COPYING_LEXEMA(COMMA); }
+":"			{ RETURN_COPYING_LEXEMA(CONTEXT); }
+";"			{ RETURN_COPYING_LEXEMA(SEQUENCE); }
+"~"			{ RETURN_COPYING_LEXEMA(STRONG_NEGATION); }
+"^"			{ RETURN_COPYING_LEXEMA(XOR_BIT); }
+"!="			{ RETURN_COPYING_LEXEMA(DIFFERENT_CMP); }
+"!"			{ RETURN_COPYING_LEXEMA(ACHIEVE); }
+"=="			{ RETURN_COPYING_LEXEMA(EQUAL_CMP); }
+"="			{ RETURN_COPYING_LEXEMA(ASSIGNMENT); }
+"&&"			{ RETURN_COPYING_LEXEMA(AND_LOGIC); }
+"&"			{ RETURN_COPYING_LEXEMA(AND_BIT); }
+"||"			{ RETURN_COPYING_LEXEMA(OR_LOGIC); }
+<PAIRB>"|"		{ RETURN_COPYING_LEXEMA(SEP); }
+"|"			{ RETURN_COPYING_LEXEMA(OR_BIT); }
+"<<"			{ RETURN_COPYING_LEXEMA(SHIFTLEFT); }
+"<="			{ RETURN_COPYING_LEXEMA(LESSEQUAL); }
+"<-"			{ RETURN_COPYING_LEXEMA(POINTER); }
+"<"			{ RETURN_COPYING_LEXEMA(LESS); }
+">>"			{ RETURN_COPYING_LEXEMA(SHIFTRIGHT); }
+">="			{ RETURN_COPYING_LEXEMA(GREATEQUAL); }
+">"			{ RETURN_COPYING_LEXEMA(GREAT); }
+{NOT}			{ RETURN_COPYING_LEXEMA(NOT); }
+{VARIABLE}		{ RETURN_COPYING_LEXEMA(VARIABLE); }
+{IDENTIFIER}		{ RETURN_COPYING_LEXEMA(IDENTIFIER); }
+{EXTERNAL_ACTION}	{ RETURN_COPYING_LEXEMA(EXTERNAL_ACTION); }
+{HEX_NUMBER}		{ RETURN_COPYING_LEXEMA(NUMBER_LITERAL); }
+{OCT_NUMBER}		{ RETURN_COPYING_LEXEMA(NUMBER_LITERAL); }
+{FLOAT_NUMBER}		{ RETURN_COPYING_LEXEMA(FLOAT_LITERAL); }
+{NUMBER}		{ RETURN_COPYING_LEXEMA(NUMBER_LITERAL); }
 \'			{
 			yymore();
 			PUSH_STATE(CS);
@@ -172,40 +166,30 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 			yymore();
 			PUSH_STATE(SS);
 			}
-\.			return DOT_LITERAL;
+\.			{ RETURN_COPYING_LEXEMA(DOT_LITERAL); }
 [[:blank:]]		/* IGNORE */
-.           		{
-			YY_FATAL_ERROR("Invalid Char");
-			return ERR;
-			}
+.           		YY_FATAL_ERROR("Invalid Char");
 \n			/* IGNORE */
-<INITIAL><<EOF>>	return 0;
-<<EOF>>			{
-			YY_FATAL_ERROR("Unexpected end of file");
-			return ERR;
-			}
-
+<INITIAL><<EOF>>	{ RETURN_COPYING_LEXEMA(0); }
+<<EOF>>			YY_FATAL_ERROR("Unexpected end of file");
 <IGNORE>"*/"		POP_STATE();
 <IGNORE>.		/* IGNORE */
 <IGNORE>\n		/* IGNORE */
 
 <CS>\'			{
 			POP_STATE();
-			return CHAR_STRING_LITERAL;
+			RETURN_COPYING_LEXEMA(CHAR_STRING_LITERAL);
 			}
 <SS>\"			{
 			POP_STATE();
-			return STRING_LITERAL;
+			RETURN_COPYING_LEXEMA(STRING_LITERAL);
 			}
 <CS,SS>\\		{
 			yymore();
 			PUSH_STATE(ESCAPE_CHAR);
 			}
 <CS,SS>.		yymore();
-<CS,SS>\n		{
-			YY_FATAL_ERROR("Unexpected end of line");
-			return ERR;
-			}
+<CS,SS>\n		YY_FATAL_ERROR("Unexpected end of line");
 
 <ESCAPE_CHAR>{OCTALS}{1,3}	{
 				/* Because I can reach here from

@@ -12,9 +12,10 @@ int main()
 						"// +x <- foo;"
 						"         bar.\n"
 						" ");
-	Aslan_Context ac(&input);
-	MOC_LEX_DATA(loc, sem);
+	CREATE_LEX_DATA(&input);
 
-	EXPECT_LEX(0, sem, loc, ac, Aslan_lex);
+	NEXT;
+	EXPECTING_TOKEN(0);
+
 	return 0;
 }
