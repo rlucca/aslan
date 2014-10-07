@@ -72,13 +72,117 @@
 
 %start translation_unit
 
+ /* remember that, the higher precedence is determined by the line number. So in the same rule, - + have less precedence then / *. -+ appears before / *. */
 %%
 
 translation_unit:
 	  /* EMPTY */
-	| translation_unit aslan
+	| aslan translation_unit
 	;
 
 aslan:
-	IDENTIFIER	{ cout << $1 << "(" << @1.first_line << ")\n"; destroy_lexema($1); }
+	  belief DOT_LITERAL
+	| ACHIEVE function DOT_LITERAL
+	| inner_plan DOT_LITERAL
+	;
+
+belief:
+	function opt_context /* opt_context was optContextPlan */
+	;
+
+opt_context:
+	  /* EMPTY */
+	| CONTEXT assignment_expression
+	;
+
+function:
+	opt_strong_negation IDENTIFIER opt_parms opt_annots
+	;
+
+opt_strong_negation:
+	  /* EMPTY */
+	| STRONG_NEGATION
+	;
+
+inner_plan:
+	head_plan opt_context opt_actions /* opt_actions was optActionsPlan */
+	;
+
+head_plan:
+	trigger_event event_type function_or_variable
+	;
+
+trigger_event:
+	  PLUS
+	| MINUS
+	;
+
+event_type:
+	  /* EMPTY */
+	| ACHIEVE
+	| TEST
+	;
+
+function_or_variable:
+	  function
+	| variable
+	;
+
+variable:
+	  NO_NAMED_VARIABLE
+	| VARIABLE opt_parms opt_annots
+	;
+
+opt_parms:
+	  /* EMPTY */
+	| LEFTP opt_parms_list RIGHTP
+	;
+
+opt_parms_list:
+	  /* EMPTY */
+	| parms_list
+	;
+
+parms_list:
+	  expression
+	| expression COMMA parms_list
+	;
+
+opt_annots:
+	  /* EMPTY */
+	| LEFTB opt_array_list RIGHTB
+	;
+
+opt_array_list:
+	  /* EMPTY */
+	| array_list opt_tail
+	;
+
+array_list:
+	  expression
+	| expression COMMA array_list
+	;
+
+opt_tail:
+	  /* EMPTY */
+	| SEP expression
+	;
+
+opt_actions:
+	  /* EMPTY */
+	| POINTER actions
+	;
+
+actions:
+	  assignment_expression
+	| assignment_expression SEQUENCE actions
+	;
+
+assignment_expression:
+	  expression
+	| expression ASSIGNMENT assignment_expression
+	;
+
+expression:
+	ERR
 	;
