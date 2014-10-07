@@ -12,50 +12,43 @@
 
 %union
 {
-	char *lexema;	/* To access the yytext */
+	char *lexema;	/* To access a yytext equivalent */
 }
 
 %token ERR
-%token CHAR_STRING_LITERAL STRING_LITERAL
-%token FLOAT_LITERAL DOT_LITERAL
-%token LEFTP RIGHTP
-%token LEFTB RIGHTB
-%token LEFTK RIGHTK
-%token DIV
-%token MOD
-%token MUL
-%token PLUS
-%token MINUS
-%token TEST
-%token COMMA
-%token CONTEXT
-%token SEQUENCE
-%token STRONG_NEGATION
-%token XOR_BIT
-%token DIFFERENT_CMP
-%token ACHIEVE
-%token EQUAL_CMP
-%token ASSIGNMENT
-%token AND_LOGIC
-%token AND_BIT
-%token OR_LOGIC
-%token OR_BIT
-%token SEP
-%token SHIFTLEFT
-%token LESSEQUAL
-%token POINTER
-%token LESS
-%token SHIFTRIGHT
-%token GREATEQUAL
-%token GREAT
-%token NOT
-%token NO_NAMED_VARIABLE
-%token VARIABLE
-%token <lexema> IDENTIFIER
-%token EXTERNAL_ACTION
-%token NUMBER_LITERAL
+%token <lexema> CHAR_STRING_LITERAL STRING_LITERAL
+%token <lexema> FLOAT_LITERAL NUMBER_LITERAL
+%token <lexema> DOT_LITERAL NOT
+%token <lexema> LEFTP RIGHTP
+%token <lexema> LEFTB RIGHTB
+%token <lexema> LEFTK RIGHTK
+%token <lexema> DIV MOD MUL PLUS MINUS TEST COMMA
+%token <lexema> CONTEXT SEQUENCE STRONG_NEGATION
+%token <lexema> XOR_BIT DIFFERENT_CMP ACHIEVE
+%token <lexema> EQUAL_CMP ASSIGNMENT
+%token <lexema> AND_LOGIC AND_BIT
+%token <lexema> OR_LOGIC OR_BIT SEP
+%token <lexema> SHIFTLEFT LESSEQUAL POINTER LESS
+%token <lexema> SHIFTRIGHT GREATEQUAL GREAT
+%token <lexema> NO_NAMED_VARIABLE VARIABLE
+%token <lexema> IDENTIFIER EXTERNAL_ACTION
 
-%destructor { free($$); } IDENTIFIER
+%destructor { free($$); } CHAR_STRING_LITERAL STRING_LITERAL
+%destructor { free($$); } FLOAT_LITERAL NUMBER_LITERAL
+%destructor { free($$); } DOT_LITERAL NOT
+%destructor { free($$); } LEFTP RIGHTP
+%destructor { free($$); } LEFTB RIGHTB
+%destructor { free($$); } LEFTK RIGHTK
+%destructor { free($$); } DIV MOD MUL PLUS MINUS TEST COMMA
+%destructor { free($$); } CONTEXT SEQUENCE STRONG_NEGATION
+%destructor { free($$); } XOR_BIT DIFFERENT_CMP ACHIEVE
+%destructor { free($$); } EQUAL_CMP ASSIGNMENT
+%destructor { free($$); } AND_LOGIC AND_BIT
+%destructor { free($$); } OR_LOGIC OR_BIT SEP
+%destructor { free($$); } SHIFTLEFT LESSEQUAL POINTER LESS
+%destructor { free($$); } SHIFTRIGHT GREATEQUAL GREAT
+%destructor { free($$); } NO_NAMED_VARIABLE VARIABLE
+%destructor { free($$); } IDENTIFIER EXTERNAL_ACTION
 
 %{
 	#include <iostream>
@@ -72,15 +65,20 @@
 	}
 
 	#define scanner context->scanner
+	#define destroy_lexema(LEXEMA)	\
+		free(LEXEMA);		\
+		LEXEMA = NULL
 %}
+
+%start translation_unit
 
 %%
 
-start:
-	aslan
+translation_unit:
+	  /* EMPTY */
+	| translation_unit aslan
 	;
 
 aslan:
-	/* empty */	{ ; }
-	| IDENTIFIER	{ cout << $1 << "(" << @1.first_line << ")\n"; free($1); $1=NULL; }
+	IDENTIFIER	{ cout << $1 << "(" << @1.first_line << ")\n"; destroy_lexema($1); }
 	;
