@@ -175,7 +175,7 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 [[:blank:]]		/* IGNORE */
 .           		YY_FATAL_ERROR("Invalid Char");
 \n			/* IGNORE */
-<INITIAL><<EOF>>	{ RETURN_COPYING_LEXEMA(0); }
+<INITIAL><<EOF>>	{ return 0; }
 <<EOF>>			YY_FATAL_ERROR("Unexpected end of file");
 <IGNORE>"*/"		POP_STATE();
 <IGNORE>.		/* IGNORE */
