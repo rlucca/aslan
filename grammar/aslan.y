@@ -49,6 +49,7 @@
 %token GREATEQUAL
 %token GREAT
 %token NOT
+%token NO_NAMED_VARIABLE
 %token VARIABLE
 %token <lexema> IDENTIFIER
 %token EXTERNAL_ACTION
