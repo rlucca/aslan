@@ -228,6 +228,7 @@ void Aslan_lexerror(const char* err, yyscan_t scanner)
 
 	// Destroy everything
 	Aslan_get_extra(scanner)->input()->~istream();
+	Aslan_get_extra(scanner)->output()->~ostream();
 	Aslan_get_extra(scanner)->~Aslan_Context();
 
 	exit( YY_EXIT_FAILURE );

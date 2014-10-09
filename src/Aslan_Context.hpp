@@ -16,13 +16,16 @@ public:
 		virtual ~Aslan_Context();
 
 		istream *input();
+		ostream *output();
 		void setInputStream(istream *input);
+		void setOutputStream(ostream *output);
 
 protected: // defined in aslan.l
 		void init_scanner();
 		void destroy_scanner();
 
 		istream* is;	//< input stream
+		ostream* os;	//< output stream
 };
 
 int Aslan_parse(Aslan_Context*);
