@@ -47,8 +47,8 @@ void Aslan_lexerror(const char* err, yyscan_t scanner);
 #define YY_INPUT(buf, result, max_size)	\
 {					\
 	char c;				\
-	(*yyextra->is) >> c;		\
-	if(yyextra->is->eof())		\
+	(*yyextra->input()) >> c;	\
+	if(yyextra->input()->eof())	\
 		result = YY_NULL;	\
 	else				\
 	{				\
@@ -227,7 +227,7 @@ void Aslan_lexerror(const char* err, yyscan_t scanner)
 		<< ")\n";
 
 	// Destroy everything
-	Aslan_get_extra(scanner)->is->~istream();
+	Aslan_get_extra(scanner)->input()->~istream();
 	Aslan_get_extra(scanner)->~Aslan_Context();
 
 	exit( YY_EXIT_FAILURE );

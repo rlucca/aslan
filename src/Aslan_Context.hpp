@@ -11,14 +11,18 @@ class Aslan_Context
 {
 public:
 		void *scanner;	//< the scanner state
-		istream* is;	//< input stream
 
 		Aslan_Context(istream* input = &cin);
 		virtual ~Aslan_Context();
 
+		istream *input();
+		void setInputStream(istream *input);
+
 protected: // defined in aslan.l
 		void init_scanner();
 		void destroy_scanner();
+
+		istream* is;	//< input stream
 };
 
 int Aslan_parse(Aslan_Context*);
