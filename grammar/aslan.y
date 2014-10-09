@@ -16,22 +16,21 @@
 }
 
 %token ERR
-%token <lexema> CHAR_STRING_LITERAL STRING_LITERAL
 %token <lexema> FLOAT_LITERAL NUMBER_LITERAL
-%token <lexema> DOT_LITERAL NOT
-%token <lexema> LEFTP RIGHTP
-%token <lexema> LEFTB RIGHTB
-%token <lexema> LEFTK RIGHTK
-%token <lexema> DIV MOD MUL PLUS MINUS TEST COMMA
-%token <lexema> CONTEXT SEQUENCE STRONG_NEGATION
-%token <lexema> XOR_BIT DIFFERENT_CMP ACHIEVE
-%token <lexema> EQUAL_CMP ASSIGNMENT
-%token <lexema> AND_LOGIC AND_BIT
-%token <lexema> OR_LOGIC OR_BIT SEP
-%token <lexema> SHIFTLEFT LESSEQUAL POINTER LESS
-%token <lexema> SHIFTRIGHT GREATEQUAL GREAT
+%token <lexema> LEFTP RIGHTP DOT_LITERAL
+%token <lexema> LEFTB RIGHTB NOT
+%token <lexema> LEFTK RIGHTK STRONG_NEGATION
+%token <lexema> CONTEXT SEQUENCE TEST COMMA
+%token <lexema> ACHIEVE ASSIGNMENT POINTER
 %token <lexema> NO_NAMED_VARIABLE VARIABLE
 %token <lexema> IDENTIFIER EXTERNAL_ACTION
+%right <lexema> CHAR_STRING_LITERAL STRING_LITERAL
+%right <lexema> DIV MOD MUL PLUS MINUS
+%right <lexema> XOR_BIT DIFFERENT_CMP EQUAL_CMP
+%right <lexema> AND_LOGIC AND_BIT
+%right <lexema> OR_LOGIC OR_BIT SEP
+%right <lexema> SHIFTLEFT LESSEQUAL LESS
+%right <lexema> SHIFTRIGHT GREATEQUAL GREAT
 
 %destructor { free($$); } CHAR_STRING_LITERAL STRING_LITERAL
 %destructor { free($$); } FLOAT_LITERAL NUMBER_LITERAL
