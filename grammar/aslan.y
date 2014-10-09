@@ -184,5 +184,57 @@ assignment_expression:
 	;
 
 expression:
-	ERR
+	  simple_expression
+	| unary_op simple_expression
+	| simple_expression AND_BIT expression
+	| simple_expression OR_BIT expression
+	| simple_expression XOR_BIT expression
+	| simple_expression AND_LOGIC expression
+	| simple_expression OR_LOGIC expression
+	| simple_expression EQUAL_CMP expression
+	| simple_expression DIFFERENT_CMP expression
+	| simple_expression LESSEQUAL expression
+	| simple_expression LESS expression
+	| simple_expression GREATEQUAL expression
+	| simple_expression GREAT expression
+	| simple_expression SHIFTLEFT expression
+	| simple_expression SHIFTRIGHT expression
+	| simple_expression PLUS expression
+	| simple_expression MINUS expression
+	| simple_expression MUL expression
+	| simple_expression DIV expression
+	| simple_expression MOD expression
+	;
+
+unary_op:
+	  NOT
+	| PLUS
+	| MINUS
+	| ACHIEVE
+	| TEST
+	;
+
+simple_expression:
+	  function_or_variable
+	| EXTERNAL_ACTION opt_parms opt_annots
+	| literals
+	| LEFTP assignment_expression RIGHTP
+	| LEFTB opt_array_list RIGHTB
+	;
+
+literals:
+	  NUMBER_LITERAL
+	| FLOAT_LITERAL
+	| char_string_literal
+	| string_literal
+	;
+
+char_string_literal:
+	  CHAR_STRING_LITERAL
+	| CHAR_STRING_LITERAL char_string_literal
+	;
+
+string_literal:
+	  STRING_LITERAL
+	| STRING_LITERAL string_literal
 	;
