@@ -29,6 +29,10 @@ set (INCLUDES
 	)
 
 add_library(aslanparser STATIC ${SOURCES})
+set_target_properties(aslanparser
+						PROPERTIES
+						COMPILE_FLAGS "-Wno-unused-parameter -Wno-conversion"
+					)
 
 include_directories(${INCLUDES})
 

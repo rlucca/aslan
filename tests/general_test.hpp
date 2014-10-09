@@ -26,7 +26,8 @@ extern int Aslan_get_lineno (void * yyscanner);
 	YYLTYPE _buf2;										\
 	YYSTYPE *_semantic = &_buf1;						\
 	YYLTYPE *_location = &_buf2;						\
-	int _token_code = 0
+	int _token_code = 0;								\
+	(void) _token_code
 
 #define NEXT											\
 	_token_code = Aslan_lex(_semantic, _location, _ac.scanner)

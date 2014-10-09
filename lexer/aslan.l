@@ -1,12 +1,6 @@
  /*
 	vim:noexpandtab:ts=8 sw=8
  */
-%top {
- /* To remove a warning of a comparison between
-   signed and unsigned data */
- typedef int yy_size_t;
- #define YY_TYPEDEF_YY_SIZE_T
-}
 
  /* Lexer options */
 %option reentrant
