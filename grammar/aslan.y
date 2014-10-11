@@ -10,6 +10,12 @@
 %parse-param {Aslan_Context* context }
 %lex-param { void* scanner  }
 
+%{
+	#include <iostream>
+	#include "Aslan_Context.hpp"
+%}
+
+
 %union
 {
 	char *lexema;	/* To access a yytext equivalent */
@@ -48,20 +54,13 @@
 %destructor { free($$); } SHIFTRIGHT GREATEQUAL GREAT
 %destructor { free($$); } NO_NAMED_VARIABLE VARIABLE
 %destructor { free($$); } IDENTIFIER EXTERNAL_ACTION
+%destructor { free($$); } char_string_literal string_literal
 
 %{
-	#include <iostream>
-	#include "Aslan_Context.hpp"
-
 	using namespace std;
 
 	int Aslan_lex(YYSTYPE* lvalp, YYLTYPE* llocp, void *scanner);
-
-	void Aslan_error(YYLTYPE* locp, Aslan_Context* context, const char* err)
-	{
-		(void) context;
-		cout << locp->first_line << ":" << err << endl;
-	}
+	void Aslan_error(YYLTYPE* locp, Aslan_Context* context, const char* err);
 
 	#define scanner context->scanner
 	#define destroy_lexema(LEXEMA)	\
@@ -237,3 +236,11 @@ string_literal:
 	  STRING_LITERAL
 	| STRING_LITERAL string_literal
 	;
+
+%%
+
+	void Aslan_error(YYLTYPE* locp, Aslan_Context* context, const char* err)
+	{
+		(void) context;
+		cout << locp->first_line << ":" << err << endl;
+	}
