@@ -18,6 +18,8 @@ add_flex_bison_dependency(aslanScanner aslanParser)
 set (SOURCES
 	${PROJECT_SOURCE_DIR}/src/Aslan_Context.hpp
 	${PROJECT_SOURCE_DIR}/src/Aslan_Context.cpp
+	${PROJECT_SOURCE_DIR}/src/Utils.hpp
+	${PROJECT_SOURCE_DIR}/src/Utils.cpp
 	${BISON_aslanParser_OUTPUTS}
 	${FLEX_aslanScanner_OUTPUTS}
 	)
@@ -41,9 +43,9 @@ add_executable(aslan
 				)
 target_link_libraries(aslan aslanparser)
 
-macro(CREATE_TEST_EXECUTABLE BIN PARENT)
+macro(CREATE_TEST_EXECUTABLE BIN PARENT LEVEL)
 	add_executable(${BIN}
-					${PROJECT_SOURCE_DIR}/tests/${BIN}_lexer.cpp
+					${PROJECT_SOURCE_DIR}/tests/${BIN}_${LEVEL}.cpp
 					)
 	target_link_libraries(${BIN} aslanparser)
 	add_dependencies(${BIN} ${PARENT})
@@ -83,9 +85,12 @@ set(TEST_CASES
 SET(PREVIOUS aslan)
 
 foreach(BIN_TEST IN LISTS TEST_CASES)
-	CREATE_TEST_EXECUTABLE(${BIN_TEST} ${PREVIOUS})
+	CREATE_TEST_EXECUTABLE(${BIN_TEST} ${PREVIOUS} "lexer")
 	set(PREVIOUS ${BIN_TEST})
 endforeach(BIN_TEST)
+
+CREATE_TEST_EXECUTABLE(utils_test ${PREVIOUS} "int")
+set(PREVIOUS utils_test)
 
 enable_testing()
 
