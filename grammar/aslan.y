@@ -13,6 +13,7 @@
 %{
 	#include <iostream>
 	#include "Aslan_Context.hpp"
+	#include "Utils.hpp" /* I hate this name, but */
 %}
 
 
@@ -37,6 +38,8 @@
 %right <lexema> OR_LOGIC OR_BIT SEP
 %right <lexema> SHIFTLEFT LESSEQUAL LESS
 %right <lexema> SHIFTRIGHT GREATEQUAL GREAT
+
+%type <lexema> char_string_literal string_literal
 
 %destructor { free($$); } CHAR_STRING_LITERAL STRING_LITERAL
 %destructor { free($$); } FLOAT_LITERAL NUMBER_LITERAL
@@ -229,12 +232,16 @@ literals:
 
 char_string_literal:
 	  CHAR_STRING_LITERAL
+		{ $$ = $1; }
 	| CHAR_STRING_LITERAL char_string_literal
+		{ $$ = lexema_append($1, $2, '"'); }
 	;
 
 string_literal:
 	  STRING_LITERAL
+		{ $$ = $1; }
 	| STRING_LITERAL string_literal
+		{ $$ = lexema_append($1, $2, '"'); }
 	;
 
 %%
