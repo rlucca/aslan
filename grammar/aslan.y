@@ -20,6 +20,7 @@
 %union
 {
 	char *lexema;	/* To access a yytext equivalent */
+	void *symbol;	/* To hold a pointer of Symbol */
 }
 
 %token ERR
@@ -145,8 +146,8 @@ opt_parms_list:
 	;
 
 parms_list:
-	  expression
-	| expression COMMA parms_list
+	  math_expression
+	| math_expression COMMA parms_list
 	;
 
 opt_annots:
@@ -160,13 +161,13 @@ opt_array_list:
 	;
 
 array_list:
-	  expression
-	| expression COMMA array_list
+	  conditional_expression
+	| conditional_expression COMMA array_list
 	;
 
 opt_tail:
 	  /* EMPTY */
-	| SEP expression
+	| SEP conditional_expression
 	;
 
 opt_actions:
@@ -180,31 +181,35 @@ actions:
 	;
 
 assignment_expression:
-	  expression
-	| expression ASSIGNMENT assignment_expression
+	  conditional_expression
+	| conditional_expression ASSIGNMENT assignment_expression
 	;
 
-expression:
+conditional_expression:
+	  math_expression
+	| simple_expression AND_BIT conditional_expression
+	| simple_expression OR_BIT conditional_expression
+	| simple_expression XOR_BIT conditional_expression
+	| simple_expression AND_LOGIC conditional_expression
+	| simple_expression OR_LOGIC conditional_expression
+	| simple_expression EQUAL_CMP conditional_expression
+	| simple_expression DIFFERENT_CMP conditional_expression
+	| simple_expression LESSEQUAL conditional_expression
+	| simple_expression LESS conditional_expression
+	| simple_expression GREATEQUAL conditional_expression
+	| simple_expression GREAT conditional_expression
+	;
+
+math_expression:
 	  simple_expression
 	| unary_op simple_expression
-	| simple_expression AND_BIT expression
-	| simple_expression OR_BIT expression
-	| simple_expression XOR_BIT expression
-	| simple_expression AND_LOGIC expression
-	| simple_expression OR_LOGIC expression
-	| simple_expression EQUAL_CMP expression
-	| simple_expression DIFFERENT_CMP expression
-	| simple_expression LESSEQUAL expression
-	| simple_expression LESS expression
-	| simple_expression GREATEQUAL expression
-	| simple_expression GREAT expression
-	| simple_expression SHIFTLEFT expression
-	| simple_expression SHIFTRIGHT expression
-	| simple_expression PLUS expression
-	| simple_expression MINUS expression
-	| simple_expression MUL expression
-	| simple_expression DIV expression
-	| simple_expression MOD expression
+	| simple_expression SHIFTLEFT math_expression
+	| simple_expression SHIFTRIGHT math_expression
+	| simple_expression PLUS math_expression
+	| simple_expression MINUS math_expression
+	| simple_expression MUL math_expression
+	| simple_expression DIV math_expression
+	| simple_expression MOD math_expression
 	;
 
 unary_op:
