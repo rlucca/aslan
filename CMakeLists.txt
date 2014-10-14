@@ -18,6 +18,10 @@ add_flex_bison_dependency(aslanScanner aslanParser)
 set (SOURCES
 	${PROJECT_SOURCE_DIR}/src/Aslan_Context.hpp
 	${PROJECT_SOURCE_DIR}/src/Aslan_Context.cpp
+	${PROJECT_SOURCE_DIR}/src/parser/AllSymbol.hpp
+	${PROJECT_SOURCE_DIR}/src/parser/Symbol.hpp
+	${PROJECT_SOURCE_DIR}/src/parser/Symbol.cpp
+	${PROJECT_SOURCE_DIR}/src/parser/TableChain.hpp
 	${PROJECT_SOURCE_DIR}/src/Utils.hpp
 	${PROJECT_SOURCE_DIR}/src/Utils.cpp
 	${BISON_aslanParser_OUTPUTS}
@@ -26,6 +30,7 @@ set (SOURCES
 
 set (INCLUDES
 	${PROJECT_SOURCE_DIR}/src
+	${PROJECT_SOURCE_DIR}/src/parser
 	${PROJECT_SOURCE_DIR}/include
 	${PROJECT_BINARY_DIR}
 	)
@@ -91,6 +96,12 @@ endforeach(BIN_TEST)
 
 CREATE_TEST_EXECUTABLE(utils_test ${PREVIOUS} "int")
 set(PREVIOUS utils_test)
+
+CREATE_TEST_EXECUTABLE(symbol_test ${PREVIOUS} "int")
+set(PREVIOUS symbol_test)
+
+CREATE_TEST_EXECUTABLE(tablechain_test ${PREVIOUS} "int")
+set(PREVIOUS chain_test)
 
 enable_testing()
 
