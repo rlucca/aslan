@@ -221,14 +221,14 @@ unary_op:
 	;
 
 simple_expression:
-	  function_or_variable
+	  literal
+	| function_or_variable
 	| EXTERNAL_ACTION opt_parms opt_annots
-	| literals
-	| LEFTP assignment_expression RIGHTP
 	| LEFTB opt_array_list RIGHTB
+	| LEFTP assignment_expression RIGHTP
 	;
 
-literals:
+literal:
 	  NUMBER_LITERAL
 	| FLOAT_LITERAL
 	| char_string_literal
