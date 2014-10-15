@@ -41,6 +41,7 @@
 %right <lexema> SHIFTRIGHT GREATEQUAL GREAT
 
 %type <lexema> char_string_literal string_literal
+%type <symbol> literal
 
 %destructor { free($$); } CHAR_STRING_LITERAL STRING_LITERAL
 %destructor { free($$); } FLOAT_LITERAL NUMBER_LITERAL
@@ -59,6 +60,7 @@
 %destructor { free($$); } NO_NAMED_VARIABLE VARIABLE
 %destructor { free($$); } IDENTIFIER EXTERNAL_ACTION
 %destructor { free($$); } char_string_literal string_literal
+%destructor { delete($$); } literal
 
 %{
 	using namespace std;
@@ -230,9 +232,13 @@ simple_expression:
 
 literal:
 	  NUMBER_LITERAL
+		{ $$ = $1; }
 	| FLOAT_LITERAL
+		{ $$ = $1; }
 	| char_string_literal
+		{ $$ = $1; }
 	| string_literal
+		{ $$ = $1; }
 	;
 
 char_string_literal:
