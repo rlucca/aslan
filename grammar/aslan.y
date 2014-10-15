@@ -41,6 +41,7 @@
 %right <lexema> SHIFTRIGHT GREATEQUAL GREAT
 
 %type <lexema> char_string_literal string_literal
+%type <lexema> opt_strong_negation
 %type <symbol> literal
 
 %destructor { free($$); } CHAR_STRING_LITERAL STRING_LITERAL
@@ -60,6 +61,7 @@
 %destructor { free($$); } NO_NAMED_VARIABLE VARIABLE
 %destructor { free($$); } IDENTIFIER EXTERNAL_ACTION
 %destructor { free($$); } char_string_literal string_literal
+%destructor { free($$); } opt_strong_negation
 %destructor { delete($$); } literal
 
 %{
@@ -105,7 +107,9 @@ function:
 
 opt_strong_negation:
 	  /* EMPTY */
+		{ $$ = strdup(""); }
 	| STRONG_NEGATION
+		{ $$ = $1; }
 	;
 
 inner_plan:
@@ -134,7 +138,7 @@ function_or_variable:
 
 variable:
 	  NO_NAMED_VARIABLE
-	| VARIABLE opt_parms opt_annots
+	| opt_strong_negation VARIABLE opt_parms opt_annots
 	;
 
 opt_parms:
@@ -225,7 +229,7 @@ unary_op:
 simple_expression:
 	  literal
 	| function_or_variable
-	| EXTERNAL_ACTION opt_parms opt_annots
+	| opt_strong_negation EXTERNAL_ACTION opt_parms opt_annots
 	| LEFTB opt_array_list RIGHTB
 	| LEFTP assignment_expression RIGHTP
 	;
