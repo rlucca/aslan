@@ -70,7 +70,9 @@ class Functor {
 %type <lexema> char_string_literal string_literal
 %type <lexema> opt_strong_negation
 %type <type> unary_op
-%type <symbol> literal
+%type <symbol> literal assignment_expression
+%type <symbol> simple_expression function_or_variable
+%type <symbol> opt_array_list opt_parms opt_annots
 
 %destructor { free($$); } CHAR_STRING_LITERAL STRING_LITERAL
 %destructor { free($$); } FLOAT_LITERAL NUMBER_LITERAL
@@ -90,7 +92,9 @@ class Functor {
 %destructor { free($$); } IDENTIFIER EXTERNAL_ACTION
 %destructor { free($$); } char_string_literal string_literal
 %destructor { free($$); } opt_strong_negation
-%destructor { delete($$); } literal
+%destructor { delete($$); } literal assignment_expression
+%destructor { delete($$); } simple_expression function_or_variable
+%destructor { delete($$); } opt_array_list opt_parms opt_annots
 
 %{
 	using namespace std;
@@ -276,10 +280,28 @@ unary_op:
 
 simple_expression:
 	  literal
+		{ $$ = new Expression($1); }
 	| function_or_variable
+		{ $$ = $1; }
 	| opt_strong_negation EXTERNAL_ACTION opt_parms opt_annots
+		{
+			$$ = new Functor(
+				lexema_append($1, $2),
+				$3,
+				$4);
+		}
 	| LEFTB opt_array_list RIGHTB
+		{
+			free($1);
+			free($3);
+			$$ = new Array($2);
+		}
 	| LEFTP assignment_expression RIGHTP
+		{
+			free($1);
+			free($3);
+			$$ = $2;
+		}
 	;
 
 literal:
