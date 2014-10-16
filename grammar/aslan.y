@@ -23,6 +23,14 @@ enum
 	UNARY_MINUS = 3,
 	UNARY_PLUS = 4,
 	UNARY_NOT = 5,
+	BINARY_MOD = 6,
+	BINARY_DIVIDE = 7,
+	BINARY_MULTIPLY = 8,
+	BINARY_MINUS = 9,
+	BINARY_PLUS = 10,
+	BINARY_SHIFTRIGHT = 11,
+	BINARY_SHIFTLEFT = 12,
+	BINARY_ASSIGNMENT = 99
 };
 
 class Expression // TODO move this to other file
@@ -69,8 +77,9 @@ class Functor {
 
 %type <lexema> char_string_literal string_literal
 %type <lexema> opt_strong_negation
-%type <type> unary_op
+%type <type> unary_op math_op
 %type <symbol> literal assignment_expression
+%type <symbol> math_expression
 %type <symbol> simple_expression function_or_variable
 %type <symbol> opt_array_list opt_parms opt_annots
 
@@ -93,6 +102,7 @@ class Functor {
 %destructor { free($$); } char_string_literal string_literal
 %destructor { free($$); } opt_strong_negation
 %destructor { delete($$); } literal assignment_expression
+%destructor { delete($$); } math_expression
 %destructor { delete($$); } simple_expression function_or_variable
 %destructor { delete($$); } opt_array_list opt_parms opt_annots
 
@@ -240,15 +250,51 @@ conditional_expression:
 
 math_expression:
 	  simple_expression
+		{ $$ = $1 }
 	| unary_op simple_expression
-	| simple_expression SHIFTLEFT math_expression
-	| simple_expression SHIFTRIGHT math_expression
-	| simple_expression PLUS math_expression
-	| simple_expression MINUS math_expression
-	| simple_expression MUL math_expression
-	| simple_expression DIV math_expression
-	| simple_expression MOD math_expression
+		{ $$ = new Expression($2, $1); }
+	| simple_expression math_op math_expression
+		{ $$ = new Expression($1, $3, $2); }
 	;
+
+math_op:
+	  SHIFTLEFT
+		{
+			free($1);
+			$$ = BINARY_SHIFTLEFT;
+		}
+	| SHIFTRIGHT
+		{
+			free($1);
+			$$ = BINARY_SHIFTRIGHT;
+		}
+	| PLUS
+		{
+			free($1);
+			$$ = BINARY_PLUS;
+		}
+	| MINUS
+		{
+			free($1);
+			$$ = BINARY_MINUS;
+		}
+	| MUL
+		{
+			free($1);
+			$$ = BINARY_MULTIPLY;
+		}
+	| DIV
+		{
+			free($1);
+			$$ = BINARY_DIVIDE;
+		}
+	| MOD
+		{
+			free($1);
+			$$ = BINARY_MOD;
+		}
+	;
+
 
 unary_op:
 	  NOT
