@@ -25,6 +25,21 @@ enum
 	UNARY_NOT = 5,
 };
 
+class Expression // TODO move this to other file
+{ public:
+	Expression(void *, void*, int) {}
+	Expression(void *, int = 0) {}
+};
+class Array {
+ public:
+	Array(void *, void*, int) {}
+	Array(void *, int = 0) {}
+};
+class Functor {
+ public:
+	Functor(const char *, void*, void*) {}
+};
+
 %}
 
 
