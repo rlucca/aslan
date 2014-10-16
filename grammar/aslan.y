@@ -14,6 +14,17 @@
 	#include <iostream>
 	#include "Aslan_Context.hpp"
 	#include "Utils.hpp" /* I hate this name, but */
+
+enum
+{
+	NO_OPERATION = 0,
+	UNARY_TEST = 1,
+	UNARY_ACHIEVE = 2,
+	UNARY_MINUS = 3,
+	UNARY_PLUS = 4,
+	UNARY_NOT = 5,
+};
+
 %}
 
 
@@ -21,6 +32,7 @@
 {
 	char *lexema;	/* To access a yytext equivalent */
 	void *symbol;	/* To hold a pointer of Symbol */
+	int type;	/* To hold an indentifier */
 }
 
 %token ERR
@@ -42,6 +54,7 @@
 
 %type <lexema> char_string_literal string_literal
 %type <lexema> opt_strong_negation
+%type <type> unary_op
 %type <symbol> literal
 
 %destructor { free($$); } CHAR_STRING_LITERAL STRING_LITERAL
@@ -220,10 +233,30 @@ math_expression:
 
 unary_op:
 	  NOT
+		{
+			free($1);
+			$$ = UNARY_NOT;
+		}
 	| PLUS
+		{
+			free($1);
+			$$ = UNARY_PLUS;
+		}
 	| MINUS
+		{
+			free($1);
+			$$ = UNARY_MINUS;
+		}
 	| ACHIEVE
+		{
+			free($1);
+			$$ = UNARY_ACHIEVE;
+		}
 	| TEST
+		{
+			free($1);
+			$$ = UNARY_TEST;
+		}
 	;
 
 simple_expression:
