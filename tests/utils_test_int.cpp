@@ -1,5 +1,6 @@
 #include "Utils.hpp"
 #include <cassert>
+#include <cstdlib>
 #include <cstring>
 
 static void firstStringNull()

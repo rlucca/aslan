@@ -54,7 +54,9 @@ static void testGlobalSectionFindAndPushAndFind(
 		TableChain<Symbol> &tc)
 {
 	SSS *a = new SSS(8, strdup("foo"));
-	a->add( new SSS(10, strdup("bar")) );
+	SSS *b = new SSS(10, strdup("bar"));
+	a->add(b);
+	delete b;
 
 	assert(tc.find(1, "baka") != tc.end());
 	assert(tc.find(1, "+") != tc.end());

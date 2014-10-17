@@ -28,7 +28,7 @@ class TableChain
 
 		void push()
 		{
-			marks.push_back(data.size());
+			marks.push_back((unsigned int) data.size());
 		}
 
 		void pop()
@@ -61,7 +61,7 @@ class TableChain
 		iter_t find(unsigned line, const char *lexema, bool recursive = false)
 		{
 			typedef typename vector<T*>::reverse_iterator riter_t;
-			unsigned last = data.size() - lastIndex();
+			long unsigned int last = data.size() - lastIndex();
 			riter_t rend = (recursive) ? data.rend() : data.rbegin() + last;
 
 			(void) line; (void) lexema;
@@ -79,10 +79,10 @@ class TableChain
 
 		/* All this is just for test proposes */
 		/* { */
-		unsigned n_tokens() const
+		size_t n_tokens() const
 		{ return data.size(); }
 
-		unsigned n_sections() const
+		size_t n_sections() const
 		{ return marks.size(); }
 		/* } */
 

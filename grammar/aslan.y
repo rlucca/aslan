@@ -12,6 +12,7 @@
 
 %{
 	#include <iostream>
+	#include <cstring>
 	#include "Aslan_Context.hpp"
 	#include "Utils.hpp" /* I hate this name, but */
 
@@ -298,14 +299,14 @@ actions:
 
 assignment_expression:
 	  conditional_expression
-		{ $$ = $1 }
+		{ $$ = $1; }
 	| conditional_expression ASSIGNMENT assignment_expression
 		{ $$ = new Expression($1, $3, BINARY_ASSIGNMENT); }
 	;
 
 conditional_expression:
 	  math_expression
-		{ $$ = $1 }
+		{ $$ = $1; }
 	| simple_expression relational_op conditional_expression
 		{ $$ = new Expression($1, $3, $2); }
 	;
@@ -370,7 +371,7 @@ relational_op:
 
 math_expression:
 	  simple_expression
-		{ $$ = $1 }
+		{ $$ = $1; }
 	| unary_op simple_expression
 		{ $$ = new Expression($2, $1); }
 	| simple_expression math_op math_expression
