@@ -51,12 +51,19 @@ class Expression // TODO move this to other file
 };
 class Array {
  public:
-	Array(void *, void*, int) {}
-	Array(void *, int = 0) {}
+	Array(void *) {}
+	void *setTail(void *) { return 0; }
+	void *push(void *) { return 0; }
+	void pop() {}
+	void *top() { return 0; }
+};
+class Parameters {
+ public:
+	Parameters(void *, void* = 0) {}
 };
 class Functor {
  public:
-	Functor(const char *, void*, void*) {}
+	Functor(const char *, void* = NULL, void* = NULL) {}
 };
 
 %}
@@ -93,6 +100,8 @@ class Functor {
 %type <symbol> conditional_expression math_expression
 %type <symbol> simple_expression function_or_variable
 %type <symbol> opt_array_list opt_parms opt_annots
+%type <symbol> function opt_parms_list parms_list
+%type <symbol> array_list opt_tail variable
 
 %destructor { free($$); } CHAR_STRING_LITERAL STRING_LITERAL
 %destructor { free($$); } FLOAT_LITERAL NUMBER_LITERAL
@@ -116,6 +125,8 @@ class Functor {
 %destructor { delete($$); } conditional_expression math_expression
 %destructor { delete($$); } simple_expression function_or_variable
 %destructor { delete($$); } opt_array_list opt_parms opt_annots
+%destructor { delete($$); } function opt_parms_list parms_list
+%destructor { delete($$); } array_list opt_tail variable
 
 %{
 	using namespace std;
@@ -156,6 +167,12 @@ opt_context:
 
 function:
 	opt_strong_negation IDENTIFIER opt_parms opt_annots
+		{
+			$$ = new Functor(
+				lexema_append($1, $2),
+				$3,
+				$4);
+		}
 	;
 
 opt_strong_negation:
@@ -186,47 +203,87 @@ event_type:
 
 function_or_variable:
 	  function
+		{ $$ = $1; }
 	| variable
+		{ $$ = $1; }
 	;
 
 variable:
 	  NO_NAMED_VARIABLE
+		{ $$ = new Functor($1); }
 	| opt_strong_negation VARIABLE opt_parms opt_annots
+		{
+			$$ = new Functor(
+				lexema_append($1, $2),
+				$3,
+				$4);
+		}
 	;
 
 opt_parms:
 	  /* EMPTY */
+		{ $$ = NULL; }
 	| LEFTP opt_parms_list RIGHTP
+		{
+			free($1);
+			free($3);
+			$$ = $2;
+		}
 	;
 
 opt_parms_list:
 	  /* EMPTY */
+		{ $$ = NULL; }
 	| parms_list
+		{ $$ = $1; }
 	;
 
 parms_list:
 	  math_expression
+		{ $$ = new Parameters($1); }
 	| math_expression COMMA parms_list
+		{
+			free($2);
+			$$ = new Parameters($1, $3);
+		}
 	;
 
 opt_annots:
 	  /* EMPTY */
+		{ $$ = NULL; }
 	| LEFTB opt_array_list RIGHTB
+		{
+			free($1);
+			free($3);
+			$$ = $2;
+		}
 	;
 
 opt_array_list:
 	  /* EMPTY */
+		{ $$ = NULL; }
 	| array_list opt_tail
+		{ $$ = ((Array*)$1)->setTail($2); }
 	;
 
 array_list:
 	  conditional_expression
+		{ $$ = new Array($1); }
 	| conditional_expression COMMA array_list
+		{
+			free($2);
+			$$ = ((Array*)$3)->push($1); // Array is a stack of elements
+		}
 	;
 
 opt_tail:
 	  /* EMPTY */
+		{ $$ = NULL; }
 	| SEP conditional_expression
+		{
+			free($1);
+			$$ = $2;
+		}
 	;
 
 opt_actions:
@@ -403,7 +460,7 @@ simple_expression:
 		{
 			free($1);
 			free($3);
-			$$ = new Array($2);
+			$$ = $2;
 		}
 	| LEFTP assignment_expression RIGHTP
 		{
