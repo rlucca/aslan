@@ -30,6 +30,17 @@ enum
 	BINARY_PLUS = 10,
 	BINARY_SHIFTRIGHT = 11,
 	BINARY_SHIFTLEFT = 12,
+	BINARY_GREAT = 13,
+	BINARY_GREATEQUAL = 14,
+	BINARY_LESS = 15,
+	BINARY_LESSEQUAL = 16,
+	BINARY_DIFFERENT_CMP = 17,
+	BINARY_EQUAL_CMP = 18,
+	BINARY_OR_LOGIC = 19,
+	BINARY_AND_LOGIC = 20,
+	BINARY_XOR_BIT = 21,
+	BINARY_OR_BIT = 22,
+	BINARY_AND_BIT = 23,
 	BINARY_ASSIGNMENT = 99
 };
 
@@ -77,9 +88,9 @@ class Functor {
 
 %type <lexema> char_string_literal string_literal
 %type <lexema> opt_strong_negation
-%type <type> unary_op math_op
+%type <type> unary_op math_op relational_op
 %type <symbol> literal assignment_expression
-%type <symbol> math_expression
+%type <symbol> conditional_expression math_expression
 %type <symbol> simple_expression function_or_variable
 %type <symbol> opt_array_list opt_parms opt_annots
 
@@ -102,7 +113,7 @@ class Functor {
 %destructor { free($$); } char_string_literal string_literal
 %destructor { free($$); } opt_strong_negation
 %destructor { delete($$); } literal assignment_expression
-%destructor { delete($$); } math_expression
+%destructor { delete($$); } conditional_expression math_expression
 %destructor { delete($$); } simple_expression function_or_variable
 %destructor { delete($$); } opt_array_list opt_parms opt_annots
 
@@ -235,17 +246,67 @@ assignment_expression:
 
 conditional_expression:
 	  math_expression
-	| simple_expression AND_BIT conditional_expression
-	| simple_expression OR_BIT conditional_expression
-	| simple_expression XOR_BIT conditional_expression
-	| simple_expression AND_LOGIC conditional_expression
-	| simple_expression OR_LOGIC conditional_expression
-	| simple_expression EQUAL_CMP conditional_expression
-	| simple_expression DIFFERENT_CMP conditional_expression
-	| simple_expression LESSEQUAL conditional_expression
-	| simple_expression LESS conditional_expression
-	| simple_expression GREATEQUAL conditional_expression
-	| simple_expression GREAT conditional_expression
+		{ $$ = $1 }
+	| simple_expression relational_op conditional_expression
+		{ $$ = new Expression($1, $3, $2); }
+	;
+
+relational_op:
+	  AND_BIT
+		{
+			free($1);
+			$$ = BINARY_AND_BIT;
+		}
+	| OR_BIT
+		{
+			free($1);
+			$$ = BINARY_OR_BIT;
+		}
+	| XOR_BIT
+		{
+			free($1);
+			$$ = BINARY_XOR_BIT;
+		}
+	| AND_LOGIC
+		{
+			free($1);
+			$$ = BINARY_AND_LOGIC;
+		}
+	| OR_LOGIC
+		{
+			free($1);
+			$$ = BINARY_OR_LOGIC;
+		}
+	| EQUAL_CMP
+		{
+			free($1);
+			$$ = BINARY_EQUAL_CMP;
+		}
+	| DIFFERENT_CMP
+		{
+			free($1);
+			$$ = BINARY_DIFFERENT_CMP;
+		}
+	| LESSEQUAL
+		{
+			free($1);
+			$$ = BINARY_LESSEQUAL;
+		}
+	| LESS
+		{
+			free($1);
+			$$ = BINARY_LESS;
+		}
+	| GREATEQUAL
+		{
+			free($1);
+			$$ = BINARY_GREATEQUAL;
+		}
+	| GREAT
+		{
+			free($1);
+			$$ = BINARY_GREAT;
+		}
 	;
 
 math_expression:
