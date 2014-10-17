@@ -41,7 +41,7 @@ enum
 	BINARY_XOR_BIT = 21,
 	BINARY_OR_BIT = 22,
 	BINARY_AND_BIT = 23,
-	BINARY_ASSIGNMENT = 99
+	BINARY_ASSIGNMENT = 24
 };
 
 class Expression // TODO move this to other file
@@ -241,7 +241,9 @@ actions:
 
 assignment_expression:
 	  conditional_expression
+		{ $$ = $1 }
 	| conditional_expression ASSIGNMENT assignment_expression
+		{ $$ = new Expression($1, $3, BINARY_ASSIGNMENT); }
 	;
 
 conditional_expression:
