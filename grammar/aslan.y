@@ -378,7 +378,10 @@ assignment_expression:
 	  conditional_expression
 		{ $$ = $1; }
 	| conditional_expression ASSIGNMENT assignment_expression
-		{ $$ = new Expression($1, $3, BINARY_ASSIGNMENT); }
+		{
+			free($2);
+			$$ = new Expression($1, $3, BINARY_ASSIGNMENT);
+		}
 	;
 
 conditional_expression:
