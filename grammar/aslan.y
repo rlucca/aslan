@@ -127,7 +127,7 @@ class Plan {
 %type <symbol> function opt_parms_list parms_list
 %type <symbol> array_list opt_tail variable
 %type <symbol> opt_actions actions opt_context
-%type <symbol> head_plan inner_plan belief
+%type <symbol> head_plan inner_plan aslan belief
 
 %destructor { free($$); } CHAR_STRING_LITERAL STRING_LITERAL
 %destructor { free($$); } FLOAT_LITERAL NUMBER_LITERAL
@@ -154,7 +154,7 @@ class Plan {
 %destructor { delete($$); } function opt_parms_list parms_list
 %destructor { delete($$); } array_list opt_tail variable
 %destructor { delete($$); } opt_actions actions opt_context
-%destructor { delete($$); } head_plan inner_plan belief
+%destructor { delete($$); } head_plan inner_plan aslan belief
 
 %{
 	using namespace std;
@@ -180,8 +180,21 @@ translation_unit:
 
 aslan:
 	  belief DOT_LITERAL
+		{
+			free($2);
+			$$ = $1;
+		}
 	| ACHIEVE function DOT_LITERAL
+		{
+			free($1);
+			free($3);
+			$$ = $2;
+		}
 	| inner_plan DOT_LITERAL
+		{
+			free($2);
+			$$ = $1;
+		}
 	;
 
 belief:
