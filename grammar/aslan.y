@@ -42,7 +42,12 @@ enum
 	BINARY_XOR_BIT = 21,
 	BINARY_OR_BIT = 22,
 	BINARY_AND_BIT = 23,
-	BINARY_ASSIGNMENT = 24
+	BINARY_ASSIGNMENT = 24,
+	EVENT_ABOUT_TEST = 25,
+	EVENT_ABOUT_GOAL = 26,
+	EVENT_ABOUT_BELIEF = 27,
+	REMOVE_TRIGGER = 28,
+	INSERT_TRIGGER = 29
 };
 
 class Expression // TODO move this to other file
@@ -104,6 +109,7 @@ class Functor {
 %type <lexema> char_string_literal string_literal
 %type <lexema> opt_strong_negation
 %type <type> unary_op math_op relational_op
+%type <type> trigger_event event_type
 %type <symbol> literal assignment_expression
 %type <symbol> conditional_expression math_expression
 %type <symbol> simple_expression function_or_variable
@@ -207,13 +213,32 @@ head_plan:
 
 trigger_event:
 	  PLUS
+		{
+			free($1);
+			$$ = INSERT_TRIGGER;
+		}
 	| MINUS
+		{
+			free($1);
+			$$ = REMOVE_TRIGGER;
+		}
 	;
 
 event_type:
 	  /* EMPTY */
+		{
+			$$ = EVENT_ABOUT_BELIEF;
+		}
 	| ACHIEVE
+		{
+			free($1);
+			$$ = EVENT_ABOUT_GOAL;
+		}
 	| TEST
+		{
+			free($1);
+			$$ = EVENT_ABOUT_TEST;
+		}
 	;
 
 function_or_variable:
