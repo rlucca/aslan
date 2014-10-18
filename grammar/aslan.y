@@ -78,6 +78,10 @@ class Functor {
  public:
 	Functor(const char *, void* = NULL, void* = NULL) {}
 };
+class Belief {
+ public:
+	Belief(void*, void*) {}
+};
 class Plan {
  public:
 	Plan(int trigger, int type, void *) {}
@@ -123,7 +127,7 @@ class Plan {
 %type <symbol> function opt_parms_list parms_list
 %type <symbol> array_list opt_tail variable
 %type <symbol> opt_actions actions opt_context
-%type <symbol> head_plan inner_plan
+%type <symbol> head_plan inner_plan belief
 
 %destructor { free($$); } CHAR_STRING_LITERAL STRING_LITERAL
 %destructor { free($$); } FLOAT_LITERAL NUMBER_LITERAL
@@ -150,7 +154,7 @@ class Plan {
 %destructor { delete($$); } function opt_parms_list parms_list
 %destructor { delete($$); } array_list opt_tail variable
 %destructor { delete($$); } opt_actions actions opt_context
-%destructor { delete($$); } head_plan inner_plan
+%destructor { delete($$); } head_plan inner_plan belief
 
 %{
 	using namespace std;
@@ -181,7 +185,8 @@ aslan:
 	;
 
 belief:
-	function opt_context /* opt_context was optContextPlan */
+	function opt_context
+		{ $$ = new Belief($1, $2); }
 	;
 
 opt_context:
