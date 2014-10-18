@@ -110,7 +110,7 @@ class Functor {
 %type <symbol> opt_array_list opt_parms opt_annots
 %type <symbol> function opt_parms_list parms_list
 %type <symbol> array_list opt_tail variable
-%type <symbol> opt_actions actions
+%type <symbol> opt_actions actions opt_context
 
 %destructor { free($$); } CHAR_STRING_LITERAL STRING_LITERAL
 %destructor { free($$); } FLOAT_LITERAL NUMBER_LITERAL
@@ -136,7 +136,7 @@ class Functor {
 %destructor { delete($$); } opt_array_list opt_parms opt_annots
 %destructor { delete($$); } function opt_parms_list parms_list
 %destructor { delete($$); } array_list opt_tail variable
-%destructor { delete($$); } opt_actions actions
+%destructor { delete($$); } opt_actions actions opt_context
 
 %{
 	using namespace std;
@@ -172,7 +172,12 @@ belief:
 
 opt_context:
 	  /* EMPTY */
+		{ $$ = NULL; }
 	| CONTEXT assignment_expression
+		{
+			free($1);
+			$$ = $2;
+		}
 	;
 
 function:
