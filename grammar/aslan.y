@@ -78,6 +78,12 @@ class Functor {
  public:
 	Functor(const char *, void* = NULL, void* = NULL) {}
 };
+class Plan {
+ public:
+	Plan(int trigger, int type, void *) {}
+	Plan* addContext(void *) { return this; }
+	Plan* addActions(void *) { return this; }
+};
 
 %}
 
@@ -117,6 +123,7 @@ class Functor {
 %type <symbol> function opt_parms_list parms_list
 %type <symbol> array_list opt_tail variable
 %type <symbol> opt_actions actions opt_context
+%type <symbol> head_plan inner_plan
 
 %destructor { free($$); } CHAR_STRING_LITERAL STRING_LITERAL
 %destructor { free($$); } FLOAT_LITERAL NUMBER_LITERAL
@@ -143,6 +150,7 @@ class Functor {
 %destructor { delete($$); } function opt_parms_list parms_list
 %destructor { delete($$); } array_list opt_tail variable
 %destructor { delete($$); } opt_actions actions opt_context
+%destructor { delete($$); } head_plan inner_plan
 
 %{
 	using namespace std;
@@ -204,11 +212,13 @@ opt_strong_negation:
 	;
 
 inner_plan:
-	head_plan opt_context opt_actions /* opt_actions was optActionsPlan */
+	head_plan opt_context opt_actions
+		{ $$ = ((Plan*) $1)->addContext($2)->addActions($3); }
 	;
 
 head_plan:
 	trigger_event event_type function_or_variable
+		{ $$ = new Plan($1, $2, $3); }
 	;
 
 trigger_event:
