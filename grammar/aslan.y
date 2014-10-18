@@ -50,13 +50,20 @@ class Expression // TODO move this to other file
 	Expression(void *, void*, int) {}
 	Expression(void *, int = 0) {}
 };
-class Array {
+class Stack {
  public:
-	Array(void *) {}
-	void *setTail(void *) { return 0; }
 	void *push(void *) { return 0; }
 	void pop() {}
 	void *top() { return 0; }
+};
+class Array : public Stack {
+ public:
+	Array(void *) : Stack() {}
+	void *setTail(void *) { return 0; }
+};
+class Actions : public Stack {
+ public:
+	Actions(void *) : Stack() {}
 };
 class Parameters {
  public:
@@ -103,6 +110,7 @@ class Functor {
 %type <symbol> opt_array_list opt_parms opt_annots
 %type <symbol> function opt_parms_list parms_list
 %type <symbol> array_list opt_tail variable
+%type <symbol> opt_actions actions
 
 %destructor { free($$); } CHAR_STRING_LITERAL STRING_LITERAL
 %destructor { free($$); } FLOAT_LITERAL NUMBER_LITERAL
@@ -128,6 +136,7 @@ class Functor {
 %destructor { delete($$); } opt_array_list opt_parms opt_annots
 %destructor { delete($$); } function opt_parms_list parms_list
 %destructor { delete($$); } array_list opt_tail variable
+%destructor { delete($$); } opt_actions actions
 
 %{
 	using namespace std;
@@ -289,12 +298,22 @@ opt_tail:
 
 opt_actions:
 	  /* EMPTY */
+		{ $$ = NULL; }
 	| POINTER actions
+		{
+			free($1);
+			$$ = $2;
+		}
 	;
 
 actions:
 	  assignment_expression
+		{ $$ = new Actions($1); }
 	| assignment_expression SEQUENCE actions
+		{
+			free($2);
+			$$ = ((Actions *)$3)->push($1);
+		}
 	;
 
 assignment_expression:
