@@ -34,6 +34,7 @@ NUMBER				{DIGIT}+
 
 %{
 #include "Aslan_Context.hpp"
+#include "AllSymbol.hpp"
 #include "aslan_parser.hpp"
 #include <cstring>
 

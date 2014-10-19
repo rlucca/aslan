@@ -14,6 +14,7 @@
 	#include <iostream>
 	#include <cstring>
 	#include "Aslan_Context.hpp"
+	#include "AllSymbol.hpp"
 	#include "Utils.hpp" /* I hate this name, but */
 
 enum
@@ -50,43 +51,66 @@ enum
 	INSERT_TRIGGER = 29
 };
 
-class Expression // TODO move this to other file
+class Expression : public Symbol // TODO move this to other file
 { public:
-	Expression(void *, void*, int) {}
-	Expression(void *, int = 0) {}
+	Expression(void *, void*, int)
+		: Symbol('a', 2, NULL)
+	{ }
+	Expression(void *, int = 0)
+		: Symbol('a', 2, NULL)
+	{ }
+	virtual void add(Symbol*) { };
 };
-class Stack {
+class Stack : public Symbol {
  public:
-	void *push(void *) { return 0; }
+	Stack()
+		: Symbol('a', 2, NULL)
+	{ }
+	virtual ~Stack() {}
+	Symbol *push(Symbol *) { return 0; }
 	void pop() {}
-	void *top() { return 0; }
+	Symbol *top() { return 0; }
+	virtual void add(Symbol*) { };
 };
 class Array : public Stack {
  public:
-	Array(void *) : Stack() {}
-	void *setTail(void *) { return 0; }
+	Array(Symbol *) : Stack() {}
+	Symbol *setTail(Symbol *) { return 0; }
 };
 class Actions : public Stack {
  public:
 	Actions(void *) : Stack() {}
 };
-class Parameters {
+class Parameters : public Symbol {
  public:
-	Parameters(void *, void* = 0) {}
+	Parameters(void *, void* = 0)
+		: Symbol('a', 2, NULL)
+	{ }
+	virtual void add(Symbol*) { };
 };
-class Functor {
+class Functor : public Symbol {
  public:
-	Functor(const char *, void* = NULL, void* = NULL) {}
+	Functor(const char *, void* = NULL, void* = NULL)
+		: Symbol('a', 2, NULL)
+	{ }
+	virtual void add(Symbol*) { };
 };
-class Belief {
+class Belief  : public Symbol{
  public:
-	Belief(void*, void*) {}
+	Belief(void*, void*)
+		: Symbol('a', 2, NULL)
+	{ }
+	virtual void add(Symbol*) { };
 };
-class Plan {
+class Plan  : public Symbol{
  public:
-	Plan(int trigger, int type, void *) {}
+	Plan(int trigger_ev, int type_ev, void *)
+		: Symbol('a', 2, NULL)
+	{}
 	Plan* addContext(void *) { return this; }
 	Plan* addActions(void *) { return this; }
+
+	virtual void add(Symbol*) { };
 };
 
 %}
@@ -95,7 +119,7 @@ class Plan {
 %union
 {
 	char *lexema;	/* To access a yytext equivalent */
-	void *symbol;	/* To hold a pointer of Symbol */
+	Symbol *symbol;	/* To hold a pointer of Symbol */
 	int type;	/* To hold an indentifier */
 }
 
@@ -117,10 +141,10 @@ class Plan {
 %right <lexema> SHIFTRIGHT GREATEQUAL GREAT
 
 %type <lexema> char_string_literal string_literal
-%type <lexema> opt_strong_negation
+%type <lexema> opt_strong_negation literal
 %type <type> unary_op math_op relational_op
 %type <type> trigger_event event_type
-%type <symbol> literal assignment_expression
+%type <symbol> assignment_expression
 %type <symbol> conditional_expression math_expression
 %type <symbol> simple_expression function_or_variable
 %type <symbol> opt_array_list opt_parms opt_annots
@@ -146,8 +170,8 @@ class Plan {
 %destructor { free($$); } NO_NAMED_VARIABLE VARIABLE
 %destructor { free($$); } IDENTIFIER EXTERNAL_ACTION
 %destructor { free($$); } char_string_literal string_literal
-%destructor { free($$); } opt_strong_negation
-%destructor { delete($$); } literal assignment_expression
+%destructor { free($$); } opt_strong_negation literal
+%destructor { delete($$); } assignment_expression
 %destructor { delete($$); } conditional_expression math_expression
 %destructor { delete($$); } simple_expression function_or_variable
 %destructor { delete($$); } opt_array_list opt_parms opt_annots

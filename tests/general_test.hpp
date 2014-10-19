@@ -4,6 +4,7 @@
 #include <sstream>
 #include <cstring>
 #include "Aslan_Context.hpp"
+#include "AllSymbol.hpp"
 #include "aslan_parser.hpp"
 
 using namespace std;
