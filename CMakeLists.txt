@@ -21,6 +21,10 @@ set (SOURCES
 	${PROJECT_SOURCE_DIR}/src/parser/AllSymbol.hpp
 	${PROJECT_SOURCE_DIR}/src/parser/Symbol.hpp
 	${PROJECT_SOURCE_DIR}/src/parser/Symbol.cpp
+	${PROJECT_SOURCE_DIR}/src/parser/ConstantExpression.cpp
+	${PROJECT_SOURCE_DIR}/src/parser/ConstantExpression.hpp
+	${PROJECT_SOURCE_DIR}/src/parser/Expression.cpp
+	${PROJECT_SOURCE_DIR}/src/parser/Expression.hpp
 	${PROJECT_SOURCE_DIR}/src/parser/TableChain.hpp
 	${PROJECT_SOURCE_DIR}/src/Utils.hpp
 	${PROJECT_SOURCE_DIR}/src/Utils.cpp

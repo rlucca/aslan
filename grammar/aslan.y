@@ -20,30 +20,6 @@
 enum
 {
 	NO_OPERATION = 0,
-	UNARY_TEST = 1,
-	UNARY_ACHIEVE = 2,
-	UNARY_MINUS = 3,
-	UNARY_PLUS = 4,
-	UNARY_NOT = 5,
-	BINARY_MOD = 6,
-	BINARY_DIVIDE = 7,
-	BINARY_MULTIPLY = 8,
-	BINARY_MINUS = 9,
-	BINARY_PLUS = 10,
-	BINARY_SHIFTRIGHT = 11,
-	BINARY_SHIFTLEFT = 12,
-	BINARY_GREAT = 13,
-	BINARY_GREATEQUAL = 14,
-	BINARY_LESS = 15,
-	BINARY_LESSEQUAL = 16,
-	BINARY_DIFFERENT_CMP = 17,
-	BINARY_EQUAL_CMP = 18,
-	BINARY_OR_LOGIC = 19,
-	BINARY_AND_LOGIC = 20,
-	BINARY_XOR_BIT = 21,
-	BINARY_OR_BIT = 22,
-	BINARY_AND_BIT = 23,
-	BINARY_ASSIGNMENT = 24,
 	EVENT_ABOUT_TEST = 25,
 	EVENT_ABOUT_GOAL = 26,
 	EVENT_ABOUT_BELIEF = 27,
@@ -51,16 +27,7 @@ enum
 	INSERT_TRIGGER = 29
 };
 
-class Expression : public Symbol // TODO move this to other file
-{ public:
-	Expression(void *, void*, int)
-		: Symbol('a', 2, NULL)
-	{ }
-	Expression(void *, int = 0)
-		: Symbol('a', 2, NULL)
-	{ }
-	virtual void add(Symbol*) { };
-};
+// TODO move this to other file
 class Stack : public Symbol {
  public:
 	Stack()
@@ -142,8 +109,8 @@ class Plan  : public Symbol{
 
 %type <lexema> char_string_literal string_literal
 %type <lexema> opt_strong_negation literal
-%type <type> unary_op math_op relational_op
 %type <type> trigger_event event_type
+%type <symbol> unary_op math_op relational_op
 %type <symbol> assignment_expression
 %type <symbol> conditional_expression math_expression
 %type <symbol> simple_expression function_or_variable
@@ -404,7 +371,10 @@ assignment_expression:
 	| conditional_expression ASSIGNMENT assignment_expression
 		{
 			free($2);
-			$$ = new Expression($1, $3, BINARY_ASSIGNMENT);
+			Expression *aux = new Expression($1);
+			aux->add($3);
+			aux->setOp(ASSIGNMENT);
+			$$ = aux;
 		}
 	;
 
@@ -412,64 +382,59 @@ conditional_expression:
 	  math_expression
 		{ $$ = $1; }
 	| simple_expression relational_op conditional_expression
-		{ $$ = new Expression($1, $3, $2); }
+		{
+			Expression *aux = new Expression($1);
+			aux->add($3);
+			aux->setOp(((Expression *) $2)->op());
+			delete $2;
+			$$ = aux;
+		}
 	;
 
 relational_op:
 	  AND_BIT
 		{
-			free($1);
-			$$ = BINARY_AND_BIT;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	| OR_BIT
 		{
-			free($1);
-			$$ = BINARY_OR_BIT;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	| XOR_BIT
 		{
-			free($1);
-			$$ = BINARY_XOR_BIT;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	| AND_LOGIC
 		{
-			free($1);
-			$$ = BINARY_AND_LOGIC;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	| OR_LOGIC
 		{
-			free($1);
-			$$ = BINARY_OR_LOGIC;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	| EQUAL_CMP
 		{
-			free($1);
-			$$ = BINARY_EQUAL_CMP;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	| DIFFERENT_CMP
 		{
-			free($1);
-			$$ = BINARY_DIFFERENT_CMP;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	| LESSEQUAL
 		{
-			free($1);
-			$$ = BINARY_LESSEQUAL;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	| LESS
 		{
-			free($1);
-			$$ = BINARY_LESS;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	| GREATEQUAL
 		{
-			free($1);
-			$$ = BINARY_GREATEQUAL;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	| GREAT
 		{
-			free($1);
-			$$ = BINARY_GREAT;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	;
 
@@ -477,46 +442,50 @@ math_expression:
 	  simple_expression
 		{ $$ = $1; }
 	| unary_op simple_expression
-		{ $$ = new Expression($2, $1); }
+		{
+			Expression *aux = new Expression($2);
+			aux->setOp(((Expression *) $1)->op());
+			delete $1;
+			$$ = aux;
+		}
 	| simple_expression math_op math_expression
-		{ $$ = new Expression($1, $3, $2); }
+		{
+			Expression *aux = new Expression($1);
+			aux->add($3);
+			aux->setOp(((Expression *) $2)->op());
+			delete $2;
+			$$ = aux;
+		}
 	;
 
 math_op:
 	  SHIFTLEFT
 		{
-			free($1);
-			$$ = BINARY_SHIFTLEFT;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	| SHIFTRIGHT
 		{
-			free($1);
-			$$ = BINARY_SHIFTRIGHT;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	| PLUS
 		{
-			free($1);
-			$$ = BINARY_PLUS;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	| MINUS
 		{
-			free($1);
-			$$ = BINARY_MINUS;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	| MUL
 		{
-			free($1);
-			$$ = BINARY_MULTIPLY;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	| DIV
 		{
-			free($1);
-			$$ = BINARY_DIVIDE;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	| MOD
 		{
-			free($1);
-			$$ = BINARY_MOD;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	;
 
@@ -524,34 +493,29 @@ math_op:
 unary_op:
 	  NOT
 		{
-			free($1);
-			$$ = UNARY_NOT;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	| PLUS
 		{
-			free($1);
-			$$ = UNARY_PLUS;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	| MINUS
 		{
-			free($1);
-			$$ = UNARY_MINUS;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	| ACHIEVE
 		{
-			free($1);
-			$$ = UNARY_ACHIEVE;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	| TEST
 		{
-			free($1);
-			$$ = UNARY_TEST;
+			$$ = new ConstantExpression($1, @1.first_line);
 		}
 	;
 
 simple_expression:
 	  literal
-		{ $$ = new Expression($1); }
+		{ $$ = new ConstantExpression($1, @1.first_line); }
 	| function_or_variable
 		{ $$ = $1; }
 	| opt_strong_negation EXTERNAL_ACTION opt_parms opt_annots
