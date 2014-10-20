@@ -95,6 +95,23 @@ static void sequence()
 	free(rets[5]);
 }
 
+void firstStringWithMaySecondWithGoReturnMayGo()
+{
+	char *par1 = strdup("May");
+	char *par2 = strdup("Go");
+	char *ret = lexema_cat(par1, par2);
+	assert(!strcmp("MayGo", ret) && "must return MayGo");
+	free(ret);
+	ret = lexema_cat(par2, par1);
+	assert(!strcmp("GoMay", ret) && "must return GoMay");
+	free(ret);
+	ret = lexema_cat(par2, par2);
+	assert(!strcmp("GoGo", ret) && "must return GoGo");
+	free(ret);
+	free(par1);
+	free(par2);
+}
+
 int main()
 {
 	firstStringNull();
@@ -106,6 +123,7 @@ int main()
 	firstStringWithMicroSecondStringEmptyChangingDelimiter();
 	firstStringWithMicroSecondStringCircuit();
 	firstStringWithMicroSecondStringCircuitChangingDelimiter();
+	firstStringWithMaySecondWithGoReturnMayGo();
 	sequence();
 	return 0;
 }

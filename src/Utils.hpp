@@ -11,8 +11,20 @@
 	\param [in] second, nulled-based string to append
 	\param [in] changeDelimiter, new delimiter representation
 
-	\return new nulled-based string and free on both strings
+	\return new nulled-based string and free both strings
 */
 char *lexema_append(char *first,
 					char *second,
 					char changeDelimiter = 0);
+
+/**
+	\brief Append the nulled-terminated string `second' to the end of
+	the nulled-terminated string `first' in a new nulled-terminated
+	string. It does not touch `first' or `second'.
+
+	\param [in] first, nulled-based string to be append
+	\param [in] second, nulled-based string to append
+
+	\return a new nulled-terminated string without free the parameters
+*/
+char *lexema_cat(char *first, char *second);
