@@ -39,6 +39,14 @@ set (INCLUDES
 	${PROJECT_BINARY_DIR}
 	)
 
+if(COVERAGE)
+	MESSAGE("Inserting coverage flags and library")
+	SET(COVERAGE_FLAGS "-fprofile-arcs -ftest-coverage")
+	SET(COVERAGE_LDFLAGS "-fprofile-arcs -ftest-coverage")
+	SET(COVERAGE_LIBRARY "-lgcov")
+
+endif(COVERAGE)
+
 add_library(aslanparser STATIC ${SOURCES})
 set_target_properties(aslanparser
 						PROPERTIES
@@ -50,13 +58,13 @@ include_directories(${INCLUDES})
 add_executable(aslan
 				${PROJECT_SOURCE_DIR}/src/main.cpp
 				)
-target_link_libraries(aslan aslanparser)
+target_link_libraries(aslan aslanparser ${COVERAGE_LIBRARY})
 
 macro(CREATE_TEST_EXECUTABLE BIN PARENT LEVEL)
 	add_executable(${BIN}
 					${PROJECT_SOURCE_DIR}/tests/${BIN}_${LEVEL}.cpp
 					)
-	target_link_libraries(${BIN} aslanparser)
+	target_link_libraries(${BIN} aslanparser ${COVERAGE_LIBRARY})
 	add_dependencies(${BIN} ${PARENT})
 	string(TOUPPER ${BIN} BIN_NAME)
 	add_test(${BIN_NAME} ${PROJECT_BINARY_DIR}/${BIN})
@@ -141,4 +149,6 @@ add_definitions(
 			-Wconversion
 			-Wpointer-arith
 			-Wnon-virtual-dtor
+			${COVERAGE_FLAGS}
 		)
+set(CMAKE_EXE_LINKER_FLAGS "${COVERAGE_LDFLAGS}")
