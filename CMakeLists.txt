@@ -106,14 +106,16 @@ foreach(BIN_TEST IN LISTS TEST_CASES)
 	set(PREVIOUS ${BIN_TEST})
 endforeach(BIN_TEST)
 
-CREATE_TEST_EXECUTABLE(utils_test ${PREVIOUS} "int")
-set(PREVIOUS utils_test)
+SET(TEST_CASES_INT
+	utils_test
+	symbol_test
+	tablechain_test
+	)
 
-CREATE_TEST_EXECUTABLE(symbol_test ${PREVIOUS} "int")
-set(PREVIOUS symbol_test)
-
-CREATE_TEST_EXECUTABLE(tablechain_test ${PREVIOUS} "int")
-set(PREVIOUS chain_test)
+foreach(BIN_TEST IN LISTS TEST_CASES_INT)
+	CREATE_TEST_EXECUTABLE(${BIN_TEST} ${PREVIOUS} "int")
+	set(PREVIOUS ${BIN_TEST})
+endforeach(BIN_TEST)
 
 enable_testing()
 
