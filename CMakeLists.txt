@@ -110,6 +110,7 @@ SET(TEST_CASES_INT
 	utils_test
 	symbol_test
 	tablechain_test
+	empty_grammar_test
 	)
 
 foreach(BIN_TEST IN LISTS TEST_CASES_INT)

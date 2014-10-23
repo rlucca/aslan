@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <sstream>
 #include <cstring>
+#include <cassert>
 #include "Aslan_Context.hpp"
 #include "AllSymbol.hpp"
 #include "aslan_parser.hpp"
