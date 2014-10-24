@@ -55,20 +55,6 @@ class Parameters : public Symbol {
 	{ }
 	virtual void add(Symbol*) { };
 };
-class Functor : public Symbol {
- public:
-	Functor(const char *, void* = NULL, void* = NULL)
-		: Symbol('a', 2, NULL)
-	{ }
-	virtual void add(Symbol*) { };
-};
-class Belief  : public Symbol{
- public:
-	Belief(void*, void*)
-		: Symbol('a', 2, NULL)
-	{ }
-	virtual void add(Symbol*) { };
-};
 class Plan  : public Symbol{
  public:
 	Plan(int trigger_ev, int type_ev, void *)
@@ -209,6 +195,7 @@ function:
 		{
 			$$ = new Functor(
 				lexema_append($1, $2),
+				@2.first_line,
 				$3,
 				$4);
 		}
@@ -270,11 +257,12 @@ function_or_variable:
 
 variable:
 	  NO_NAMED_VARIABLE
-		{ $$ = new Functor($1); }
+		{ $$ = new Functor($1, @1.first_line); }
 	| opt_strong_negation VARIABLE opt_parms opt_annots
 		{
 			$$ = new Functor(
 				lexema_append($1, $2),
+				@2.first_line,
 				$3,
 				$4);
 		}
@@ -523,6 +511,7 @@ simple_expression:
 		{
 			$$ = new Functor(
 				lexema_append($1, $2),
+				@2.first_line,
 				$3,
 				$4);
 		}
