@@ -44,3 +44,14 @@ void Symbol::add(Symbol *right)
 					right->firstLine(), right->lastLine(),
 					right->manyComponents());
 }
+
+std::ostream& operator<<(std::ostream& os, Symbol* right)
+{
+	os << __FILE__ << ":" << __LINE__ << ": Symbol(lexema=|"
+		<< (!right->lexema() ? "" : right->lexema())
+		<< "|,lines=[" << right->firstLine()
+		<< ".." << right->lastLine() << "],components="
+		<< right->manyComponents() << ",id=" << right->getId()
+		<< ").\n";
+	return os;
+}

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ostream>
+
 class Symbol
 {
 	public:
@@ -24,3 +26,6 @@ class Symbol
 		char *m_lexema; //< textual representation of the symbol itself
 		static unsigned m_lastId; //< last identifier generated
 };
+
+// It's not a friend operator because it is not necessary
+std::ostream& operator<<(std::ostream& os, Symbol *);

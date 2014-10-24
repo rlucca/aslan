@@ -167,6 +167,7 @@ class Plan  : public Symbol{
 translation_unit:
 	  /* EMPTY */
 	| aslan translation_unit
+		{ context->output()[0] << $1; }
 	;
 
 aslan:
