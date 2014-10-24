@@ -1,5 +1,6 @@
 #include "Symbol.hpp"
 #include <cstdlib>
+#include <cstdio>
 
 unsigned Symbol::m_lastId = 0;
 
@@ -12,6 +13,7 @@ Symbol::Symbol(char symbol_type, unsigned symbol_line, char *symbol)
 {
 	// EMPTY
 }
+
 Symbol::~Symbol()
 { free(m_lexema); }
 
@@ -32,3 +34,13 @@ char Symbol::type() const
 
 char *Symbol::lexema()
 { return m_lexema; }
+
+void Symbol::add(Symbol *right)
+{
+	fprintf(stderr, "%s:%d: NOT IMPLEMENTED -- Symbol(id=%d,"
+					"lexema=|%s|,lines=[%d..%d],components=%d).\n",
+					__FILE__, __LINE__, right->getId(),
+					(!right->lexema() ? "" : right->lexema()),
+					right->firstLine(), right->lastLine(),
+					right->manyComponents());
+}

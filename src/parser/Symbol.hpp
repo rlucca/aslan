@@ -13,7 +13,7 @@ class Symbol
 		char type() const;
 
 		char *lexema();
-		virtual void add(Symbol *) = 0;
+		virtual void add(Symbol *);
 
 	protected:
 		char m_type; //< Symbol type
