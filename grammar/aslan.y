@@ -55,16 +55,6 @@ class Parameters : public Symbol {
 	{ }
 	virtual void add(Symbol*) { };
 };
-class Plan  : public Symbol{
- public:
-	Plan(int trigger_ev, int type_ev, void *)
-		: Symbol('a', 2, NULL)
-	{}
-	Plan* addContext(void *) { return this; }
-	Plan* addActions(void *) { return this; }
-
-	virtual void add(Symbol*) { };
-};
 
 %}
 
