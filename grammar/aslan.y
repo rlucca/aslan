@@ -85,7 +85,8 @@ class Parameters : public Symbol {
 
 %type <lexema> char_string_literal string_literal
 %type <lexema> opt_strong_negation literal
-%type <type> trigger_event event_type
+%type <type> trigger_event
+%type <symbol> event_type
 %type <symbol> unary_op math_op relational_op
 %type <symbol> assignment_expression
 %type <symbol> conditional_expression math_expression
@@ -205,7 +206,7 @@ inner_plan:
 
 head_plan:
 	trigger_event event_type function_or_variable
-		{ $$ = new Plan($1, $2, $3); }
+		{ $$ = new Plan($1, (EventType*) $2, $3); }
 	;
 
 trigger_event:
@@ -223,19 +224,11 @@ trigger_event:
 
 event_type:
 	  /* EMPTY */
-		{
-			$$ = EVENT_ABOUT_BELIEF;
-		}
+		{ $$ = new BeliefEvent(); }
 	| ACHIEVE
-		{
-			free($1);
-			$$ = EVENT_ABOUT_GOAL;
-		}
+		{ $$ = new GoalEvent($1, @1.first_line); }
 	| TEST
-		{
-			free($1);
-			$$ = EVENT_ABOUT_TEST;
-		}
+		{ $$ = new TestEvent($1, @1.first_line); }
 	;
 
 function_or_variable:

@@ -29,6 +29,8 @@ set (SOURCES
 	${PROJECT_SOURCE_DIR}/src/parser/Belief.hpp
 	${PROJECT_SOURCE_DIR}/src/parser/Functor.cpp
 	${PROJECT_SOURCE_DIR}/src/parser/Functor.hpp
+	${PROJECT_SOURCE_DIR}/src/parser/EventType.cpp
+	${PROJECT_SOURCE_DIR}/src/parser/EventType.hpp
 	${PROJECT_SOURCE_DIR}/src/parser/Plan.cpp
 	${PROJECT_SOURCE_DIR}/src/parser/Plan.hpp
 	${PROJECT_SOURCE_DIR}/src/parser/TableChain.hpp
