@@ -6,7 +6,7 @@
 class Plan  : public Symbol
 {
 	public:
-		Plan(int trigger_ev, EventType *, Symbol *functor);
+		Plan(Trigger *, EventType *, Symbol *functor);
 		virtual ~Plan();
 
 		Plan* addContext(Symbol *);
@@ -16,5 +16,6 @@ class Plan  : public Symbol
 		Symbol *m_functor;
 		Symbol *m_context;
 		Symbol *m_action;
+		Trigger *m_trigger;
 		EventType *m_about;
 };
