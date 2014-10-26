@@ -113,6 +113,7 @@ class Parameters : public Symbol {
 %destructor { delete($$); } opt_actions actions opt_context
 %destructor { delete($$); } head_plan inner_plan aslan belief
 %destructor { delete($$); } trigger_event event_type
+%destructor { delete($$); } unary_op math_op relational_op
 
 %{
 	using namespace std;
