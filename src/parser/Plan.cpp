@@ -1,7 +1,7 @@
 #include "AllSymbol.hpp"
 
 Plan::Plan(Trigger *trigger_ev, EventType *type_ev, Symbol *functor)
-	: Symbol('P', functor->firstLine(), functor->lexema()),
+	: Symbol(PLAN_TYPE_SYMBOL, functor->firstLine(), functor->lexema()),
 		m_functor(functor), m_context(0), m_action(0),
 		m_trigger(trigger_ev), m_about(type_ev)
 { }

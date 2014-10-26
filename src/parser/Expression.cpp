@@ -3,7 +3,8 @@
 #include <cstdio>
 
 Expression::Expression(Symbol *left)
-	: Symbol('E', left->firstLine(), NULL), m_left(left), m_right(0), m_op(0)
+	: Symbol(EXPRESSION_SYMBOL, left->firstLine(), NULL),
+	  m_left(left), m_right(0), m_op(0)
 {
 	m_beginLine = left->firstLine();
 	m_endLine = left->lastLine();

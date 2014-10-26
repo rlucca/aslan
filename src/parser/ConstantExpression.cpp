@@ -1,7 +1,7 @@
 #include "AllSymbol.hpp"
 
 ConstantExpression::ConstantExpression(char *lex, unsigned line)
-	: Symbol('C', line, lex)
+	: Symbol(CONSTANT_EXPRESSION_SYMBOL, line, lex)
 { }
 
 ConstantExpression::~ConstantExpression()
