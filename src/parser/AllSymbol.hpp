@@ -8,6 +8,7 @@ enum {
 	PLAN_TYPE_SYMBOL = 'P',				// Plan
 	PARAMETER_SYMBOL = 'C',				// Characteristic
 	ARRAY_SET_SYMBOL = 'A',				// Array data set
+	ACTION_TYPE_SYMBOL = 'D',			// Doing action
 };
 
 #include "Symbol.hpp"
@@ -19,3 +20,4 @@ enum {
 #include "StackedSymbol.hpp"
 #include "Parameter.hpp"
 #include "Array.hpp"
+#include "Action.hpp"

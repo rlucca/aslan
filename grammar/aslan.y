@@ -16,23 +16,6 @@
 	#include "Aslan_Context.hpp"
 	#include "AllSymbol.hpp"
 	#include "Utils.hpp" /* I hate this name, but */
-
-// TODO move this to other file
-class Stack : public Symbol {
- public:
-	Stack()
-		: Symbol('a', 2, NULL)
-	{ }
-	virtual ~Stack() {}
-	Symbol *push(Symbol *) { return 0; }
-	void pop() {}
-	Symbol *top() { return 0; }
-};
-class Actions : public Stack {
- public:
-	Actions(void *) : Stack() {}
-};
-
 %}
 
 
@@ -309,11 +292,12 @@ opt_actions:
 
 actions:
 	  assignment_expression
-		{ $$ = new Actions($1); }
+		{ $$ = new Action(@1.first_line, $1); }
 	| assignment_expression SEQUENCE actions
 		{
 			free($2);
-			$$ = ((Actions *)$3)->push($1);
+			((Action *)$3)->push(@1.first_line, $1);
+			$$ = $3;
 		}
 	;
 

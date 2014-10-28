@@ -41,6 +41,8 @@ set (SOURCES
 	${PROJECT_SOURCE_DIR}/src/parser/Parameter.hpp
 	${PROJECT_SOURCE_DIR}/src/parser/Array.cpp
 	${PROJECT_SOURCE_DIR}/src/parser/Array.hpp
+	${PROJECT_SOURCE_DIR}/src/parser/Action.cpp
+	${PROJECT_SOURCE_DIR}/src/parser/Action.hpp
 	${PROJECT_SOURCE_DIR}/src/parser/TableChain.hpp
 	${PROJECT_SOURCE_DIR}/src/Utils.hpp
 	${PROJECT_SOURCE_DIR}/src/Utils.cpp
