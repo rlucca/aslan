@@ -27,12 +27,6 @@ class Stack : public Symbol {
 	Symbol *push(Symbol *) { return 0; }
 	void pop() {}
 	Symbol *top() { return 0; }
-	virtual void add(Symbol*) { };
-};
-class Array : public Stack {
- public:
-	Array(Symbol *) : Stack() {}
-	Symbol *setTail(Symbol *) { return 0; }
 };
 class Actions : public Stack {
  public:
@@ -276,16 +270,20 @@ opt_array_list:
 	  /* EMPTY */
 		{ $$ = NULL; }
 	| array_list opt_tail
-		{ $$ = ((Array*)$1)->setTail($2); }
+		{
+			((Array*)$1)->setTail(@2.first_line, $2);
+			$$ = $1;
+		}
 	;
 
 array_list:
 	  conditional_expression
-		{ $$ = new Array($1); }
+		{ $$ = new Array(@1.first_line, $1); }
 	| conditional_expression COMMA array_list
 		{
 			free($2);
-			$$ = ((Array*)$3)->push($1); // Array is a stack of elements
+			((Array*)$3)->push(@1.first_line, $1);
+			$$ = $3;
 		}
 	;
 

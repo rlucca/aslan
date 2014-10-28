@@ -7,6 +7,7 @@ enum {
 	EXPRESSION_SYMBOL = 'E',			// Expression
 	PLAN_TYPE_SYMBOL = 'P',				// Plan
 	PARAMETER_SYMBOL = 'C',				// Characteristic
+	ARRAY_SET_SYMBOL = 'A',				// Array data set
 };
 
 #include "Symbol.hpp"
@@ -17,3 +18,4 @@ enum {
 #include "Plan.hpp"
 #include "StackedSymbol.hpp"
 #include "Parameter.hpp"
+#include "Array.hpp"
