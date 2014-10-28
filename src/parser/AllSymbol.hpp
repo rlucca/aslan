@@ -6,6 +6,7 @@ enum {
 	FUNCTOR_SYMBOL = 'F',				// Functor
 	EXPRESSION_SYMBOL = 'E',			// Expression
 	PLAN_TYPE_SYMBOL = 'P',				// Plan
+	PARAMETER_SYMBOL = 'C',				// Characteristic
 };
 
 #include "Symbol.hpp"
@@ -14,3 +15,5 @@ enum {
 #include "Belief.hpp"
 #include "Functor.hpp"
 #include "Plan.hpp"
+#include "StackedSymbol.hpp"
+#include "Parameter.hpp"

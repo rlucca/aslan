@@ -35,6 +35,10 @@ set (SOURCES
 	${PROJECT_SOURCE_DIR}/src/parser/EventType.hpp
 	${PROJECT_SOURCE_DIR}/src/parser/Plan.cpp
 	${PROJECT_SOURCE_DIR}/src/parser/Plan.hpp
+	${PROJECT_SOURCE_DIR}/src/parser/StackedSymbol.cpp
+	${PROJECT_SOURCE_DIR}/src/parser/StackedSymbol.hpp
+	${PROJECT_SOURCE_DIR}/src/parser/Parameter.cpp
+	${PROJECT_SOURCE_DIR}/src/parser/Parameter.hpp
 	${PROJECT_SOURCE_DIR}/src/parser/TableChain.hpp
 	${PROJECT_SOURCE_DIR}/src/Utils.hpp
 	${PROJECT_SOURCE_DIR}/src/Utils.cpp

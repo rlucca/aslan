@@ -38,13 +38,6 @@ class Actions : public Stack {
  public:
 	Actions(void *) : Stack() {}
 };
-class Parameters : public Symbol {
- public:
-	Parameters(void *, void* = 0)
-		: Symbol('a', 2, NULL)
-	{ }
-	virtual void add(Symbol*) { };
-};
 
 %}
 
@@ -256,11 +249,15 @@ opt_parms_list:
 
 parms_list:
 	  math_expression
-		{ $$ = new Parameters($1); }
+		{
+			Parameter *par = new Parameter(@1.first_line, $1);
+			$$ = par;
+		}
 	| math_expression COMMA parms_list
 		{
 			free($2);
-			$$ = new Parameters($1, $3);
+			((Parameter *) $3)->push(@1.first_line, $1);
+			$$ = $3;
 		}
 	;
 
