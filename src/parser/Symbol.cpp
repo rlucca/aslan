@@ -1,5 +1,6 @@
 #include "Symbol.hpp"
 #include <cstdlib>
+#include <cassert>
 #include <cstdio>
 
 unsigned Symbol::m_lastId = 0;
@@ -43,6 +44,7 @@ void Symbol::add(Symbol *right)
 					(!right->lexema() ? "" : right->lexema()),
 					right->firstLine(), right->lastLine(),
 					right->manyComponents());
+	assert(false && "Not implemented");
 }
 
 std::ostream& operator<<(std::ostream& os, Symbol* right)
