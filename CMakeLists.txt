@@ -129,6 +129,7 @@ SET(TEST_CASES_INT
 	symbol_test
 	tablechain_test
 	empty_grammar_test
+	constant_expression_test
 	)
 
 foreach(BIN_TEST IN LISTS TEST_CASES_INT)

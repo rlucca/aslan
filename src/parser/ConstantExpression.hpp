@@ -7,3 +7,4 @@ class ConstantExpression : public Symbol
 		virtual ~ConstantExpression();
 };
 
+std::ostream& operator<<(std::ostream& os, ConstantExpression *);
