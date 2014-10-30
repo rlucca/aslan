@@ -9,6 +9,7 @@
 %error-verbose
 %parse-param {Aslan_Context* context }
 %lex-param { void* scanner  }
+%expect 0
 
 %{
 	#include <iostream>
@@ -23,7 +24,6 @@
 {
 	char *lexema;	/* To access a yytext equivalent */
 	Symbol *symbol;	/* To hold a pointer of Symbol */
-	int type;	/* To hold an indentifier */
 }
 
 %token ERR
