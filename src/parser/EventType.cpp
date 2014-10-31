@@ -1,7 +1,7 @@
 #include "AllSymbol.hpp"
 
 EventType::EventType(char *lex, unsigned line)
-	: Symbol(CONSTANT_EXPRESSION_SYMBOL, line, lex)
+	: Symbol(EVENT_TYPE_SYMBOL, line, lex)
 {
 	// VOID
 }

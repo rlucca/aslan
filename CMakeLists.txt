@@ -130,6 +130,7 @@ SET(TEST_CASES_INT
 	tablechain_test
 	empty_grammar_test
 	constant_expression_test
+	event_type_test
 	)
 
 foreach(BIN_TEST IN LISTS TEST_CASES_INT)

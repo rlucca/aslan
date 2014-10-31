@@ -9,6 +9,7 @@ enum {
 	PARAMETER_SYMBOL = 'C',				// Characteristic
 	ARRAY_SET_SYMBOL = 'A',				// Array data set
 	ACTION_TYPE_SYMBOL = 'D',			// Doing action
+	EVENT_TYPE_SYMBOL = 'V',			// eVent type (Belief/Goal/Test)
 };
 
 #include "Symbol.hpp"
