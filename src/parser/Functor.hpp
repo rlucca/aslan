@@ -4,5 +4,13 @@ class Functor : public Symbol
 {
  public:
 	Functor(char *identifier, unsigned identifier_line,
-			Symbol* parms = 0, Symbol* annots = 0);
+			Symbol* ps = 0, Symbol* as = 0);
+	virtual ~Functor();
+
+	Symbol *parms();
+	Symbol *annots();
+
+ protected:
+	Symbol *m_parms;
+	Symbol *m_annots;
 };
