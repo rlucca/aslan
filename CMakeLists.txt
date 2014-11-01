@@ -100,8 +100,8 @@ set(TEST_CASES
 	commentary_test
 	commentary_fail_eof_test
 	char_string_test
-	char_string_fail_eol_test
-	char_string_fail_eof_test
+	char_string_fail_eol_tst
+	char_string_fail_eof_tst
 	string_string_test
 	string_fail_eol_test
 	string_fail_eof_test
@@ -146,10 +146,10 @@ endforeach(BIN_TEST)
 enable_testing()
 
 #PASS_REGULAR_EXPRESSION is divided by ';'
-set_tests_properties(CHAR_STRING_FAIL_EOL_TEST STRING_FAIL_EOL_TEST
+set_tests_properties(CHAR_STRING_FAIL_EOL_TST STRING_FAIL_EOL_TEST
 					PROPERTIES
 					PASS_REGULAR_EXPRESSION "Unexpected end of line")
-set_tests_properties(CHAR_STRING_FAIL_EOF_TEST STRING_FAIL_EOF_TEST
+set_tests_properties(CHAR_STRING_FAIL_EOF_TST STRING_FAIL_EOF_TEST
 					COMMENTARY_FAIL_EOF_TEST PAIRP_FAIL_EOF_TEST
 					PAIRB_FAIL_EOF_TEST PAIRK_FAIL_EOF_TEST
 					PROPERTIES
