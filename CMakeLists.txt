@@ -133,6 +133,7 @@ SET(TEST_CASES_INT
 	event_type_test
 	trigger_event_test
 	stacked_symbol_test
+	parameter_test
 	)
 
 foreach(BIN_TEST IN LISTS TEST_CASES_INT)
