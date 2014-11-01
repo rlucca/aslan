@@ -15,5 +15,5 @@ int main()
 	 * it'll be tested by the error by ctest. */
 	NEXT;
 
-	return 0;
+	//return 0;
 }
