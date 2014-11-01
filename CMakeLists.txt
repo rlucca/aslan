@@ -131,6 +131,7 @@ SET(TEST_CASES_INT
 	empty_grammar_test
 	constant_expression_test
 	event_type_test
+	trigger_event_test
 	)
 
 foreach(BIN_TEST IN LISTS TEST_CASES_INT)

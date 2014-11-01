@@ -10,6 +10,7 @@ enum {
 	ARRAY_SET_SYMBOL = 'A',				// Array data set
 	ACTION_TYPE_SYMBOL = 'D',			// Doing action
 	EVENT_TYPE_SYMBOL = 'V',			// eVent type (Belief/Goal/Test)
+	TRIGGER_EVENT_SYMBOL = 'T',			// Trigger event (Addition/Deletion)
 };
 
 #include "Symbol.hpp"
