@@ -132,6 +132,7 @@ SET(TEST_CASES_INT
 	constant_expression_test
 	event_type_test
 	trigger_event_test
+	stacked_symbol_test
 	)
 
 foreach(BIN_TEST IN LISTS TEST_CASES_INT)

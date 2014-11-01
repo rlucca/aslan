@@ -21,7 +21,7 @@ void StackedSymbol::pop()
 { data.pop(); }
 
 Symbol *StackedSymbol::top()
-{ return data.top(); }
+{ return (empty()) ? NULL : data.top(); }
 
 bool StackedSymbol::empty()
 { return data.empty(); }
