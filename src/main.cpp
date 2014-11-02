@@ -7,8 +7,5 @@ int main()
 {
 	Aslan_Context context;
 
-	if(!Aslan_parse(&context))
-	{
-		cout << "OK" << endl;
-	}
+	return Aslan_parse(&context);
 }
