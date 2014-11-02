@@ -78,21 +78,39 @@ add_executable(aslan
 				)
 target_link_libraries(aslan aslanparser ${COVERAGE_LIBRARY})
 
+macro(CREATE_TEST BIN)
+	string(TOUPPER ${BIN} BIN_NAME)
+	set(BIN_EXEC ${PROJECT_BINARY_DIR}/${BIN})
+	set(OPT_ARGS ${ARGN})
+	list(LENGTH OPT_ARGS NUM_OPT_ARGS)
+	if (${NUM_OPT_ARGS} EQUAL 3)
+		list(GET OPT_ARGS 0 PREFIX_NAME)
+		set(BIN_TMP ${PREFIX_NAME}${BIN})
+		string(TOUPPER ${BIN_TMP} BIN_NAME)
+
+		list(GET OPT_ARGS 1 INPUT)
+		list(GET OPT_ARGS 2 OUTPUT)
+		set(BIN_EXEC
+			bash -c "${PROJECT_BINARY_DIR}/${BIN} < ${INPUT} 2>&1 | diff -- ${OUTPUT} - 2>&1 > /dev/null")
+	endif(${NUM_OPT_ARGS} EQUAL 3)
+
+	add_test(${BIN_NAME} ${BIN_EXEC})
+	if(VALGRIND)
+		add_test(${BIN_NAME}_VALGRIND
+				valgrind --error-exitcode=1 --leak-check=full ${BIN_EXEC})
+		set_tests_properties(${BIN_NAME}_VALGRIND
+						PROPERTIES
+						PASS_REGULAR_EXPRESSION "no leaks are possible")
+	endif(VALGRIND)
+endmacro(CREATE_TEST)
+
 macro(CREATE_TEST_EXECUTABLE BIN PARENT LEVEL)
 	add_executable(${BIN}
 					${PROJECT_SOURCE_DIR}/tests/${BIN}_${LEVEL}.cpp
 					)
 	target_link_libraries(${BIN} aslanparser ${COVERAGE_LIBRARY})
 	add_dependencies(${BIN} ${PARENT})
-	string(TOUPPER ${BIN} BIN_NAME)
-	add_test(${BIN_NAME} ${PROJECT_BINARY_DIR}/${BIN})
-	if(VALGRIND)
-		add_test(${BIN_NAME}_valgrind
-				valgrind --error-exitcode=1 --leak-check=full ${PROJECT_BINARY_DIR}/${BIN})
-		set_tests_properties(${BIN_NAME}_valgrind
-						PROPERTIES
-						PASS_REGULAR_EXPRESSION "no leaks are possible")
-	endif(VALGRIND)
+	CREATE_TEST(${BIN})
 endmacro(CREATE_TEST_EXECUTABLE)
 
 set(TEST_CASES
@@ -145,6 +163,32 @@ foreach(BIN_TEST IN LISTS TEST_CASES_INT)
 	CREATE_TEST_EXECUTABLE(${BIN_TEST} ${PREVIOUS} "int")
 	set(PREVIOUS ${BIN_TEST})
 endforeach(BIN_TEST)
+
+CREATE_TEST(aslan "empty_" "<(echo)" "<(printf \"\")")
+
+SET(GRAMMAR_TEST_CASES
+	)
+
+foreach(BIN_TEST IN LISTS GRAMMAR_TEST_CASES)
+	# Why it's here and not inside CREATE_TEST?
+	# It is not tested inside CREATE_TEST because it
+	# would prevent use stuff like "<(echo)"
+	set(INPUT "${PROJECT_SOURCE_DIR}/tests/${BIN_TEST}.asl")
+	set(OUTPUT "${PROJECT_SOURCE_DIR}/tests/${BIN_TEST}.asl.checked")
+
+	IF (NOT EXISTS ${INPUT})
+		MESSAGE(SEND_ERROR
+				"Could not locate file \"${INPUT}\"")
+	ENDIF (NOT EXISTS ${INPUT})
+
+	IF (NOT EXISTS ${OUTPUT})
+		MESSAGE(SEND_ERROR
+				"Could not locate file \"${OUTPUT}\"")
+	ENDIF (NOT EXISTS ${OUTPUT})
+
+	CREATE_TEST(aslan "grammar_${BIN_TEST}_" ${INPUT} ${OUTPUT})
+endforeach(BIN_TEST)
+
 
 enable_testing()
 
