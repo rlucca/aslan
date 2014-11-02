@@ -138,6 +138,7 @@ SET(TEST_CASES_INT
 	action_test
 	functor_test
 	belief_test
+	plan_test
 	)
 
 foreach(BIN_TEST IN LISTS TEST_CASES_INT)

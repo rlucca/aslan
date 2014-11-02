@@ -9,8 +9,14 @@ class Plan  : public Symbol
 		Plan(Trigger *, EventType *, Symbol *functor);
 		virtual ~Plan();
 
+		unsigned char trigger() const;
+		unsigned char about() const;
+
 		Plan* addContext(Symbol *);
 		Plan* addAction(Symbol *);
+
+		Symbol *context();
+		Symbol *action();
 
   protected:
 		Symbol *m_functor;
