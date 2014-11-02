@@ -135,6 +135,7 @@ SET(TEST_CASES_INT
 	stacked_symbol_test
 	parameter_test
 	array_test
+	action_test
 	functor_test
 	belief_test
 	)
