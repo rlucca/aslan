@@ -1,5 +1,6 @@
 #include "AllSymbol.hpp"
 #include <algorithm>
+#include <cstring>
 
 Plan::Plan(Trigger *trigger_ev, EventType *type_ev, Symbol *functor)
 	: Symbol(PLAN_TYPE_SYMBOL, functor->firstLine(), strdup(functor->lexema())),

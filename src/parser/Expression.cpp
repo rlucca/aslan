@@ -12,7 +12,10 @@ Expression::Expression(Symbol *left)
 }
 
 Expression::~Expression()
-{ }
+{
+	delete m_left; m_left = 0;
+	delete m_right; m_right = 0;
+}
 
 void Expression::setOp(int operation)
 { m_op = operation; }

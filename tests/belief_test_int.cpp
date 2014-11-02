@@ -3,10 +3,14 @@
 int main()
 {
 	// Preparing set to test
-	Functor head(strdup("a"), 22, NULL, NULL);
-	Functor headNegative(strdup("~a"), 22, NULL, NULL);
+	char *a_lex = strdup("a");
+	char *not_a_lex = strdup("~a");
+	Functor head(a_lex, 22, NULL, NULL);
+	Functor headNegative(not_a_lex, 22, NULL, NULL);
 	Expression *contextEquals;
 	Expression *contextAssigns;
+	free(a_lex); a_lex = NULL;
+	free(not_a_lex); not_a_lex = NULL;
 	contextEquals = new Expression(new ConstantExpression(strdup("0"), 24));
 	contextAssigns = new Expression(new ConstantExpression(strdup("0"), 24));
 	contextEquals->add(new ConstantExpression(strdup("2"), 26));

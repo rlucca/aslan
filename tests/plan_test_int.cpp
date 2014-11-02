@@ -2,11 +2,13 @@
 
 int main()
 {
+	char *aux = strdup("~a");
 	Trigger *trigger = new AdditionTrigger(strdup("+"), 33);
 	EventType *ev = new GoalEvent(strdup("!"), 34);
-	Functor *head = new Functor(strdup("~a"), 35, NULL, NULL);
+	Functor *head = new Functor(aux, 35, NULL, NULL);
 	Expression *contextSums;
 	Expression *contextAssigns;
+	free(aux); aux = NULL;
 	contextSums = new Expression(new ConstantExpression(strdup("1"), 44));
 	contextSums->add(new ConstantExpression(strdup("1"), 46));
 	contextSums->setOp(PLUS); // 1 + 1
