@@ -136,6 +136,7 @@ SET(TEST_CASES_INT
 	parameter_test
 	array_test
 	functor_test
+	belief_test
 	)
 
 foreach(BIN_TEST IN LISTS TEST_CASES_INT)

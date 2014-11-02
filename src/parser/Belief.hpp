@@ -4,4 +4,10 @@ class Belief  : public Symbol
 {
  public:
 	Belief(Symbol *head, Symbol *opt_context);
+	virtual ~Belief();
+
+	Symbol *context();
+
+ protected:
+	Symbol *m_context;
 };
