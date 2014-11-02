@@ -162,7 +162,7 @@ opt_strong_negation:
 
 inner_plan:
 	head_plan opt_context opt_actions
-		{ $$ = ((Plan*) $1)->addContext($2)->addActions($3); }
+		{ $$ = ((Plan*) $1)->addContext($2)->addAction($3); }
 	;
 
 head_plan:

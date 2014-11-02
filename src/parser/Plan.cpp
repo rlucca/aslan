@@ -21,7 +21,7 @@ Plan* Plan::addContext(Symbol *ctx)
 	return this;
 }
 
-Plan* Plan::addActions(Symbol *act)
+Plan* Plan::addAction(Symbol *act)
 {
 	m_action = act;
 	return this;

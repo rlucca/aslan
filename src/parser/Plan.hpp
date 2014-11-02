@@ -10,7 +10,7 @@ class Plan  : public Symbol
 		virtual ~Plan();
 
 		Plan* addContext(Symbol *);
-		Plan* addActions(Symbol *);
+		Plan* addAction(Symbol *);
 
   protected:
 		Symbol *m_functor;
