@@ -251,7 +251,13 @@ opt_annots:
 
 opt_array_list:
 	  /* EMPTY */
-		{ $$ = NULL; }
+		{
+			ConstantExpression *ce = new ConstantExpression("_", 0);
+			// It's need to pass a valid symbol here... :'(
+			Array *aux = new Array(0, ce);
+			aux->pop();
+			$$ = aux;
+		}
 	| array_list opt_tail
 		{
 			((Array*)$1)->setTail(@2.first_line, $2);
