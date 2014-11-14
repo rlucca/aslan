@@ -1,0 +1,12 @@
+/Users/rlucca/Desktop/aslan.git/src/parser/Symbol.cpp:52: Symbol(lexema=|x1|,lines=[12..12],components=1,id=62).
+/Users/rlucca/Desktop/aslan.git/src/parser/Symbol.cpp:52: Symbol(lexema=|x1|,lines=[11..11],components=1,id=55).
+/Users/rlucca/Desktop/aslan.git/src/parser/Symbol.cpp:52: Symbol(lexema=|x1|,lines=[10..10],components=1,id=47).
+/Users/rlucca/Desktop/aslan.git/src/parser/Symbol.cpp:52: Symbol(lexema=|x1|,lines=[9..9],components=1,id=40).
+/Users/rlucca/Desktop/aslan.git/src/parser/Symbol.cpp:52: Symbol(lexema=|x1|,lines=[8..8],components=1,id=34).
+/Users/rlucca/Desktop/aslan.git/src/parser/Symbol.cpp:52: Symbol(lexema=|x3|,lines=[7..7],components=1,id=29).
+/Users/rlucca/Desktop/aslan.git/src/parser/Symbol.cpp:52: Symbol(lexema=|x"moo"|,lines=[6..6],components=1,id=23).
+/Users/rlucca/Desktop/aslan.git/src/parser/Symbol.cpp:52: Symbol(lexema=|x|,lines=[5..5],components=1,id=15).
+/Users/rlucca/Desktop/aslan.git/src/parser/Symbol.cpp:52: Symbol(lexema=|x"moo"|,lines=[4..4],components=1,id=12).
+/Users/rlucca/Desktop/aslan.git/src/parser/Symbol.cpp:52: Symbol(lexema=|x_|,lines=[3..3],components=1,id=5).
+/Users/rlucca/Desktop/aslan.git/src/parser/Symbol.cpp:52: Symbol(lexema=|x|,lines=[2..2],components=1,id=2).
+/Users/rlucca/Desktop/aslan.git/src/parser/Symbol.cpp:52: Symbol(lexema=|x|,lines=[1..1],components=1,id=1).
