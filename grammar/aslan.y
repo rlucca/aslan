@@ -260,7 +260,7 @@ opt_array_list:
 		}
 	| array_list opt_tail
 		{
-			((Array*)$1)->setTail(@2.first_line, $2);
+			((Array*)$1)->setTail($2);
 			$$ = $1;
 		}
 	;

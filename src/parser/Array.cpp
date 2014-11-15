@@ -12,9 +12,8 @@ Array::~Array()
 }
 
 
-void Array::setTail(unsigned line, Symbol *t)
+void Array::setTail(Symbol *t)
 {
-	(void) line;
 	m_tail = t;
 }
 

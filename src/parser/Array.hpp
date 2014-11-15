@@ -6,7 +6,7 @@ class Array : public StackedSymbol
 		Array(unsigned, Symbol *);
 		virtual ~Array();
 
-		void setTail(unsigned line, Symbol *t);
+		void setTail(Symbol *t);
 		Symbol *tail();
 
 	protected:
