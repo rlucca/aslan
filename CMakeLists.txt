@@ -170,6 +170,7 @@ SET(GRAMMAR_TEST_CASES
 	initial_plan
 	initial_plan_fail1
 	initial_plan_fail2
+	belief
 	)
 
 foreach(BIN_TEST IN LISTS GRAMMAR_TEST_CASES)
