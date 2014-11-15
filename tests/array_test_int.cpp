@@ -2,11 +2,9 @@
 
 int main()
 {
-	ConstantExpression *ce = new ConstantExpression(strdup("61"),
-													__LINE__);
-	ConstantExpression *ce2 = new ConstantExpression(strdup("0"),
-													__LINE__);
-	Array a(__LINE__, ce);
+	ConstantExpression *ce = new ConstantExpression(6, strdup("61"));
+	ConstantExpression *ce2 = new ConstantExpression(8, strdup("0"));
+	Array a(9, ce);
 	// I just need test the tail stuff
 	assert(a.tail() == NULL);
 	a.setTail(ce2);

@@ -11,7 +11,7 @@ int main()
 		assert(fun.annots() == NULL);
 	}
 	{
-		ConstantExpression *cep = new ConstantExpression(strdup("foo"), 12);
+		ConstantExpression *cep = new ConstantExpression(12, strdup("foo"));
 		Parameter *parm = new Parameter(12, cep);
 		Functor fun(__LINE__, file, parm, NULL);
 		assert(fun.parms() == parm);
@@ -20,7 +20,7 @@ int main()
 		free(cep); // lexema foo is shared
 	}
 	{
-		ConstantExpression *ce = new ConstantExpression(strdup("foo"), 12);
+		ConstantExpression *ce = new ConstantExpression(12, strdup("foo"));
 		Array *annot = new Array(12, ce);
 		Functor fun(__LINE__, file, NULL, annot);
 		assert(fun.parms() == NULL);
@@ -28,9 +28,9 @@ int main()
 		free(ce); // lexema foo is shared
 	}
 	{
-		ConstantExpression *cep = new ConstantExpression(strdup("foo"), 12);
+		ConstantExpression *cep = new ConstantExpression(12, strdup("foo"));
 		Parameter *parm = new Parameter(12, cep);
-		ConstantExpression *ce = new ConstantExpression(strdup("foo"), 12);
+		ConstantExpression *ce = new ConstantExpression(12, strdup("foo"));
 		Array *annot = new Array(12, ce);
 		Functor fun(__LINE__, file, parm, annot);
 		assert(fun.parms() == parm);

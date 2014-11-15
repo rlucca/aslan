@@ -1,6 +1,6 @@
 #include "AllSymbol.hpp"
 
-ConstantExpression::ConstantExpression(char *lex, unsigned line)
+ConstantExpression::ConstantExpression(unsigned line, char *lex)
 	: Symbol(CONSTANT_EXPRESSION_SYMBOL, line, lex)
 { }
 

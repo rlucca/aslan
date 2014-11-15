@@ -4,7 +4,7 @@ int main()
 {
 	// Preparing data
 	char *lexema_value = strdup("true");
-	ConstantExpression *ce = new ConstantExpression(lexema_value, 1);
+	ConstantExpression *ce = new ConstantExpression(1, lexema_value);
 	StackedSymbol ss('?', ce->firstLine(), ce);
 	ConstantExpression *aux;
 	// Recover top element and test to be equal

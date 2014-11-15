@@ -9,14 +9,14 @@ int main()
 	Expression *contextSums;
 	Expression *contextAssigns;
 	free(aux); aux = NULL;
-	contextSums = new Expression(new ConstantExpression(strdup("1"), 44));
-	contextSums->add(new ConstantExpression(strdup("1"), 46));
+	contextSums = new Expression(new ConstantExpression(44, strdup("1")));
+	contextSums->add(new ConstantExpression(46, strdup("1")));
 	contextSums->setOp(PLUS); // 1 + 1
-	contextAssigns = new Expression(new ConstantExpression(strdup("X"), 44));
+	contextAssigns = new Expression(new ConstantExpression(44, strdup("X")));
 	contextAssigns->add(contextSums);
 	contextAssigns->setOp(ASSIGNMENT); // X = 1 + 1
 	ConstantExpression *exta
-		= new ConstantExpression(strdup("character.front"), 50);
+		= new ConstantExpression(50, strdup("character.front"));
 	Plan plan(trigger, ev, head);
 	assert(plan.trigger() == 'A');
 	assert(plan.about() == 'G');

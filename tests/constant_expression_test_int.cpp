@@ -3,7 +3,7 @@
 int main()
 {
 	{
-		ConstantExpression literalZero(strdup("0"), 24);
+		ConstantExpression literalZero(24, strdup("0"));
 		std::ostringstream oss;
 		std::string aux;
 		assert(literalZero.getId() > 0);
@@ -17,7 +17,7 @@ int main()
 		assert(aux == std::string("0"));
 	}
 	{
-		ConstantExpression literalString(strdup("\"fruit is good\""), 26);
+		ConstantExpression literalString(26, strdup("\"fruit is good\""));
 		std::ostringstream oss;
 		std::string aux;
 		assert(literalString.getId() > 0);

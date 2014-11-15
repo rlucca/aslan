@@ -11,10 +11,10 @@ int main()
 	Expression *contextAssigns;
 	free(a_lex); a_lex = NULL;
 	free(not_a_lex); not_a_lex = NULL;
-	contextEquals = new Expression(new ConstantExpression(strdup("0"), 24));
-	contextAssigns = new Expression(new ConstantExpression(strdup("0"), 24));
-	contextEquals->add(new ConstantExpression(strdup("2"), 26));
-	contextAssigns->add(new ConstantExpression(strdup("2"), 26));
+	contextEquals = new Expression(new ConstantExpression(24, strdup("0")));
+	contextAssigns = new Expression(new ConstantExpression(24, strdup("0")));
+	contextEquals->add(new ConstantExpression(26, strdup("2")));
+	contextAssigns->add(new ConstantExpression(26, strdup("2")));
 	contextEquals->setOp(EQUAL_CMP);
 	contextAssigns->setOp(ASSIGNMENT);
 	// Starting to test

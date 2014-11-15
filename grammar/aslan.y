@@ -252,7 +252,7 @@ opt_annots:
 opt_array_list:
 	  /* EMPTY */
 		{
-			ConstantExpression *ce = new ConstantExpression("_", 0);
+			ConstantExpression *ce = new ConstantExpression(0, strdup("_"));
 			// It's need to pass a valid symbol here... :'(
 			Array *aux = new Array(0, ce);
 			aux->pop();
@@ -356,78 +356,78 @@ conditional_expression:
 relational_op:
 	  AND_BIT
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	| OR_BIT
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	| XOR_BIT
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	| AND_LOGIC
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	| OR_LOGIC
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	| EQUAL_CMP
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	| DIFFERENT_CMP
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	| LESSEQUAL
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	| LESS
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	| GREATEQUAL
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	| GREAT
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	;
 
 math_op:
 	  SHIFTLEFT
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	| SHIFTRIGHT
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	| PLUS
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	| MINUS
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	| MUL
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	| DIV
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	| MOD
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	;
 
@@ -435,29 +435,29 @@ math_op:
 unary_op:
 	  NOT
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	| PLUS
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	| MINUS
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	| ACHIEVE
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	| TEST
 		{
-			$$ = new ConstantExpression($1, @1.first_line);
+			$$ = new ConstantExpression(@1.first_line, $1);
 		}
 	;
 
 simple_expression:
 	  literal
-		{ $$ = new ConstantExpression($1, @1.first_line); }
+		{ $$ = new ConstantExpression(@1.first_line, $1); }
 	| function_or_variable
 		{ $$ = $1; }
 	| opt_strong_negation EXTERNAL_ACTION opt_parms opt_annots

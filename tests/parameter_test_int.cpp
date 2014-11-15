@@ -4,7 +4,7 @@
 int main()
 {
 	// Basically this is a stacked symbol
-	ConstantExpression *ce = new ConstantExpression(strdup("42"), 17);
+	ConstantExpression *ce = new ConstantExpression(17, strdup("42"));
 	Parameter aux(ce->firstLine(), ce);
 	assert(aux.firstLine() == 17);
 	assert(strcmp(aux.lexema(), "42") == 0);

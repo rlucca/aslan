@@ -3,7 +3,7 @@
 class ConstantExpression : public Symbol
 {
 	public:
-		ConstantExpression(char *, unsigned);
+		ConstantExpression(unsigned, char *);
 		virtual ~ConstantExpression();
 };
 
