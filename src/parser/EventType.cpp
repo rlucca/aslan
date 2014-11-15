@@ -1,6 +1,6 @@
 #include "AllSymbol.hpp"
 
-EventType::EventType(char *lex, unsigned line)
+EventType::EventType(unsigned line, char *lex)
 	: Symbol(EVENT_TYPE_SYMBOL, line, lex)
 {
 	// VOID
@@ -12,7 +12,7 @@ EventType::~EventType()
 }
 
 BeliefEvent::BeliefEvent()
-	: EventType(NULL, 0)
+	: EventType(0, NULL)
 {
 	// VOID
 }
@@ -22,8 +22,8 @@ unsigned char BeliefEvent::eventAbout()
 	return 'B';
 }
 
-GoalEvent::GoalEvent(char *lex, unsigned line)
-	: EventType(lex, line)
+GoalEvent::GoalEvent(unsigned line, char *lex)
+	: EventType(line, lex)
 {
 	// VOID
 }
@@ -33,8 +33,8 @@ unsigned char GoalEvent::eventAbout()
 	return 'G';
 }
 
-TestEvent::TestEvent(char *lex, unsigned line)
-	: EventType(lex, line)
+TestEvent::TestEvent(unsigned line, char *lex)
+	: EventType(line, lex)
 {
 	// VOID
 }

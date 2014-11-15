@@ -9,7 +9,7 @@ int main()
 		assert(be1.type() == EVENT_TYPE_SYMBOL);
 	}
 	{
-		GoalEvent ge1(strdup("doggy"), 23);
+		GoalEvent ge1(23, strdup("doggy"));
 		assert(ge1.eventAbout() == 'G');
 		assert(strcmp(ge1.lexema(), "doggy") == 0);
 		assert(ge1.firstLine() == ge1.lastLine());
@@ -17,7 +17,7 @@ int main()
 		assert(ge1.type() == EVENT_TYPE_SYMBOL);
 	}
 	{
-		TestEvent te1(strdup("fun"), 166);
+		TestEvent te1(166, strdup("fun"));
 		assert(te1.eventAbout() == 'T');
 		assert(strcmp(te1.lexema(), "fun") == 0);
 		assert(te1.firstLine() == te1.lastLine());

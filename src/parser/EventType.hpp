@@ -3,7 +3,7 @@
 class EventType : public Symbol
 {
 	public:
-		EventType(char *lexema, unsigned line);
+		EventType(unsigned line, char *lex);
 		virtual ~EventType();
 		virtual unsigned char eventAbout() = 0;
 };
@@ -18,13 +18,13 @@ class BeliefEvent : public EventType
 class GoalEvent : public EventType
 {
 	public:
-		GoalEvent(char *lexema, unsigned line);
+		GoalEvent(unsigned line, char *lex);
 		virtual unsigned char eventAbout();
 };
 
 class TestEvent : public EventType
 {
 	public:
-		TestEvent(char *lexema, unsigned line);
+		TestEvent(unsigned line, char *lex);
 		virtual unsigned char eventAbout();
 };

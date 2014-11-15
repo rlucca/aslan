@@ -181,9 +181,9 @@ event_type:
 	  /* EMPTY */
 		{ $$ = new BeliefEvent(); }
 	| ACHIEVE
-		{ $$ = new GoalEvent($1, @1.first_line); }
+		{ $$ = new GoalEvent(@1.first_line, $1); }
 	| TEST
-		{ $$ = new TestEvent($1, @1.first_line); }
+		{ $$ = new TestEvent(@1.first_line, $1); }
 	;
 
 function_or_variable:
