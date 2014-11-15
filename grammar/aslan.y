@@ -308,9 +308,9 @@ actions:
 	;
 
 assignment_expression:
-	  conditional_expression
+	  math_expression
 		{ $$ = $1; }
-	| conditional_expression ASSIGNMENT assignment_expression
+	| math_expression ASSIGNMENT assignment_expression
 		{
 			free($2);
 			Expression *aux = new Expression($1);
@@ -320,9 +320,29 @@ assignment_expression:
 		}
 	;
 
-conditional_expression:
-	  math_expression
+math_expression:
+	  conditional_expression
 		{ $$ = $1; }
+	| conditional_expression math_op math_expression
+		{
+			Expression *aux = new Expression($1);
+			aux->add($3);
+			aux->setOp(((Expression *) $2)->op());
+			delete $2;
+			$$ = aux;
+		}
+	;
+
+conditional_expression:
+	  simple_expression
+		{ $$ = $1; }
+	| unary_op simple_expression
+		{
+			Expression *aux = new Expression($2);
+			aux->setOp(((Expression *) $1)->op());
+			delete $1;
+			$$ = aux;
+		}
 	| simple_expression relational_op conditional_expression
 		{
 			Expression *aux = new Expression($1);
@@ -377,26 +397,6 @@ relational_op:
 	| GREAT
 		{
 			$$ = new ConstantExpression($1, @1.first_line);
-		}
-	;
-
-math_expression:
-	  simple_expression
-		{ $$ = $1; }
-	| unary_op simple_expression
-		{
-			Expression *aux = new Expression($2);
-			aux->setOp(((Expression *) $1)->op());
-			delete $1;
-			$$ = aux;
-		}
-	| simple_expression math_op math_expression
-		{
-			Expression *aux = new Expression($1);
-			aux->add($3);
-			aux->setOp(((Expression *) $2)->op());
-			delete $2;
-			$$ = aux;
 		}
 	;
 
