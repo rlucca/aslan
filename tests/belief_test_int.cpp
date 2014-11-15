@@ -5,8 +5,8 @@ int main()
 	// Preparing set to test
 	char *a_lex = strdup("a");
 	char *not_a_lex = strdup("~a");
-	Functor head(a_lex, 22, NULL, NULL);
-	Functor headNegative(not_a_lex, 22, NULL, NULL);
+	Functor head(22, a_lex, NULL, NULL);
+	Functor headNegative(22, not_a_lex, NULL, NULL);
 	Expression *contextEquals;
 	Expression *contextAssigns;
 	free(a_lex); a_lex = NULL;

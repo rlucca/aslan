@@ -6,14 +6,14 @@ int main()
 
 	// It will just test the new functionality
 	{
-		Functor fun(file, __LINE__, NULL, NULL);
+		Functor fun(__LINE__, file, NULL, NULL);
 		assert(fun.parms() == NULL);
 		assert(fun.annots() == NULL);
 	}
 	{
 		ConstantExpression *cep = new ConstantExpression(strdup("foo"), 12);
 		Parameter *parm = new Parameter(12, cep);
-		Functor fun(file, __LINE__, parm, NULL);
+		Functor fun(__LINE__, file, parm, NULL);
 		assert(fun.parms() == parm);
 		assert(((StackedSymbol *) fun.parms())->size() == 1);
 		assert(fun.annots() == NULL);
@@ -22,7 +22,7 @@ int main()
 	{
 		ConstantExpression *ce = new ConstantExpression(strdup("foo"), 12);
 		Array *annot = new Array(12, ce);
-		Functor fun(file, __LINE__, NULL, annot);
+		Functor fun(__LINE__, file, NULL, annot);
 		assert(fun.parms() == NULL);
 		assert(fun.annots() == annot);
 		free(ce); // lexema foo is shared
@@ -32,7 +32,7 @@ int main()
 		Parameter *parm = new Parameter(12, cep);
 		ConstantExpression *ce = new ConstantExpression(strdup("foo"), 12);
 		Array *annot = new Array(12, ce);
-		Functor fun(file, __LINE__, parm, annot);
+		Functor fun(__LINE__, file, parm, annot);
 		assert(fun.parms() == parm);
 		assert(((StackedSymbol *) fun.parms())->size() == 1);
 		assert(fun.annots() == annot);

@@ -146,8 +146,8 @@ function:
 	opt_strong_negation IDENTIFIER opt_parms opt_annots
 		{
 			$$ = new Functor(
-				lexema_append($1, $2),
 				@2.first_line,
+				lexema_append($1, $2),
 				$3,
 				$4);
 		}
@@ -195,12 +195,12 @@ function_or_variable:
 
 variable:
 	  NO_NAMED_VARIABLE
-		{ $$ = new Functor($1, @1.first_line); }
+		{ $$ = new Functor(@1.first_line, $1); }
 	| opt_strong_negation VARIABLE opt_parms opt_annots
 		{
 			$$ = new Functor(
-				lexema_append($1, $2),
 				@2.first_line,
+				lexema_append($1, $2),
 				$3,
 				$4);
 		}
@@ -463,8 +463,8 @@ simple_expression:
 	| opt_strong_negation EXTERNAL_ACTION opt_parms opt_annots
 		{
 			$$ = new Functor(
-				lexema_append($1, $2),
 				@2.first_line,
+				lexema_append($1, $2),
 				$3,
 				$4);
 		}

@@ -5,7 +5,7 @@ int main()
 	char *aux = strdup("~a");
 	Trigger *trigger = new AdditionTrigger(33, strdup("+"));
 	EventType *ev = new GoalEvent(34, strdup("!"));
-	Functor *head = new Functor(aux, 35, NULL, NULL);
+	Functor *head = new Functor(35, aux, NULL, NULL);
 	Expression *contextSums;
 	Expression *contextAssigns;
 	free(aux); aux = NULL;

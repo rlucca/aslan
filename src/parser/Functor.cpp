@@ -1,7 +1,7 @@
 #include "AllSymbol.hpp"
 #include "Utils.hpp"
 
-Functor::Functor(char *identifier, unsigned identifier_line,
+Functor::Functor(unsigned identifier_line, char *identifier,
 				Symbol* ps, Symbol* as)
 	: Symbol(FUNCTOR_SYMBOL, identifier_line,
 			// I do not append the meta information

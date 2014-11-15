@@ -3,7 +3,7 @@
 class Functor : public Symbol
 {
  public:
-	Functor(char *identifier, unsigned identifier_line,
+	Functor(unsigned identifier_line, char *identifier,
 			Symbol* ps = 0, Symbol* as = 0);
 	virtual ~Functor();
 
