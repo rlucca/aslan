@@ -3,7 +3,7 @@
 class Trigger : public Symbol
 {
 	public:
-		Trigger(char *, unsigned line);
+		Trigger(unsigned line, char *lex);
 		virtual ~Trigger();
 		virtual unsigned char triggerType() = 0;
 };
@@ -11,13 +11,13 @@ class Trigger : public Symbol
 class AdditionTrigger : public Trigger
 {
 	public:
-		AdditionTrigger(char *lexema, unsigned line);
+		AdditionTrigger(unsigned line, char *lex);
 		virtual unsigned char triggerType();
 };
 
 class DeletionTrigger : public Trigger
 {
 	public:
-		DeletionTrigger(char *lexema, unsigned line);
+		DeletionTrigger(unsigned line, char *lex);
 		virtual unsigned char triggerType();
 };

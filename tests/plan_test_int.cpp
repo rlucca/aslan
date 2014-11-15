@@ -3,7 +3,7 @@
 int main()
 {
 	char *aux = strdup("~a");
-	Trigger *trigger = new AdditionTrigger(strdup("+"), 33);
+	Trigger *trigger = new AdditionTrigger(33, strdup("+"));
 	EventType *ev = new GoalEvent(strdup("!"), 34);
 	Functor *head = new Functor(aux, 35, NULL, NULL);
 	Expression *contextSums;

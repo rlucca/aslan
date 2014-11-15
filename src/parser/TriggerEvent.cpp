@@ -1,6 +1,6 @@
 #include "AllSymbol.hpp"
 
-Trigger::Trigger(char *lex, unsigned line)
+Trigger::Trigger(unsigned line, char *lex)
 	: Symbol(TRIGGER_EVENT_SYMBOL, line, lex)
 {
 	// VOID
@@ -11,8 +11,8 @@ Trigger::~Trigger()
 	// VOID
 }
 
-AdditionTrigger::AdditionTrigger(char *lex, unsigned line)
-	: Trigger(lex, line)
+AdditionTrigger::AdditionTrigger(unsigned line, char *lex)
+	: Trigger(line, lex)
 {
 	// VOID
 }
@@ -22,8 +22,8 @@ unsigned char AdditionTrigger::triggerType()
 	return 'A';
 };
 
-DeletionTrigger::DeletionTrigger(char *lex, unsigned line)
-	: Trigger(lex, line)
+DeletionTrigger::DeletionTrigger(unsigned line, char *lex)
+	: Trigger(line, lex)
 {
 	// VOID
 }

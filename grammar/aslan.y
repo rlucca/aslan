@@ -172,9 +172,9 @@ head_plan:
 
 trigger_event:
 	  PLUS
-		{ $$ = new AdditionTrigger($1, @1.first_line); }
+		{ $$ = new AdditionTrigger(@1.first_line, $1); }
 	| MINUS
-		{ $$ = new DeletionTrigger($1, @1.first_line); }
+		{ $$ = new DeletionTrigger(@1.first_line, $1); }
 	;
 
 event_type:
