@@ -298,7 +298,7 @@ opt_actions:
 
 actions:
 	  assignment_expression
-		{ $$ = new Action(@1.first_line, $1); }
+		{ $$ = new Action($1); }
 	| assignment_expression SEQUENCE actions
 		{
 			free($2);

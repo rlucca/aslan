@@ -1,6 +1,6 @@
 #include "AllSymbol.hpp"
 
-Action::Action(unsigned line, Symbol *s)
+Action::Action(Symbol *s)
 	: StackedSymbol(ACTION_TYPE_SYMBOL, s)
 {
 	// VOID
