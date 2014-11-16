@@ -3,6 +3,6 @@
 class Parameter : public StackedSymbol
 {
  public:
-	Parameter(unsigned line, Symbol *s);
+	Parameter(Symbol *s);
 	virtual ~Parameter();
 };

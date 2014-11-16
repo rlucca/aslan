@@ -1,6 +1,6 @@
 #include "AllSymbol.hpp"
 
-Parameter::Parameter(unsigned line, Symbol *s)
+Parameter::Parameter(Symbol *s)
 	: StackedSymbol(PARAMETER_SYMBOL, s)
 {
 	// VOID

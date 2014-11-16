@@ -227,7 +227,7 @@ opt_parms_list:
 parms_list:
 	  math_expression
 		{
-			Parameter *par = new Parameter(@1.first_line, $1);
+			Parameter *par = new Parameter($1);
 			$$ = par;
 		}
 	| math_expression COMMA parms_list

@@ -12,7 +12,7 @@ int main()
 	}
 	{
 		ConstantExpression *cep = new ConstantExpression(12, strdup("foo"));
-		Parameter *parm = new Parameter(12, cep);
+		Parameter *parm = new Parameter(cep);
 		Functor fun(__LINE__, file, parm, NULL);
 		assert(fun.parms() == parm);
 		assert(((StackedSymbol *) fun.parms())->size() == 1);
@@ -29,7 +29,7 @@ int main()
 	}
 	{
 		ConstantExpression *cep = new ConstantExpression(12, strdup("foo"));
-		Parameter *parm = new Parameter(12, cep);
+		Parameter *parm = new Parameter(cep);
 		ConstantExpression *ce = new ConstantExpression(12, strdup("foo"));
 		Array *annot = new Array(12, ce);
 		Functor fun(__LINE__, file, parm, annot);
