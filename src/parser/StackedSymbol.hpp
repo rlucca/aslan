@@ -8,7 +8,7 @@ class StackedSymbol : public Symbol
 		StackedSymbol(char, Symbol*);
 		virtual ~StackedSymbol();
 
-		virtual void push(unsigned, Symbol *);
+		virtual void push(Symbol *);
 		virtual void pop();
 		virtual Symbol *top();
 		virtual bool empty();

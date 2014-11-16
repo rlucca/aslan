@@ -24,8 +24,8 @@ int main()
 	// I'm not sure about this stuff... should I keep a nulled
 	// element stacked or should I do not insert it?
 	// For now the easy stuff is to keep the element stacked
-	ss.push(123, NULL);
-	ss.push(124, NULL);
+	ss.push(NULL);
+	ss.push(NULL);
 	assert(ss.empty() == false);
 	assert(ss.size() == 2);
 	assert(ss.top() == NULL);

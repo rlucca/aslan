@@ -233,7 +233,7 @@ parms_list:
 	| math_expression COMMA parms_list
 		{
 			free($2);
-			((Parameter *) $3)->push(@1.first_line, $1);
+			((Parameter *) $3)->push($1);
 			$$ = $3;
 		}
 	;
@@ -271,7 +271,7 @@ array_list:
 	| conditional_expression COMMA array_list
 		{
 			free($2);
-			((Array*)$3)->push(@1.first_line, $1);
+			((Array*)$3)->push($1);
 			$$ = $3;
 		}
 	;
@@ -302,7 +302,7 @@ actions:
 	| assignment_expression SEQUENCE actions
 		{
 			free($2);
-			((Action *)$3)->push(@1.first_line, $1);
+			((Action *)$3)->push($1);
 			$$ = $3;
 		}
 	;

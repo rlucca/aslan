@@ -3,7 +3,7 @@
 StackedSymbol::StackedSymbol(char t, Symbol *s)
 	: Symbol(t, s->firstLine(), s->lexema())
 {
-	data.push(s);
+	push(s);
 }
 
 StackedSymbol::~StackedSymbol()
@@ -11,9 +11,8 @@ StackedSymbol::~StackedSymbol()
 	// VOID
 }
 
-void StackedSymbol::push(unsigned line, Symbol *s)
+void StackedSymbol::push(Symbol *s)
 {
-	(void) line;
 	data.push(s);
 }
 
