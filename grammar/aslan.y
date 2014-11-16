@@ -254,7 +254,7 @@ opt_array_list:
 		{
 			ConstantExpression *ce = new ConstantExpression(0, strdup("_"));
 			// It's need to pass a valid symbol here... :'(
-			Array *aux = new Array(0, ce);
+			Array *aux = new Array(ce);
 			aux->pop();
 			$$ = aux;
 		}
@@ -267,7 +267,7 @@ opt_array_list:
 
 array_list:
 	  conditional_expression
-		{ $$ = new Array(@1.first_line, $1); }
+		{ $$ = new Array($1); }
 	| conditional_expression COMMA array_list
 		{
 			free($2);

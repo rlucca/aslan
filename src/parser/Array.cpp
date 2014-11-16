@@ -1,6 +1,6 @@
 #include "AllSymbol.hpp"
 
-Array::Array(unsigned line, Symbol *s)
+Array::Array(Symbol *s)
 	: StackedSymbol(ARRAY_SET_SYMBOL, s), m_tail(0)
 {
 	// VOID

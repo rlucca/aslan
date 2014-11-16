@@ -21,7 +21,7 @@ int main()
 	}
 	{
 		ConstantExpression *ce = new ConstantExpression(12, strdup("foo"));
-		Array *annot = new Array(12, ce);
+		Array *annot = new Array(ce);
 		Functor fun(__LINE__, file, NULL, annot);
 		assert(fun.parms() == NULL);
 		assert(fun.annots() == annot);
@@ -31,7 +31,7 @@ int main()
 		ConstantExpression *cep = new ConstantExpression(12, strdup("foo"));
 		Parameter *parm = new Parameter(cep);
 		ConstantExpression *ce = new ConstantExpression(12, strdup("foo"));
-		Array *annot = new Array(12, ce);
+		Array *annot = new Array(ce);
 		Functor fun(__LINE__, file, parm, annot);
 		assert(fun.parms() == parm);
 		assert(((StackedSymbol *) fun.parms())->size() == 1);

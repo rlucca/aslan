@@ -3,7 +3,7 @@
 class Array : public StackedSymbol
 {
 	public:
-		Array(unsigned, Symbol *);
+		Array(Symbol *);
 		virtual ~Array();
 
 		void setTail(Symbol *t);

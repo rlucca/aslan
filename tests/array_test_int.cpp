@@ -4,7 +4,7 @@ int main()
 {
 	ConstantExpression *ce = new ConstantExpression(6, strdup("61"));
 	ConstantExpression *ce2 = new ConstantExpression(8, strdup("0"));
-	Array a(9, ce);
+	Array a(ce);
 	// I just need test the tail stuff
 	assert(a.tail() == NULL);
 	a.setTail(ce2);
