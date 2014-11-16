@@ -5,7 +5,7 @@
 class StackedSymbol : public Symbol
 {
 	public:
-		StackedSymbol(char, unsigned, Symbol*);
+		StackedSymbol(char, Symbol*);
 		virtual ~StackedSymbol();
 
 		virtual void push(unsigned, Symbol *);

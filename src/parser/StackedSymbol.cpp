@@ -1,7 +1,7 @@
 #include "AllSymbol.hpp"
 
-StackedSymbol::StackedSymbol(char t, unsigned l, Symbol *s)
-	: Symbol(t, l, s->lexema())
+StackedSymbol::StackedSymbol(char t, Symbol *s)
+	: Symbol(t, s->firstLine(), s->lexema())
 {
 	data.push(s);
 }
