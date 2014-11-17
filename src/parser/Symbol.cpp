@@ -1,7 +1,5 @@
 #include "Symbol.hpp"
 #include <cstdlib>
-#include <cassert>
-#include <cstdio>
 
 unsigned Symbol::m_lastId = 0;
 
@@ -36,20 +34,9 @@ char Symbol::type() const
 char *Symbol::lexema()
 { return m_lexema; }
 
-void Symbol::add(Symbol *right)
-{
-	fprintf(stderr, "%s:%d: NOT IMPLEMENTED -- Symbol(id=%d,"
-					"lexema=|%s|,lines=[%d..%d],components=%d).\n",
-					__FILE__, __LINE__, right->getId(),
-					(!right->lexema() ? "" : right->lexema()),
-					right->firstLine(), right->lastLine(),
-					right->manyComponents());
-	assert(false && "Not implemented");
-}
-
 std::ostream& operator<<(std::ostream& os, Symbol* right)
 {
-	os << __FILE__ << ":" << __LINE__ << ": Symbol(lexema=|"
+	os << "Symbol.cpp:" << __LINE__ << ": Symbol(lexema=|"
 		<< (!right->lexema() ? "" : right->lexema())
 		<< "|,lines=[" << right->firstLine()
 		<< ".." << right->lastLine() << "],components="
