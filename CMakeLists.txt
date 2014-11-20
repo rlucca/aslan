@@ -171,6 +171,8 @@ SET(GRAMMAR_TEST_CASES
 	initial_plan_fail1
 	initial_plan_fail2
 	belief
+	belief_fail1
+	belief_fail2
 	plan
 	)
 

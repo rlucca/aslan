@@ -1,0 +1,1 @@
+belief(X) : X = L.
