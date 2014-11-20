@@ -167,13 +167,13 @@ endforeach(BIN_TEST)
 CREATE_TEST(aslan "empty_" "<(echo)" "<(printf \"\")")
 
 SET(GRAMMAR_TEST_CASES
-	initial_plan
-	initial_plan_fail1
-	initial_plan_fail2
-	belief
-	belief_fail1
-	belief_fail2
-	plan
+	initial_plan		# XXX remove me in future
+	initial_plan_fail1	# XXX remove me in future
+	initial_plan_fail2	# XXX remove me in future
+	belief				# XXX remove me in future
+	#belief_fail1		# XXX remove me in future
+	#belief_fail2		# XXX remove me in future
+	plan				# XXX remove me in future
 	)
 
 foreach(BIN_TEST IN LISTS GRAMMAR_TEST_CASES)
