@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stack>
+#include <vector>
 
 class StackedSymbol : public Symbol
 {
@@ -10,10 +10,10 @@ class StackedSymbol : public Symbol
 
 		virtual void push(Symbol *);
 		virtual void pop();
-		virtual Symbol *top();
+		virtual Symbol *top(unsigned pos = 0);
 		virtual bool empty();
 		virtual unsigned size();
 
 	private:
-		std::stack<Symbol*> data;
+		std::vector<Symbol*> data;
 };

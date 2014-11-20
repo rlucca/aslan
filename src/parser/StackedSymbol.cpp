@@ -13,14 +13,24 @@ StackedSymbol::~StackedSymbol()
 
 void StackedSymbol::push(Symbol *s)
 {
-	data.push(s);
+	data.push_back(s);
 }
 
 void StackedSymbol::pop()
-{ data.pop(); }
+{ data.erase(data.begin() + data.size() - 1); }
 
-Symbol *StackedSymbol::top()
-{ return (empty()) ? NULL : data.top(); }
+Symbol *StackedSymbol::top(unsigned u)
+{
+	unsigned int idx = data.size();
+
+	if (idx == 0)
+		return NULL;
+
+	if (u > 0)
+		idx = u;
+
+	return data[idx - 1];
+}
 
 bool StackedSymbol::empty()
 { return data.empty(); }
