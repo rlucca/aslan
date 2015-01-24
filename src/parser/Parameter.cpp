@@ -10,3 +10,8 @@ Parameter::~Parameter()
 {
 	// VOID
 }
+
+std::ostream& operator<<(std::ostream& os, Parameter* right)
+{
+	return operator<<(os, static_cast<StackedSymbol*>(right));
+}

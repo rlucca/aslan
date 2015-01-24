@@ -19,3 +19,8 @@ void Array::setTail(Symbol *t)
 
 Symbol *Array::tail()
 { return m_tail; }
+
+std::ostream& operator<<(std::ostream& os, Array* right)
+{
+	return operator<<(os, static_cast<StackedSymbol*>(right));
+}

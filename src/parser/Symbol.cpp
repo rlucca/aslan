@@ -36,6 +36,9 @@ char *Symbol::lexema()
 
 std::ostream& operator<<(std::ostream& os, Symbol* right)
 {
+    if (right->type() == BELIEF_TYPE_SYMBOL)
+        return operator<<(os, static_cast<Belief*>(right) );
+
 	os << "Symbol("
 		<< "lexema(\"" << (!right->lexema() ? "" : right->lexema()) << "\"),"
 		<< "lineBegin(" << right->firstLine() << "),"
@@ -44,5 +47,6 @@ std::ostream& operator<<(std::ostream& os, Symbol* right)
 		<< "id(" << right->getId() << "),"
 		<< "type(" << right->type() << ")"
 		<< ")";
+
 	return os;
 }

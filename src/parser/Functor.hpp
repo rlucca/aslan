@@ -17,3 +17,5 @@ class Functor : public Symbol
 	Parameter *m_parms;
 	Array *m_annots;
 };
+
+std::ostream& operator<<(std::ostream& os, Functor* right);

@@ -28,3 +28,21 @@ Functor *Belief::head()
 
 Symbol *Belief::context()
 { return m_context; }
+
+std::ostream& operator<<(std::ostream& os, Belief* right)
+{
+	os << "belief[";
+	os << "head(";
+	operator<<(os, right->head());
+	os << ")";
+
+	if (right->context())
+	{
+		os << ",context(";
+		operator<<(os, right->context());
+		os << ")";
+	}
+
+	os << "].\n";
+	return os;
+}

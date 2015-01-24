@@ -23,5 +23,5 @@ Symbol.cpp:39: Symbol(lexema=|x"moo"|,lines=[6..6],components=1,id=29).
 Symbol.cpp:39: Symbol(lexema=|x|,lines=[5..5],components=1,id=20).
 Symbol.cpp:39: Symbol(lexema=|x"moo"|,lines=[4..4],components=1,id=16).
 Symbol.cpp:39: Symbol(lexema=|x_|,lines=[3..3],components=1,id=8).
-Symbol.cpp:39: Symbol(lexema=|x|,lines=[2..2],components=1,id=4).
-Symbol.cpp:39: Symbol(lexema=|x|,lines=[1..1],components=1,id=2).
+//Symbol.cpp:39: Symbol(lexema=|x|,lines=[2..2],components=1,id=4).
+//Symbol.cpp:39: Symbol(lexema=|x|,lines=[1..1],components=1,id=2).

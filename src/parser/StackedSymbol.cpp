@@ -37,3 +37,28 @@ bool StackedSymbol::empty()
 
 unsigned StackedSymbol::size()
 { return data.size(); }
+
+
+std::ostream& operator<<(std::ostream& os, StackedSymbol* right)
+{
+	if (right == NULL)
+		return os;
+
+	if (right->type() == ARRAY_SET_SYMBOL)
+		os << "array";
+	else if (right->type() == PARAMETER_SYMBOL)
+		os << "parms";
+	else
+		os << "unknowType";
+
+	os << "(";
+	for (unsigned u = 1; u <= right->size(); u++)
+	{
+		operator<<(os, right->top(u));
+
+		if (u != right->size())
+			os << ",";
+	}
+	os << ")[number_of_elements(" << right->size() << ")]";
+	return os;
+}

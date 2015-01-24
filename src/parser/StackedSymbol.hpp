@@ -17,3 +17,5 @@ class StackedSymbol : public Symbol
 	private:
 		std::vector<Symbol*> data;
 };
+
+std::ostream& operator<<(std::ostream& os, StackedSymbol* right);

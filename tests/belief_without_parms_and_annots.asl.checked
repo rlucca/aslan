@@ -1,0 +1,4 @@
+belief("x")[id(9),lineBegin(11),lineEnd(11),components(1)].
+belief("x")[id(5),lineBegin(5),lineEnd(5),components(1)].
+belief("x")[id(3),lineBegin(3),lineEnd(3),components(1)].
+belief("x")[id(1),lineBegin(2),lineEnd(2),components(1)].

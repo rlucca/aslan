@@ -15,3 +15,5 @@ class Belief  : public Symbol
 	Symbol *m_context;
 	Functor *m_head;
 };
+
+std::ostream& operator<<(std::ostream& os, Belief* right);

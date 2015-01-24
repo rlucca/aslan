@@ -168,6 +168,7 @@ CREATE_TEST(aslan "empty_" "<(echo)" "<(printf \"\")")
 
 SET(GRAMMAR_TEST_CASES
 	#reviewed cases # erase this commentary when over
+	belief_without_parms_and_annots
 	#unreviewed cases
 	##initial_plan
 	##initial_plan_fail1

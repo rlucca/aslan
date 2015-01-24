@@ -12,3 +12,5 @@ class Array : public StackedSymbol
 	protected:
 		Symbol *m_tail;
 };
+
+std::ostream& operator<<(std::ostream& os, Array* right);

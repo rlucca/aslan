@@ -6,3 +6,5 @@ class Parameter : public StackedSymbol
 	Parameter(Symbol *s);
 	virtual ~Parameter();
 };
+
+std::ostream& operator<<(std::ostream& os, Parameter* right);

@@ -22,3 +22,27 @@ Parameter *Functor::parms()
 
 Array *Functor::annots()
 { return m_annots; }
+
+std::ostream& operator<<(std::ostream& os, Functor* right)
+{
+	os << "functor(\"" << right->lexema() << "\")["
+		<< "id(" << right->getId() << "),"
+		<< "lineBegin(" << right->firstLine() << "),"
+		<< "lineEnd(" << right->firstLine() << "),"
+		<< "components(" << right->manyComponents() << ")";
+
+	if (right->parms())
+	{
+		os << ",";
+		operator<<(os, right->parms());
+	}
+
+	if (right->annots())
+	{
+		os << ",";
+		operator<<(os, right->annots());
+	}
+
+	os << "]";
+	return os;
+}
