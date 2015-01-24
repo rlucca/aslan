@@ -17,12 +17,14 @@ class Symbol
 		char *lexema();
 
 	protected:
-		char m_type; //< Symbol type
-		unsigned m_id; //< unique identifier
 		unsigned m_many; //< how many others are used to compose
 		unsigned m_beginLine; //< line of the first symbol
 		unsigned m_endLine; //< line of the last symbol
 		char *m_lexema; //< textual representation of the symbol itself
+
+	private:
+		char m_type; //< Symbol type
+		unsigned m_id; //< unique identifier
 		static unsigned m_lastId; //< last identifier generated
 };
 
