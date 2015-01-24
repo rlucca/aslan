@@ -25,6 +25,9 @@ int Expression::op()
 
 void Expression::add(Symbol *right)
 {
+	if (right == NULL)
+		return ;
+
 	m_right = right;
 	m_lexema = lexema_cat(m_lexema, right->lexema());
 	m_endLine = right->lastLine();

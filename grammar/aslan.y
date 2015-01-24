@@ -259,14 +259,7 @@ opt_annots:
 
 opt_array_list:
 	  /* EMPTY */
-		{
-			/* XXX workaround because I cant give NULL back */
-			ConstantExpression *ce = new ConstantExpression(0, strdup("_"));
-			// It's need to pass a valid symbol here... :'(
-			Array *aux = new Array(ce);
-			aux->pop();
-			$$ = aux;
-		}
+		{ $$ = NULL; }
 	| array_list opt_tail
 		{
 			($1)->setTail($2);
