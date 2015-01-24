@@ -13,5 +13,9 @@ Parameter::~Parameter()
 
 std::ostream& operator<<(std::ostream& os, Parameter* right)
 {
-	return operator<<(os, static_cast<StackedSymbol*>(right));
+	os << "Parameter("
+		<< static_cast<StackedSymbol*>(right)
+		<< ")";
+	return os;
+
 }

@@ -25,11 +25,9 @@ Array *Functor::annots()
 
 std::ostream& operator<<(std::ostream& os, Functor* right)
 {
-	os << "functor(\"" << right->lexema() << "\")["
-		<< "id(" << right->getId() << "),"
-		<< "lineBegin(" << right->firstLine() << "),"
-		<< "lineEnd(" << right->firstLine() << "),"
-		<< "components(" << right->manyComponents() << ")";
+	os << "functor(\"" << right->lexema() << "\")[";
+
+	right->print_helpers(os);
 
 	if (right->parms())
 	{

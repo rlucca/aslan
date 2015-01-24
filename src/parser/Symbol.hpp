@@ -16,11 +16,18 @@ class Symbol
 
 		char *lexema();
 
+		void print_helpers(std::ostream &os) const;
+
 	protected:
 		unsigned m_many; //< how many others are used to compose
 		unsigned m_beginLine; //< line of the first symbol
 		unsigned m_endLine; //< line of the last symbol
 		char *m_lexema; //< textual representation of the symbol itself
+
+		// helpers
+		void print_lines(std::ostream &os) const;
+		void print_components(std::ostream &os) const;
+		void print_id(std::ostream &os) const;
 
 	private:
 		char m_type; //< Symbol type

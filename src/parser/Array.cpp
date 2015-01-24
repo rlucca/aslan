@@ -22,5 +22,8 @@ Symbol *Array::tail()
 
 std::ostream& operator<<(std::ostream& os, Array* right)
 {
-	return operator<<(os, static_cast<StackedSymbol*>(right));
+	os << "Array("
+		<< static_cast<StackedSymbol*>(right)
+		<< ")";
+	return os;
 }

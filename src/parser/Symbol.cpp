@@ -34,17 +34,40 @@ char Symbol::type() const
 char *Symbol::lexema()
 { return m_lexema; }
 
+void Symbol::print_helpers(std::ostream &os) const
+{
+	print_lines(os);
+	print_components(os);
+	print_id(os);
+}
+
+void Symbol::print_lines(std::ostream &os) const
+{
+	os << "lineBegin(" << firstLine() << "),"
+		<< "lineEnd(" << firstLine() << "),";
+}
+
+void Symbol::print_components(std::ostream &os) const
+{
+	os << "components(" << manyComponents() << "),";
+}
+
+void Symbol::print_id(std::ostream &os) const
+{
+	os << "id(" << getId() << ")";
+}
+
 std::ostream& operator<<(std::ostream& os, Symbol* right)
 {
     if (right->type() == BELIEF_TYPE_SYMBOL)
         return operator<<(os, static_cast<Belief*>(right) );
 
 	os << "Symbol("
-		<< "lexema(\"" << (!right->lexema() ? "" : right->lexema()) << "\"),"
-		<< "lineBegin(" << right->firstLine() << "),"
-		<< "lineEnd(" << right->lastLine() << "),"
-		<< "components(" << right->manyComponents() << "),"
-		<< "id(" << right->getId() << "),"
+		<< "lexema(\"" << (!right->lexema() ? "" : right->lexema()) << "\"),";
+
+	right->print_helpers(os);
+
+	os << ","
 		<< "type(" << right->type() << ")"
 		<< ")";
 

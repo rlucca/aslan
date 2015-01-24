@@ -44,14 +44,7 @@ std::ostream& operator<<(std::ostream& os, StackedSymbol* right)
 	if (right == NULL)
 		return os;
 
-	if (right->type() == ARRAY_SET_SYMBOL)
-		os << "array";
-	else if (right->type() == PARAMETER_SYMBOL)
-		os << "parms";
-	else
-		os << "unknowType";
-
-	os << "(";
+	os << "StackedSymbols(";
 	for (unsigned u = 1; u <= right->size(); u++)
 	{
 		operator<<(os, right->top(u));
@@ -59,6 +52,8 @@ std::ostream& operator<<(std::ostream& os, StackedSymbol* right)
 		if (u != right->size())
 			os << ",";
 	}
-	os << ")[number_of_elements(" << right->size() << ")]";
+	os << ")[number_of_elements(" << right->size() << "),";
+	right->print_helpers(os);
+	os << "]";
 	return os;
 }

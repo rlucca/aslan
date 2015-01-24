@@ -34,14 +34,16 @@ std::ostream& operator<<(std::ostream& os, Belief* right)
 	os << "belief[";
 	os << "head(";
 	operator<<(os, right->head());
-	os << ")";
+	os << "),";
 
 	if (right->context())
 	{
-		os << ",context(";
+		os << "context(";
 		operator<<(os, right->context());
-		os << ")";
+		os << "),";
 	}
+
+	right->print_helpers(os);
 
 	os << "].\n";
 	return os;
