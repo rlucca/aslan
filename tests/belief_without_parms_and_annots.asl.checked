@@ -1,4 +1,5 @@
-belief("x")[id(9),lineBegin(11),lineEnd(11),components(1)].
-belief("x")[id(5),lineBegin(5),lineEnd(5),components(1)].
-belief("x")[id(3),lineBegin(3),lineEnd(3),components(1)].
-belief("x")[id(1),lineBegin(2),lineEnd(2),components(1)].
+belief[head(functor("x")[lineBegin(15),lineEnd(15),components(1),id(9)]),lineBegin(15),lineEnd(15),components(1),id(10)].
+belief[head(functor("x")[lineBegin(10),lineEnd(10),components(1),id(7)]),lineBegin(10),lineEnd(10),components(1),id(8)].
+belief[head(functor("x")[lineBegin(5),lineEnd(5),components(1),id(5)]),lineBegin(5),lineEnd(5),components(1),id(6)].
+belief[head(functor("x")[lineBegin(3),lineEnd(3),components(1),id(3)]),lineBegin(3),lineEnd(3),components(1),id(4)].
+belief[head(functor("x")[lineBegin(2),lineEnd(2),components(1),id(1)]),lineBegin(2),lineEnd(2),components(1),id(2)].

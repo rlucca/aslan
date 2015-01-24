@@ -1,17 +1,22 @@
 /* Test a single belief without parms and it without annotations too */
 x.
 x(). /* This is the same as 'x.' */
-/* no difference from line 3 */
+/* All cases below have no difference from line 2 */
 x
 (
-/** nothing in parms **/
+/** no parms **/
 )
 .
-/* no difference from line 3 */
+x
+[
+/** no annotation **/
+]
+.
 x
 (
-/** nothing in parms **/
+/** no parms **/
 )
 [
+/** no annotation **/
 ]
 .
