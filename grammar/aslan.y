@@ -24,6 +24,8 @@
 {
 	char *lexema;	/* To access a yytext equivalent */
 	Symbol *symbol;	/* To hold a pointer of Symbol */
+	Parameter *fparm;
+	Array *fannot;
 }
 
 %token ERR
@@ -50,11 +52,12 @@
 %type <symbol> assignment_expression
 %type <symbol> conditional_expression math_expression
 %type <symbol> simple_expression function_or_variable
-%type <symbol> opt_array_list opt_parms opt_annots
-%type <symbol> function opt_parms_list parms_list
-%type <symbol> array_list opt_tail variable
+%type <symbol> function
+%type <symbol> opt_tail variable
 %type <symbol> opt_actions actions opt_context
 %type <symbol> head_plan inner_plan aslan belief
+%type <fparm> opt_parms opt_parms_list parms_list
+%type <fannot> opt_annots opt_array_list array_list
 
 %destructor { free($$); } CHAR_STRING_LITERAL STRING_LITERAL
 %destructor { free($$); } FLOAT_LITERAL NUMBER_LITERAL
@@ -129,7 +132,12 @@ aslan:
 
 belief:
 	function opt_context
-		{ $$ = new Belief($1, $2); }
+		{
+			$$ = new Belief(
+				static_cast<Functor*>($1),
+				$2
+				);
+		}
 	;
 
 opt_context:
@@ -252,6 +260,7 @@ opt_annots:
 opt_array_list:
 	  /* EMPTY */
 		{
+			/* XXX workaround because I cant give NULL back */
 			ConstantExpression *ce = new ConstantExpression(0, strdup("_"));
 			// It's need to pass a valid symbol here... :'(
 			Array *aux = new Array(ce);
@@ -260,7 +269,7 @@ opt_array_list:
 		}
 	| array_list opt_tail
 		{
-			((Array*)$1)->setTail($2);
+			($1)->setTail($2);
 			$$ = $1;
 		}
 	;
@@ -271,7 +280,7 @@ array_list:
 	| conditional_expression COMMA array_list
 		{
 			free($2);
-			((Array*)$3)->push($1);
+			($3)->push($1);
 			$$ = $3;
 		}
 	;

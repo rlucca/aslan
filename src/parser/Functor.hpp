@@ -1,16 +1,19 @@
 #pragma once
 
+class Parameter;
+class Array;
+
 class Functor : public Symbol
 {
  public:
 	Functor(unsigned identifier_line, char *identifier,
-			Symbol* ps = 0, Symbol* as = 0);
+			Parameter* ps = 0, Array* as = 0);
 	virtual ~Functor();
 
-	Symbol *parms();
-	Symbol *annots();
+	Parameter *parms();
+	Array *annots();
 
  protected:
-	Symbol *m_parms;
-	Symbol *m_annots;
+	Parameter *m_parms;
+	Array *m_annots;
 };

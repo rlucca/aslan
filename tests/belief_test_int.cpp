@@ -3,14 +3,9 @@
 int main()
 {
 	// Preparing set to test
-	char *a_lex = strdup("a");
-	char *not_a_lex = strdup("~a");
-	Functor head(22, a_lex, NULL, NULL);
-	Functor headNegative(22, not_a_lex, NULL, NULL);
+	char a_lex[] = "a";
 	Expression *contextEquals;
 	Expression *contextAssigns;
-	free(a_lex); a_lex = NULL;
-	free(not_a_lex); not_a_lex = NULL;
 	contextEquals = new Expression(new ConstantExpression(24, strdup("0")));
 	contextAssigns = new Expression(new ConstantExpression(24, strdup("0")));
 	contextEquals->add(new ConstantExpression(26, strdup("2")));
@@ -19,7 +14,8 @@ int main()
 	contextAssigns->setOp(ASSIGNMENT);
 	// Starting to test
 	{
-		Belief belief1(&head, NULL);
+		Functor *head = new Functor(22, a_lex, NULL, NULL);
+		Belief belief1(head, NULL);
 		assert(belief1.getId() > 0); // always true?
 		assert(belief1.firstLine() == 22);
 		assert(belief1.lastLine() == 22);
@@ -31,7 +27,8 @@ int main()
 	{
 		// rules has a lexema just the head,
 		// not head + context
-		Belief belief1(&head, contextEquals);
+		Functor *head = new Functor(22, a_lex, NULL, NULL);
+		Belief belief1(head, contextEquals);
 		assert(belief1.getId() > 0); // always true?
 		assert(belief1.firstLine() == 22);
 		assert(belief1.lastLine() == 26);
@@ -44,7 +41,8 @@ int main()
 	{
 		// rules has a lexema just the head,
 		// not head + context
-		Belief belief1(&head, contextAssigns);
+		Functor *head = new Functor(22, a_lex, NULL, NULL);
+		Belief belief1(head, contextAssigns);
 		assert(belief1.getId() > 0); // always true?
 		assert(belief1.firstLine() == 22);
 		assert(belief1.lastLine() == 26);

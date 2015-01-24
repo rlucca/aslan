@@ -2,13 +2,14 @@
 #include "Utils.hpp"
 
 Functor::Functor(unsigned identifier_line, char *identifier,
-				Symbol* ps, Symbol* as)
+				Parameter* ps, Array* as)
 	: Symbol(FUNCTOR_SYMBOL, identifier_line,
-			// I do not append the meta information
-			// in the lexema
-			lexema_cat(identifier, (ps)?ps->lexema():NULL)
-			), m_parms(ps), m_annots(as)
-{ }
+			lexema_cat(identifier, NULL)),
+	  m_parms(ps), m_annots(as)
+{
+	if (m_parms) m_many += m_parms->size();
+	if (m_annots) m_many += m_annots->size();
+}
 
 Functor::~Functor()
 {
@@ -16,8 +17,8 @@ Functor::~Functor()
 	delete m_annots; m_annots = 0;
 }
 
-Symbol *Functor::parms()
+Parameter *Functor::parms()
 { return m_parms; }
 
-Symbol *Functor::annots()
+Array *Functor::annots()
 { return m_annots; }

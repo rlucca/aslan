@@ -1,13 +1,17 @@
 #pragma once
 
+class Functor;
+
 class Belief  : public Symbol
 {
  public:
-	Belief(Symbol *head, Symbol *opt_context);
+	Belief(Functor *head, Symbol *opt_context);
 	virtual ~Belief();
 
+	Functor *head();
 	Symbol *context();
 
  protected:
 	Symbol *m_context;
+	Functor *m_head;
 };
