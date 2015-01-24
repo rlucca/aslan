@@ -1,4 +1,4 @@
-#include "Symbol.hpp"
+#include "AllSymbol.hpp"
 #include <cstdlib>
 
 unsigned Symbol::m_lastId = 0;
@@ -36,11 +36,11 @@ char *Symbol::lexema()
 
 std::ostream& operator<<(std::ostream& os, Symbol* right)
 {
-	os << "Symbol.cpp:" << __LINE__ << ": Symbol(lexema=|"
+	os << "Symbol(lexema=\""
 		<< (!right->lexema() ? "" : right->lexema())
-		<< "|,lines=[" << right->firstLine()
-		<< ".." << right->lastLine() << "],components="
+		<< "\",lines=[" << right->firstLine()
+		<< "," << right->lastLine() << "],components="
 		<< right->manyComponents() << ",id=" << right->getId()
-		<< ").\n";
+		<< ",type='" << right->type() << "')";
 	return os;
 }
