@@ -17,5 +17,4 @@ std::ostream& operator<<(std::ostream& os, Parameter* right)
 		<< static_cast<StackedSymbol*>(right)
 		<< ")";
 	return os;
-
 }
