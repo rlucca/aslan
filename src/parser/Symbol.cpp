@@ -61,6 +61,8 @@ std::ostream& operator<<(std::ostream& os, Symbol* right)
 {
     if (right->type() == BELIEF_TYPE_SYMBOL)
         return operator<<(os, static_cast<Belief*>(right) );
+    if (right->type() == FUNCTOR_SYMBOL)
+        return operator<<(os, static_cast<Functor*>(right) );
 
 	os << "Symbol("
 		<< "lexema(\"" << (!right->lexema() ? "" : right->lexema()) << "\"),";

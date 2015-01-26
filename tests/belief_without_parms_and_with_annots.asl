@@ -4,6 +4,11 @@ r()[y]. /* This is the same as line 2 */
 l[house, green].
 correct[house[green[half]]].
 k[X].
+r[ h | _].
+r[ h | X].
+r[ h | []].
+r[ [a, b, c] | d].
+r[ a | [b | [c | d]]].
 /* not sure about theses. Should it be blocked?
         My vote is to yes, it should be blocked. The explanation is
         because "blablabla", 'b', 123 and 'b' 'l' 'a' cant have meta
@@ -18,5 +23,14 @@ x['r'].
 x['b' 'l' 'a'].
 x[123].
 x[0.5].
+x[_].
 /* it fails */
 //X[y].
+//r[1|2|3].
+
+
+/* TODO
+    correct is given the components wrong mising fixing
+    l is given the wrong order (green house, and not the correct: house green)
+    - Some stuff should be syntactical error
+*/

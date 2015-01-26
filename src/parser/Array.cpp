@@ -14,7 +14,13 @@ Array::~Array()
 
 void Array::setTail(Symbol *t)
 {
+	if (m_tail)
+		m_many -= m_tail->manyComponents();
+
 	m_tail = t;
+
+	if (m_tail)
+		m_many += m_tail->manyComponents();
 }
 
 Symbol *Array::tail()
@@ -23,7 +29,13 @@ Symbol *Array::tail()
 std::ostream& operator<<(std::ostream& os, Array* right)
 {
 	os << "Array("
-		<< static_cast<StackedSymbol*>(right)
-		<< ")";
+		<< static_cast<StackedSymbol*>(right);
+
+	if (right->tail())
+	{
+		os << ", tail(" << right->tail() << ")";
+	}
+
+	os << ")";
 	return os;
 }

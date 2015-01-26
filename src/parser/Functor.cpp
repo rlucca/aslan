@@ -7,8 +7,8 @@ Functor::Functor(unsigned identifier_line, char *identifier,
 			lexema_cat(identifier, NULL)),
 	  m_parms(ps), m_annots(as)
 {
-	if (m_parms) m_many += m_parms->size();
-	if (m_annots) m_many += m_annots->size();
+	if (m_parms) m_many += m_parms->manyComponents();
+	if (m_annots) m_many += m_annots->manyComponents();
 }
 
 Functor::~Functor()

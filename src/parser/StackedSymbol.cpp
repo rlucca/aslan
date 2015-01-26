@@ -3,6 +3,9 @@
 StackedSymbol::StackedSymbol(char t, Symbol *s)
 	: Symbol(t, s->firstLine(), s->lexema())
 {
+	/* we need reset the components because
+	   when we push the elemnt it became one again */
+	m_many = 0;
 	push(s);
 }
 
@@ -14,10 +17,21 @@ StackedSymbol::~StackedSymbol()
 void StackedSymbol::push(Symbol *s)
 {
 	data.push_back(s);
+	if (s != NULL)
+	{
+		m_many += s->manyComponents();
+	}
 }
 
 void StackedSymbol::pop()
-{ data.erase(data.begin() + data.size() - 1); }
+{
+	std::vector<Symbol*>::iterator it = data.begin() + data.size() - 1;
+	if (*it != NULL)
+	{
+		m_many -= (*it)->manyComponents();
+	}
+	data.erase(it);
+}
 
 Symbol *StackedSymbol::top(unsigned u)
 {
@@ -37,7 +51,6 @@ bool StackedSymbol::empty()
 
 unsigned StackedSymbol::size()
 { return data.size(); }
-
 
 std::ostream& operator<<(std::ostream& os, StackedSymbol* right)
 {
